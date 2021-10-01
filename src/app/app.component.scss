@@ -1,0 +1,32 @@
+@use '/src/styles';
+
+.container {
+  height: 100%;
+}
+
+.toolbar {
+  position: fixed;
+  z-index: 2;
+  height: styles.$toolbar-height;
+}
+
+.logo {
+  height: styles.$toolbar-height;
+}
+
+
+.sidenav {
+  width: 70px;
+}
+  
+.sidenav-container {
+  top: styles.$toolbar-height;
+  height: 100vh;
+  flex: 1;
+}
+
+::ng-deep * {
+      
+  margin: 0;
+  padding: 0;
+}

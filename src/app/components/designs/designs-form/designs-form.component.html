@@ -1,0 +1,71 @@
+<form #signInForm="ngForm" >
+  <mat-dialog-content class="mat-typography dialog-container">
+  <mat-form-field class="field">
+    <input [disabled]="true" placeholder="Código" type="text" matInput name="Código" [(ngModel)]="code">
+  </mat-form-field><br/>
+
+  <mat-form-field class="field">
+    <mat-label>Nombre</mat-label>
+    <input type="text" matInput name="Nombre" [(ngModel)]="name">
+  </mat-form-field><br/>
+
+  <mat-form-field class="field">
+    <mat-label>Descripción</mat-label>
+    <input type="text" matInput name="Descripción" [(ngModel)]="description">
+  </mat-form-field><br/>
+
+  <input type="file" style="display: none;"
+       (change)="onFileSelected($event)" #fileUpload>
+
+  <div class="file-upload">
+      <button mat-mini-fab color="accent" style="margin-right: 5px;"
+        (click)="fileUpload.click()">
+          <mat-icon>attach_file</mat-icon>
+      </button>
+      {{extendedImageName || "No hay imagen todavia."}}
+  </div><br/>
+
+  <mat-form-field class="field">
+    <mat-chip-list #chipList >
+      <mat-chip *ngFor="let keyword of keywords" [selectable]="true"
+               [removable]="true" (removed)="remove(keyword)">
+        {{keyword}}
+        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="Palabras clave"[matChipInputFor]="chipList"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="true"
+             (matChipInputTokenEnd)="add($event)">
+    </mat-chip-list>                
+  </mat-form-field><br/>
+
+
+  <mat-form-field class="field">
+    <mat-chip-list #chipList2 >
+      <mat-chip *ngFor="let season of seasons" [selectable]="true"
+               [removable]="true" (removed)="removeSeason(season)">
+        {{season}}
+        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+      </mat-chip>
+      <input placeholder="Temporadas"[matChipInputFor]="chipList2"
+             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+             [matChipInputAddOnBlur]="true"
+             (matChipInputTokenEnd)="addSeason($event)">
+    </mat-chip-list>
+    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+      <mat-option *ngFor="let season of filteredSeasons | async" [value]="season">
+        {{season}}
+      </mat-option>
+    </mat-autocomplete>              
+  </mat-form-field><br/>
+
+
+  <mat-label>Estado</mat-label><br/>
+  <mat-slide-toggle  [(ngModel)]="status" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>
+</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" mat-dialog-close (click)="cancel()">Cancel</button>
+    <button mat-button color="accent" (click)="create()">Guardar</button>
+  </mat-dialog-actions>
+  
+</form>

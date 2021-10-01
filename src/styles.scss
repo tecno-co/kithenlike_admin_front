@@ -1,0 +1,113 @@
+@use 'sass:map';
+@use './assets/scss/tecno-palette' as tecno;
+
+// @import '~animate.css/animate.min';
+@import './assets/scss/menu';
+
+
+// Theme Variables
+// $primary: map.get(tecno.$light-primary-tecno, 500);
+// $accent: map.get(tecno.$light-accent-tecno, 500);
+// $bg-menu-options: map.get(tecno.$grey-palette, 100);
+
+// General Variables
+$toolbar-height: 65px;
+
+$width-side-nav: 300px;
+$height-profile-container: 157px;
+$height-toolbar: 70px;
+
+
+// General Styles
+
+@font-face {
+  font-family: tex-one;
+  src: url(/assets/fonts/And_Then_It_Ends.otf) format("opentype");
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+.center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dialog-container {
+  padding: 20px 40px 0;
+  overflow: hidden;
+}
+
+.master-container {
+  padding: 16px;
+  display:inline-table;
+  display: flex;
+  margin: 0px;
+}
+
+.table-container {
+  width: 100%;
+  margin: 0px;
+}
+
+.avatar {
+  position: absolute;
+  top: 9px;
+  left: calc(50% - 60px);
+}
+
+.profile-container {
+  width: $width-side-nav;
+  height: $height-profile-container;
+  background-color: #efefef;
+  position: relative;
+  //background: url('/assets/images/doodle.jpg');
+  background-color: #B3B3B3;
+
+  & .btn-profile {
+    position: absolute;
+    width: 100%;
+    bottom: 0;
+    line-height: 30px;
+    padding: 2px 30px;
+    color: #fff;
+    background: rgba(0,0,0,.5);
+    box-sizing: border-box;
+    cursor: pointer;
+
+    &::after {
+      content: "";
+      display: inline-block;
+      margin-left: .255em;
+      vertical-align: .255em;
+      border-top: .3em solid;
+      border-right: .3em solid transparent;
+      border-bottom: 0;
+      border-left: .3em solid transparent;
+      position: absolute;
+      right: 20px;
+      top: 15px;
+    }
+  }
+}
+
+.text-center {
+  text-align: center;
+}
+
+.error-snack-bar {
+  color: white;
+  background-color:#F44336;
+}
+
+.error-snack-bar .mat-simple-snackbar-action  {
+  background-color: #C62828;
+  color: white;
+}

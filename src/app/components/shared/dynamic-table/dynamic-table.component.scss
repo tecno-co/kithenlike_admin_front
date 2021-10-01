@@ -1,0 +1,46 @@
+table {
+  width: 100%;
+}
+
+.container {
+  width: 100%;
+}
+
+.circle-thumbnails {
+  width: 50px;
+  margin: 10px;
+  margin-left: -5px;
+  border-radius: 50%;
+}
+
+.add {
+  position: fixed !important;  
+  bottom: 50px !important;
+  right: 50px !important;
+}
+
+.popup {
+  position: absolute;
+}
+
+.cell-truncate-text {
+  max-width: 150px;
+  & > span {
+    max-width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: block;
+    margin-right: 20px;
+  }
+}
+
+.copy-icon {
+  margin: 0 20px;
+  cursor: pointer;
+  color: gray;
+ }
+
+::ng-deep .mat-tooltip.tooltip {
+  font-size: 12px !important;
+}

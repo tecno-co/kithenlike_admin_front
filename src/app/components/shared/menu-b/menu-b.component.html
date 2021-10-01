@@ -1,0 +1,56 @@
+<div class="profile-container">
+  <!-- AVATAR -->
+  <app-profile-circle [user]="user" [size]="110" class="avatar"></app-profile-circle>
+
+  <!-- MENU PERFIL NOMBRE -->
+  <div class="btn-profile" [matMenuTriggerFor]="afterMenu">
+    {{ user.getPartialName!() }}
+  </div>
+  <mat-menu #afterMenu="matMenu" xPosition="before">
+    <button mat-menu-item>Item 1</button>
+    <button mat-menu-item>Item 2</button>
+  </mat-menu>
+</div>
+
+<div class="menu-container">
+  <mat-accordion *ngIf="menu.length">
+
+    <!-- MODULOS DEL MENU -->
+    <mat-expansion-panel *ngFor="let m of menu; let i = index" [expanded]="i === moduleSelected"
+      (opened)="onOpenOption(i)"
+      (closed)="onCloseOption(i)"
+      [class.bg-selected-module]="panelOpenState[i]">
+      <mat-expansion-panel-header
+        [class.pt-10]="!panelOpenState[i]"
+        [class.pb-5]="!panelOpenState[i]">
+        <mat-panel-title>
+          <span>{{ m.module.name }}</span>
+          <p *ngIf="!panelOpenState[i]" class="text-options">
+            <span *ngFor="let option of m.pages; let j = index" >{{ option.name }}{{ j === (m.pages.length - 1) ? '' : ', ' }}</span>
+          </p>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <!-- LINKS DE LAS PAGINAS -->
+      <mat-selection-list [multiple]="false">
+        <mat-list-option *ngFor="let page of m.pages"
+          [routerLink]="[page.route]"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [selected]="rla.isActive"
+          (click)="onLink(page.route)" >
+          <mat-icon>{{ page.icon_name }}</mat-icon> <span>{{ page.name }}</span>
+        </mat-list-option>
+      </mat-selection-list>
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <mat-divider></mat-divider>
+  <div class="footer-copyright text-center p-0">
+    <span>© {{ currentYear }} Copyright:</span>
+    <a href="http://tecno.co" target="_blank"> tecno.co</a>
+  </div>
+</footer>

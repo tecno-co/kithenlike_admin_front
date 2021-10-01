@@ -1,0 +1,55 @@
+@use '/src/styles';
+
+.profile-container {
+	width: auto;
+	background: url('/assets/images/doodle.jpg');
+}
+
+.item {
+	height: 70px !important;
+	position: relative;
+}
+
+.icons-menu {
+	// display: inline-block;
+  vertical-align: top;
+	width: 70px;
+}
+
+.extended-menu {
+	padding: 20px;
+  width: 230px;
+	// display: inline-block;
+  vertical-align: top;
+	// background-color: bg-menu-options;
+}
+
+::ng-deep .mat-list-item-content {
+	flex-direction: column !important;
+	align-items: center;
+	justify-content: center;
+}
+
+.menu-container{
+	display: flex;
+	flex-direction: row;
+	height: 100%;
+}
+
+.nav-list-container {
+	padding: 0;
+	height: calc(100% - 157px);	
+}
+
+.option-button {
+	text-align: left;
+	width: 100%;
+	margin-bottom: 20px;
+}
+
+.left-line-selected {
+	position: absolute;
+	left: 0;
+	height: 100%;
+	width: 6px;
+}

@@ -1,0 +1,21 @@
+<div class="general-container">
+  <h1 class="mat-h1">Diseños</h1>
+
+  <div class="master-container">
+
+    <app-dynamic-table class="table-container"
+      [data]="tableData"
+      [headers]="tableHeaders"
+      [filter]="true"
+      (image)="setImage($event)"
+      (emitAdd)="onAdd()"
+      (emitEdit)="onEdit($event)"
+      (emitDelete)="onDelete($event)">  
+    </app-dynamic-table>
+
+    <div class="image-container">
+      <img class="image" *ngIf="path != ''" [src]="path" />
+    </div>
+    
+  </div>
+</div>

@@ -1,0 +1,70 @@
+@use '/src/styles';
+
+.general-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+}
+
+.cards-container {
+   padding: 0px;
+   width: 25%;
+   height: 80%;
+   border-radius: 30px;
+   //border-color: styles.$primary-contrast;
+   border-style: solid;
+   border-width: 2px;
+}
+
+.logo {
+   margin: 6vh 10% 6vh;
+   width: 80%;
+}
+ 
+.field {
+   margin: 1vh 10%;
+   width: 80%;
+}
+
+.check {
+   margin: 1vh 10%;
+}
+
+.btn-grad {
+   // background-image: linear-gradient(to right, #71cc34 0%, #ccdac4 51%, #71cc34 100%)
+}
+ 
+.btn-grad {
+   margin: 6vh 10% 0vh;
+   width: 80%;
+   height: 55px;
+   // color: #ffffff;
+   text-align: center;
+   justify-content: center;
+   transition: 0.5s;
+   background-size: 200% auto;            
+   border-radius: 30px;
+}
+
+.btn-grad:hover {
+   background-position: right center;
+   // color: #ffffff;
+   text-decoration: none;
+}
+
+.link {
+   position: absolute;
+   text-align: center;
+   bottom: 0%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   font-size: 0.9rem;
+}
+
+.link-text {
+   //color: styles.$primary-contrast;
+   text-decoration: none;
+}

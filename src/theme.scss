@@ -1,0 +1,96 @@
+@use 'sass:map';
+@use '~@angular/material' as mat;
+@use './assets/scss/tecno-palette' as tecno;
+
+@include mat.core();
+
+/*
+$primary: mat.define-palette(mat-tecno.$tecno-primary-palette);
+$accent: mat.define-palette(mat-tecno.$tecno-accent-palette, A200, A100, A400);
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: $primary,
+    accent: $accent,
+  )
+));
+
+$dark-primary: mat.define-palette(mat-tecno.$tecno-primary-palette);
+$dark-accent: mat.define-palette(mat.$blue-gray-palette);
+$dark-theme: mat.define-dark-theme((
+ color: (
+   primary: $dark-primary,
+   accent: $dark-accent,
+ )
+));
+*/
+
+
+// Define a light theme
+$light-primary-tecno: mat.define-palette(tecno.$tecno-primary-palette);
+$light-accent-tecno: mat.define-palette(tecno.$tecno-accent-palette);
+$light-theme-tecno: mat.define-light-theme((
+ color: (
+   primary: $light-primary-tecno,
+   accent: $light-accent-tecno,
+ )
+));
+
+// Define a dark theme
+$dark-primary-tecno: mat.define-palette(tecno.$tecno-primary-palette);
+$dark-accent-tecno: mat.define-palette(mat.$blue-gray-palette);
+$dark-theme-tecno: mat.define-dark-theme((
+ color: (
+   primary: $dark-primary-tecno,
+   accent: $dark-accent-tecno,
+ )
+));
+
+@include mat.all-component-themes($light-theme-tecno);
+
+// @include mat.core-theme($light-theme-tecno);
+// @include mat.button-theme($light-theme-tecno);
+$bg-color-light: mat.get-color-from-palette(tecno.$grey-palette, 100);
+$bg-color-dark: mat.get-color-from-palette(tecno.$tecno-dark-theme-background-palette, 'background' );
+
+$color-config-light: mat.get-color-config($light-theme-tecno);
+$primary-light: map.get($color-config-light, 'primary');
+
+$color-config-dark: mat.get-color-config($dark-theme-tecno);
+$primary-dark: map.get($color-config-dark, 'primary');
+
+// $bg-color-light: #e91e63;
+// $bg-color-dark: #00bcd4;
+.bg-menu-options {
+  background-color: $bg-color-light;
+}
+
+.selected-module {
+  background-color: $bg-color-light;
+}
+
+.left-line-selected {
+  background-color: mat.get-color-from-palette($primary-light, 500);
+}
+
+.dark-theme-tecno {
+  @include mat.all-component-colors($dark-theme-tecno);
+  // @include mat.core-color($dark-theme-tecno);
+  // @include mat.button-color($dark-theme-tecno);
+
+  .login-container {
+    // background: mat.get-color-from-palette($my-palette, '500');
+    // color: mat.get-color-from-palette($my-palette, '500-contrast');
+  }
+
+  .bg-menu-options {
+    background-color: $bg-color-dark;
+  }
+
+  .selected-module {
+    background-color: $bg-color-dark;
+  }
+
+  .left-line-selected {
+    background-color: mat.get-color-from-palette($primary-dark, 500);
+  }
+}

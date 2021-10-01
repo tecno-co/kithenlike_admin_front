@@ -1,0 +1,49 @@
+<mat-nav-list class="nav-list-container" >
+
+  <div class="profile-container">
+    <!-- AVATAR -->
+    <app-profile-circle [user]="user" [size]="size" class="center" style="height: 80%;"></app-profile-circle>
+
+    <!-- MENU PERFIL NOMBRE -->
+    <div class="btn-profile" [matMenuTriggerFor]="afterMenu" style="height: 30px">
+      <div *ngIf="extendedMenu">{{ user.getPartialName!() }}</div>
+    </div>
+    <mat-menu #afterMenu="matMenu" xPosition="before" >
+      <button mat-menu-item>Item 1</button>
+      <button mat-menu-item>Item 2</button>
+    </mat-menu>
+  </div>
+
+
+
+  <div class="menu-container">
+    <div class="icons-menu">
+      <mat-list-item
+        class="item"
+        *ngFor="let item of menu"
+        (click)="toggleExtendedMenu(item.module.name, item.pages)"
+        [class.selected-module]="selectedModule == item.module.name">
+
+          <div class="left-line-selected" *ngIf="selectedModule == item.module.name"></div>
+
+          <mat-icon color="primary" class="icon">{{item.module.iconv2.name}}</mat-icon>
+          <span style="font-size: small;">{{item.module.name}}</span>
+      </mat-list-item>
+    </div>
+
+    <div class="extended-menu bg-menu-options" *ngIf="extendedMenu">
+      <button
+      class="option-button"
+        mat-button
+        color="primary"
+        [routerLink]="[page.route]"
+        *ngFor="let page of pages"
+        (click)="extendedMenu = false; size = 50"
+        [class.mat-raised-button]="overButton && page.name == overOption"
+        (mouseover)="overOption = page.name; overButton = true"
+        (mouseout)="overButton = false">
+          {{page.name}}
+      </button>
+    </div>
+  </div>
+</mat-nav-list>

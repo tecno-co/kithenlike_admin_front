@@ -1,0 +1,33 @@
+@use '/src/styles';
+
+.add {
+  position: fixed !important;  
+  bottom: 50px !important;
+  right: 50px !important;
+}
+
+.general-container {
+  margin: 20px;
+}
+
+.master-container {
+  padding: 16px;
+  display:inline-table;
+  display: flex;
+  margin: 0px;
+}
+
+.table-container {
+  width: 100%;
+  margin: 0px;
+}
+
+.image {
+  border-radius: 20px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 30%;
+}
+

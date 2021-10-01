@@ -1,0 +1,29 @@
+<div class="general-container">
+    <mat-card class="cards-container">
+      <form #signInForm="ngForm" (ngSubmit)="login()">
+        
+        <img src="assets/images/logo_dark.png" alt="logo" class="logo">
+  
+        <mat-form-field class="field">
+          <mat-label>Usuario</mat-label>
+          <input type="email"  matInput [(ngModel)]="signInData.login" name="email">
+        </mat-form-field>
+  
+        <mat-form-field class="field">
+          <mat-label>Contraseña</mat-label>
+          <input type="password" matInput [(ngModel)]="signInData.password" name="password">
+        </mat-form-field>
+          
+        <mat-checkbox class="check mat-primary" name="checkRemember" >Recuérdame</mat-checkbox>
+  
+        <!--button mat-button class="btn-grad">Iniciar sesión</button-->
+        <button mat-stroked-button class="btn-grad" color="primary">Iniciar sesión</button>
+  
+        <div class="link">
+          <a class="link-text" href="/reset">¿Olvidaste tu contraseña?</a><br>
+          <!--a class="link-text" href="/register">Registrate</a-->
+        </div>
+  
+      </form>
+    </mat-card>
+  </div>

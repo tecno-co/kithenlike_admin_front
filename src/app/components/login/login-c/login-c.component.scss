@@ -1,0 +1,113 @@
+@use '/src/styles';
+
+
+.general-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 100%;
+    padding: 0px;
+}
+
+.form {
+    height: 100%;
+}
+
+.logo {
+    align-items: center;
+    height: 20%;
+    margin: 5vh 25%;
+}
+ 
+.field {
+   margin: 1vh 35%;
+   width: 30%;
+}
+
+.input {
+    padding-left: 1vw !important;
+}
+
+.icon {
+    margin-right: 1vw !important;
+}
+
+
+.check {
+   margin: 5vh 35% 2vh ;
+}
+
+.btn-grad {
+   //background-image: linear-gradient(to right, styles.$primary 0%, styles.$primary-contrast  51%, styles.$primary 100%)
+}
+ 
+.btn-grad {
+   margin: auto 35%;
+   width: 30%;
+   height: 65px;
+   color: #ffffff;
+   text-align: center;
+   justify-content: center;
+   transition: 0.5s;
+   background-size: 200% auto;
+}
+
+.btn-grad:hover {
+   background-position: right center;
+   color: #ffffff;
+   text-decoration: none;
+}
+
+.link {
+   position: absolute;
+   text-align: center;
+   bottom: 2vh;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   font-size: 1rem;
+}
+
+.link-text {
+   //color: styles.$primary-contrast;
+   text-decoration: none;
+}
+
+//Mat-Field 
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start {
+    background-color: white !important;
+    //border:2px solid styles.$primary-contrast !important;
+    border-right: none !important;
+}  
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    background-color: white !important;
+    //border: 2px solid styles.$primary-contrast !important;
+    border-left: none !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-gap {
+    background-color: white !important;
+    //border: 2px solid styles.$primary-contrast !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline:hover .mat-form-field-outline-start {
+    background-color: white !important;
+    //border:2px solid styles.$primary !important;
+    border-right: none !important;
+}  
+
+::ng-deep .mat-form-field-appearance-outline:hover .mat-form-field-outline-gap {
+    //border: 2px solid styles.$primary !important;
+    border-left: none !important;
+    border-right: none !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline:hover .mat-form-field-outline-end {
+    //border: 2px solid styles.$primary !important;
+    border-left: none !important;
+}

@@ -1,0 +1,93 @@
+@use '~@angular/material' as mat;
+
+.menu-container {
+  width: 100%;
+  // & .mat-expansion-panel-header {
+
+  // }
+  & > .mat-accordion {
+    & .mat-expansion-panel-spacing {
+      margin: 0;
+    }
+    & > .mat-expansion-panel {
+      & > .mat-expansion-panel-header {
+        padding: 10px 24px 5px;
+        min-height: 40px;
+        height: fit-content;
+        &:hover {
+          background: rgba(44, 44, 44, 0.04);
+        }
+        & .mat-expansion-panel-header-title {
+          flex-direction: column;
+
+          & p {
+            color: #757575;
+            font-size: 12px;
+            line-height: 16px;
+            font-weight: 400;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+      }
+      & > .mat-expansion-panel-content > .mat-expansion-panel-body {
+        padding: 0 0 20px 0 !important;
+
+        & .mat-list-item-content {
+          font-size: 14px;
+          padding: 0 24px;
+          & .mat-list-text {
+            flex-direction: initial;
+          }
+        }
+
+        & > .mat-list-base {
+          padding-top: 0;
+          & > .mat-list-item {
+            // height: 32px !important;
+            height: initial !important;
+            padding: 6px 0;
+            color: #757575;
+            // &:hover {
+            //   background: mat-color($tecno-project-portfolio-primary, 50) !important;
+            //   color: #757575;
+            // }
+            &[aria-selected="true"]::after {
+              content: '';
+              position: absolute;
+              top: 0;
+              width: 5px;
+              height: 100%;
+              // background: mat.get-color-from-palette($tecno-project-portfolio-primary, 400);
+              // color: #fff;
+            }
+            & .mat-icon {
+              font-size: 20px;
+            }
+            & span {
+              margin-left: 16px;
+            }
+            cursor: pointer;
+            &:hover {
+              background: rgba(44, 44, 44, 0.04);
+            }
+            & .mat-list-item-content {
+              letter-spacing: .25px !important;
+              position: static;
+              height: calc(100% + 12px);
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+.without-height {
+  height: initial;
+}
+
+.text-options {
+  width: 180px;
+}
