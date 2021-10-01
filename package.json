@@ -20,7 +20,6 @@
     "@angular/platform-browser": "~12.2.0",
     "@angular/platform-browser-dynamic": "~12.2.0",
     "@angular/router": "~12.2.0",
-    "angular-token": "^7.0.1",
     "animate.css": "^4.1.1",
     "rxjs": "~6.6.0",
     "tslib": "^2.3.0",
