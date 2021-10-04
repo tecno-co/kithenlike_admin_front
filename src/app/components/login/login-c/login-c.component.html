@@ -1,5 +1,5 @@
 <div class="general-container">
-      <form #signInForm="ngForm" class="form" (ngSubmit)="login()">
+      <form #signInForm="ngForm" class="form">
         
         <img src="assets/images/logo_dark.png" alt="logo" class="logo">
   
@@ -15,7 +15,7 @@
           
         <mat-checkbox class="check mat-primary" name="checkRemember" >Recuérdame</mat-checkbox>
   
-        <button mat-button class="btn-grad">Iniciar sesión</button>
+        <button mat-button class="btn-grad" (click)=onLogin()>Iniciar sesión</button>
   
         <div class="link">
           <a class="link-text" href="/reset">¿Olvidaste tu contraseña?</a><br>

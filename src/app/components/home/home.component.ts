@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { Router } from '@angular/router';
-import { AngularTokenService } from 'angular-token';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-home',
@@ -17,7 +17,7 @@ export class HomeComponent implements OnInit {
   
   constructor(
     private router: Router,
-    private tokenService: AngularTokenService,
+    private authService: AuthService
   ) {
     this.currentTheme = localStorage.getItem('theme') == 'true';
     this.router.navigate(['/dashboard']);    
@@ -27,13 +27,7 @@ export class HomeComponent implements OnInit {
   }
 
   logout() {
-    this.output = null;
-
-    this.tokenService.signOut().subscribe(
-      res => this.output      = res,
-      error => this.output    = error
-    );
-    this.router.navigate(['/login']);
+    this.authService.signOut().subscribe();
   }
 
   toggleTheme() {

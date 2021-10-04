@@ -5,7 +5,7 @@
     </mat-card>
   
     <mat-card class="cards-container mat-elevation-z5">
-      <form #signInForm="ngForm" (ngSubmit)="login()">
+      <form #signInForm="ngForm">
   
         <mat-form-field appearance="outline" class="field">
           <mat-label >Usuario</mat-label>
@@ -22,7 +22,7 @@
         <mat-checkbox class="check" name="checkRemember" >Recuérdame</mat-checkbox>
   
         <!--button mat-button class="btn-grad">Iniciar sesión</button-->
-        <button mat-stroked-button class="btn-grad" color="primary">Iniciar sesión</button>
+        <button mat-stroked-button class="btn-grad" color="primary" (click)=onLogin()>Iniciar sesión</button>
   
         <div class="link">
           <a color="primary" class="link-text" href="/reset">¿Olvidaste tu contraseña?</a><br>

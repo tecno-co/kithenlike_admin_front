@@ -13,7 +13,7 @@ import { LoginAComponent } from './components/login/login-a/login-a.component';
 import { PieChartsComponent } from './components/shared/google-charts/pie-charts/pie-charts.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-import { AngularTokenModule, AngularTokenOptions, AngularTokenService } from 'angular-token';
+
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularMaterialModule } from './components/shared/angular-material.module';
@@ -41,9 +41,6 @@ import { SeasonsFormComponent } from './components/seasons/seasons-form/seasons-
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularTokenModule.forRoot({
-      apiBase: 'http://localhost:3000',
-    }),
     BrowserAnimationsModule,
     HttpClientModule,
     FormsModule,
@@ -53,7 +50,7 @@ import { SeasonsFormComponent } from './components/seasons/seasons-form/seasons-
     FormsModule
   ],
   exports: [],
-  providers: [AngularTokenModule],
+  providers: [],
   bootstrap: [AppComponent],
   entryComponents: [MatButton]
 })

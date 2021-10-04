@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild, } from '@angular/core';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AngularTokenService, SignInData } from 'angular-token';
+import { LoginData } from 'src/app/models/auth/auth';
+import { AuthService } from 'src/app/services/auth/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -9,34 +11,47 @@ import { AngularTokenService, SignInData } from 'angular-token';
 })
 export class LoginComponent implements OnInit {
 
-  @ViewChild('signInForm', { static: true })
-
-  signInData: SignInData = <SignInData>{};
-  output: any = {};
-
-  constructor(private tokenService: AngularTokenService, private router: Router) {}
-
-  login(signIn: any) {
-    // console.log(signIn)
-    /*
-      this.output = {};
-      console.log(this.signInData.login);
-      console.log(this.signInData.password);
-
-      let loginData: SignInData = {login: this.signInData.login, password: this.signInData.password}
-      this.tokenService.signIn(loginData).subscribe(
-          res => {
-              this.output = res;
-              console.log(this.output);
-              //this.router.navigate(['/home']);
-          }, error => {
-              this.output = error;   
-          }
-      )*/
-      // this.router.navigate(['/home']);
-  }
+  constructor(
+    private authService: AuthService,
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
   }
 
+  onLogin(signInData: any) {
+
+    let loginData: LoginData = {email: signInData.login, password: signInData.password};
+    this.authService.signIn(loginData)
+      .subscribe(
+        (res) => {
+          
+        }, error => {
+          let message = this.getLoginError(error.statusText);
+          this.openSnackBar(message, '', 1000);
+        }
+      )
+  }
+
+  getLoginError(error: string): string{
+    var message: string = '';
+
+    if (error == 'Unauthorized'){
+      message ='Credenciales Incorrectas';
+    }
+    else {
+      message ='Error desconocido';
+    }
+
+    return message;
+  }
+
+  openSnackBar(message: string, action: string, duration: number) {
+    var panelClass = "error-snack-bar";
+    this._snackBar.open(message, action, {
+      duration: duration,
+      panelClass: panelClass
+    });
+  }
 }

@@ -3,6 +3,7 @@ import { EventEmitter, Injectable } from '@angular/core';
 import { tap } from 'rxjs/operators';
 import { TableData } from 'src/app/models/table-data/table-data';
 import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,33 +19,30 @@ export class ThemesService {
 
   httpOptions!: any;
 
-  inputParams: any = {
-    uid: 'kevin.garzon@tecno.co',
-    access_token: 'fLAdOyHf9558i1pgvNcXAg',
-    client: 'iSKdnYeoagKy6Wl8w_CaiA'
-  };
-
   private readonly API = `${environment.API}`;
   
   emitDataTable = new EventEmitter<any>();
   
   constructor(
-    private http: HttpClient
-  ) { 
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: `Bareer W_GpjxZN_MRaCX_FYfZX`
-      }),
-      params: this.inputParams
-    }
-   }
+    private http: HttpClient,
+    private authService: AuthService
+  ) {}
 
 
   getThemes() {
-    return this.http.get<TableData[]>(`${this.API}/themes`).pipe(
-      tap(console.log)
-    )
-    // return this.tableData;
+
+    let currentData = this.authService.getAuthData();
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Accept': 'application/vnd.finapp.v1',
+        'access-token': currentData.accessToken,
+        'client': currentData.client,
+        'uid': currentData.uid
+      })
+    }
+
+    return this.http.get<TableData>(this.API + '/themes', httpOptions)
+    .pipe(tap((data: any) => this.emitDataTable.emit(data)));
   }
 
   addTheme(season: any) {

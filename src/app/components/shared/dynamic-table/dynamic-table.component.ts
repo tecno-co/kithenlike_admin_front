@@ -49,7 +49,7 @@ export class DynamicTableComponent implements OnInit, OnChanges {
 
 
   ngOnChanges(changes: SimpleChanges) {
-    console.log("Cambio detectado en la tabla");
+    console.log(this.tableData)
     this.dataSource.data = this.tableData;
   }
   

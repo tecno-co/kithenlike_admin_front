@@ -12,19 +12,23 @@ import { ThemesFormComponent } from './themes-form/themes-form.component';
 export class ThemesComponent implements OnInit {
   tableHeaders: string[] = [ 'No.', 'CÓDIGO', 'NOMBRE', 'ESTADO'];
 
-  tableData: TableData[] = [];
+  tableData: any[] = [];
 
   constructor(
     public dialog: MatDialog,
     private themeService: ThemesService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
-    this.themeService.getThemes().subscribe((data: TableData) => {
-      this.tableData = data.dataTable;
+    this.themeService.getThemes().subscribe((data: any) => {
+      this.tableData = data;
     });
-  }
 
+    this.themeService.emitDataTable
+      .subscribe((res: any) => {
+        this.tableData = res.data;
+    })
+  }
 
   onAdd () {
     let dialogConfig = new MatDialogConfig;

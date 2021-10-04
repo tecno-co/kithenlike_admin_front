@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { AngularTokenService, SignInData} from 'angular-token';
+// import { AngularTokenService, SignInData} from 'angular-token';
 
 @Component({
   selector: 'app-login-c',
@@ -9,33 +9,19 @@ import { AngularTokenService, SignInData} from 'angular-token';
 })
 export class LoginCComponent implements OnInit {
 
+  @Output() login = new EventEmitter<any>();
+
   @ViewChild('signInForm', { static: true })
 
-  signInData: SignInData = <SignInData>{};
+  signInData!: any;
   output: any = {};
   
-  constructor(private tokenService: AngularTokenService) { }
-  
-
-  login() {
-
-    this.tokenService.signIn(this.signInData).subscribe(
-      
-      res => {
-        this.output = res;
-        console.log("CorrectResponse");
-        console.log(this.output)
-        //this.signInForm.resetForm();
-      }, error => {
-        this.output = error;
-        console.log("Error");
-        //this.signInForm.resetForm();
-
-      }
-    );       
-  }
+  constructor() {}
 
   ngOnInit(): void {
   }
 
+  onLogin() {
+    this.login.emit(this.signInData);
+  }  
 }

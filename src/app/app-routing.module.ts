@@ -3,7 +3,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetComponent } from './components/reset/reset.component';
-import { AngularTokenService } from 'angular-token';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
 const routes: Routes = [

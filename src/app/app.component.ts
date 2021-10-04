@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
-import { AngularTokenService } from 'angular-token';
-import { LoginComponent } from './components/login/login.component';
+
 
 @Component({
     selector: 'app-root',

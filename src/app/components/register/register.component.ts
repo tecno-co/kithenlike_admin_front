@@ -1,5 +1,4 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { AngularTokenService, RegisterData } from 'angular-token';
 
 @Component({
   selector: 'app-register',
@@ -10,16 +9,17 @@ export class RegisterComponent implements OnInit {
  
   @ViewChild('registerForm', { static: true })
 
-  registerData: RegisterData = <RegisterData>{};
+  // registerData: RegisterData = <RegisterData>{};
 
   public roles: String[] = ["Rol 1", "Rol 2", "Rol 3"]
 
-  constructor(private tokenService: AngularTokenService) {}
+  constructor() {}
 
   ngOnInit(): void {
   }
 
   register(){
+    /*
     this.tokenService.registerAccount({
       login:                'example@example.org',
       password:             'secretPassword',
@@ -27,10 +27,6 @@ export class RegisterComponent implements OnInit {
     }).subscribe(
       res =>      console.log(res),
       error =>    console.log(error)
-  );
-  }
-
-
-
-  
+  );*/
+  } 
 }

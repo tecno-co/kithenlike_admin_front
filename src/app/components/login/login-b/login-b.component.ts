@@ -1,6 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { Router } from '@angular/router';
-import { AngularTokenService, SignInData} from 'angular-token';
+import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
 
 @Component({
   selector: 'app-login-b',
@@ -9,30 +7,19 @@ import { AngularTokenService, SignInData} from 'angular-token';
 })
 export class LoginBComponent implements OnInit {
 
+  @Output() login = new EventEmitter<any>();
+
   @ViewChild('signInForm', { static: true })
 
-  signInData: SignInData = <SignInData>{};
+  signInData!: any;
   output: any = {};
   
-  constructor(private tokenService: AngularTokenService, private router: Router) { }
+  constructor() {}
   
-
-  login() {
-    /*
-    this.tokenService.signIn(this.signInData).subscribe(
-      res => {
-        this.output = res;
-        console.log("CorrectResponse");
-        console.log(this.output)
-      }, error => {
-        this.output = error;
-        console.log("Error");
-      }
-    );*/
-    this.router.navigate(['/home']);    
-  }
-
   ngOnInit(): void {
   }
 
+  onLogin() {
+    this.login.emit(this.signInData);
+  }
 }
