@@ -7,8 +7,8 @@ export class LoginData {
 export class AuthData {
   accessToken!: string;
   client!: string;
-  expiry!: string;
-  tokenType!: string;
+  expiry?: string;
+  tokenType?: string;
   uid!: string;
 }
 

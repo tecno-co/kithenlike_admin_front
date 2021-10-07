@@ -20,6 +20,19 @@ export class AuthService {
     private http: HttpClient
   ) {}
 
+
+  reqOptions(){
+    let currentData = this.getAuthData();
+
+    return {
+      headers: new HttpHeaders({
+        'access-token': currentData.accessToken,
+        'client': currentData.client,
+        'uid': currentData.uid
+      })
+    }
+  }
+  
   signIn(loginData: LoginData): Observable<ResponseData> {
 
     return this.http.post<ResponseData>(this.API + '/auth/sign_in', loginData, {observe: 'response'})
@@ -28,8 +41,6 @@ export class AuthService {
         let resAuthData: AuthData = {
           accessToken: res.headers.get('access-token'),
           client: res.headers.get('client'),
-          expiry: res.headers.get('expiry'),
-          tokenType: res.headers.get('token-type'),
           uid: res.headers.get('uid')
         }
 
@@ -41,15 +52,7 @@ export class AuthService {
 
   signOut() {
 
-    let currentData = this.getAuthData();
-
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'access-token': currentData.accessToken,
-        'client': currentData.client,
-        'uid': currentData.uid
-      })
-    }
+    let httpOptions = this.reqOptions();
 
     return this.http.delete<ResponseData>(this.API + '/auth/sign_out', httpOptions)
       .pipe(
@@ -62,7 +65,6 @@ export class AuthService {
             this.router.navigate(['/login']);
           }
         )
-
       );
   }
 
@@ -81,9 +83,27 @@ export class AuthService {
   setAuthData(authData: AuthData) {
     localStorage.setItem('accessToken', authData.accessToken);
     localStorage.setItem('client', authData.client);
-    localStorage.setItem('expiry', authData.expiry);
-    localStorage.setItem('tokenType', authData.tokenType);
     localStorage.setItem('uid', authData.uid);
   }
 
+  isAuthenticated() {
+
+    let token = localStorage.getItem('accessToken');
+
+    if (token) {
+      return true;
+    }
+    return false;
+  }
+
+  validateToken() {
+
+    let httpOptions = this.reqOptions();
+
+    return this.http.get<ResponseData>(this.API + '/auth/validate_token', httpOptions)
+      .pipe().subscribe(
+        (res) => console.log(res),
+        (error) => this.signOut());
+  }
+  
 }

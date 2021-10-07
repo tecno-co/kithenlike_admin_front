@@ -5,6 +5,7 @@ import { ThemesRoutingModule } from './themes-routing.module';
 import { ThemesComponent } from './themes.component';
 import { ThemesFormComponent } from './themes-form/themes-form.component';
 import { SharedModule } from '../shared/shared.module';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -15,7 +16,8 @@ import { SharedModule } from '../shared/shared.module';
   imports: [
     CommonModule,
     ThemesRoutingModule,
-    SharedModule
+    SharedModule,
+    ReactiveFormsModule
   ]
 })
 export class ThemesModule { }

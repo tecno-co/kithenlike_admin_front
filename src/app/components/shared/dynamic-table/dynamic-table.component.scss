@@ -44,3 +44,31 @@ table {
 ::ng-deep .mat-tooltip.tooltip {
   font-size: 12px !important;
 }
+
+.float-right {
+  float: right;
+}
+
+.column-circle {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  color: white;
+  margin-left: 10%;
+}
+
+
+.filters-row {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.field {
+  margin-right: 10px;
+}
+
+.field-container {
+  margin-right: 10px;
+}
+

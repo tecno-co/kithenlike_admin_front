@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -10,15 +11,25 @@ export class ThemesFormComponent implements OnInit {
 
   @Output() dialogEmit: EventEmitter<any> = new EventEmitter();
   
-  code: string = "";
-  name: string = "";
-  status: boolean = true;
+  themeForm: FormGroup;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) {
+  constructor(
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private fb: FormBuilder
+  ) {
+
+    this.themeForm = new FormGroup({
+      name: new FormControl(''),
+      theme_class: new FormControl(''),      
+    });
+
     if (data != null) {
-      this.code = this.data.code;
-      this.name = this.data.name;    
-      this.status = this.data.status;
+      this.themeForm = this.fb.group(
+        {
+          name: this.data.name,
+          theme_class: this.data.theme_class,
+        }
+      )
     }
    }
 
@@ -26,19 +37,10 @@ export class ThemesFormComponent implements OnInit {
   }
 
   create() {
-    const inputData = {
-      id: this.code,
-      code: this.code,
-      name: this.name,
-      status: this.status}
-    // this.dialogRef.close({event:"create",data: inputData});
-    this.dialogEmit.emit({mode: "create", data: inputData});
+    this.dialogEmit.emit(this.themeForm);
   }
 
   cancel(){
-    /*
-    this.dialogEmit.emit({mode: "cancel", data: null});
-    */
-    this.dialogEmit.emit({mode: "cancel", data: null});
+    // this.dialogEmit.emit({mode: "cancel", data: null});
   }
 }

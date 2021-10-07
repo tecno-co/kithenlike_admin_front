@@ -1,5 +1,5 @@
 <div class="general-container">
-    <mat-card class="cards-container">
+    <mat-card class="cards-container mat-elevation-z7">
       <form #signInForm="ngForm">
         
         <img src="assets/images/logo_dark.png" alt="logo" class="logo">
@@ -16,8 +16,7 @@
           
         <mat-checkbox class="check mat-primary" name="checkRemember" >Recuérdame</mat-checkbox>
   
-        <!--button mat-button class="btn-grad">Iniciar sesión</button-->
-        <button mat-stroked-button class="btn-grad" color="primary" (click)=onLogin()>Iniciar sesión</button>
+        <button mat-stroked-button color="primary" class="btn mat-elevation-z2" (click)=onLogin()>Iniciar sesión</button>
   
         <div class="link">
           <a class="link-text" href="/reset">¿Olvidaste tu contraseña?</a><br>

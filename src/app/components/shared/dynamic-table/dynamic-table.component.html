@@ -1,10 +1,23 @@
-<div class="container">
+<div *ngIf="true" class="container">
 
-  <mat-form-field *ngIf="filter" appearance="standard" style="width: 100%;">
-    <mat-label>Filtro palabras clave</mat-label>
-    <input matInput (keyup)="applyFilter($event)" #input>
-  </mat-form-field>
-  
+  <div class="filters-row">
+    <div class="field-container">
+      <mat-form-field *ngIf="filter" appearance="standard" class="field">
+        <mat-label>Filtro palabras clave</mat-label>
+        <input matInput [formControl]="filterKeywords">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="filter" appearance="standard" class="field">
+        <mat-label>Filtro temporadas</mat-label>
+        <input matInput [formControl]="filterSeasons">
+      </mat-form-field>
+    </div>
+    <div>
+      <button mat-raised-button (click)="applyFilter()" class="field">Filtrar</button>
+      <button mat-raised-button (click)="clearFilter()" class="field">Ver todo</button>
+    </div>
+  </div>
+
   <table mat-table matSort matSortActive="col1" [dataSource]="dataSource" class="mat-elevation-z1">
 
     <ng-container *ngFor="let col of tableCols; index as i" matColumnDef="{{ col }}">
@@ -14,7 +27,7 @@
 
         <div [ngSwitch]="col">
 
-          <div *ngSwitchCase="'status'">
+          <div *ngSwitchCase="col === 'status' || col === 'is_active' ? col: ''">
             <td mat-cell *matCellDef="let item">
 
               <mat-slide-toggle [checked]="item[col]"></mat-slide-toggle>
@@ -44,9 +57,10 @@
 
           <div *ngSwitchCase="'keywords'">
             <td mat-cell *matCellDef="let item">
-              {{item[col].length}}
-              <mat-icon matTooltip="{{item[col]}}" matTooltipPosition="right" matTooltipClass="tooltip" style="color:green; margin-left: 10px;" *ngIf="(item[col].length > 0)">done</mat-icon>
-              <mat-icon matTooltip="{{item[col]}}" matTooltipPosition="right" matTooltipClass="tooltip" style="color:red; margin-left: 10px" *ngIf="!(item[col].length > 0)">close</mat-icon>
+              <div class="column-circle center" [ngStyle]="{'background-color': item[col].length == 0 ? 'red': 'green' }"
+                   matTooltip="{{item[col]}}" matTooltipPosition="right" matTooltipClass="tooltip" >
+                {{item[col].length}}
+              </div>
               
                 <!--mat-chip-list >
                   <mat-chip *ngFor="let keyword of item[col]">
@@ -58,9 +72,10 @@
 
           <div *ngSwitchCase="'seasons'">
             <td mat-cell *matCellDef="let item">
-              {{item[col].length}}
-              <mat-icon matTooltip="{{item[col]}}" matTooltipPosition="right" matTooltipClass="tooltip" style="color:green; margin-left: 10px;" *ngIf="(item[col].length > 0)">done</mat-icon>
-              <mat-icon matTooltip="{{item[col]}}" matTooltipPosition="right" matTooltipClass="tooltip" style="color:red; margin-left: 10px" *ngIf="!(item[col].length > 0)">close</mat-icon>
+              <div class="column-circle center" [ngStyle]="{'background-color': item[col].length == 0 ? 'red': 'green' }"
+                   matTooltip="{{item[col]}}" matTooltipPosition="right" matTooltipClass="tooltip" >
+                {{item[col].length}}
+              </div>
               
                 <!--mat-chip-list >
                   <mat-chip *ngFor="let keyword of item[col]">
@@ -70,7 +85,7 @@
             </td>
           </div>
 
-          <div *ngSwitchCase="'options'" >
+          <div *ngSwitchCase="'optionsMenu'" >
             <td mat-cell *matCellDef="let item">
               
               <button mat-icon-button [matMenuTriggerFor]="menu" class="float-right">
@@ -82,7 +97,7 @@
                   <mat-icon>edit</mat-icon>
                   <span>Editar</span>
                 </button>
-                <button mat-menu-item (click)="onDelete(item.id)">
+                <button mat-menu-item (click)="onDelete(item)">
                   <mat-icon>delete_forever</mat-icon>
                   <span>Eliminar</span>
                 </button>
@@ -102,7 +117,6 @@
 
 
     </ng-container>
-
 
     <tr mat-header-row *matHeaderRowDef="tableCols"></tr>
     <tr mat-row *matRowDef="let row; columns: tableCols"></tr>

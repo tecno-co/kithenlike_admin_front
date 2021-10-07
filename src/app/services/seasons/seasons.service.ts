@@ -6,11 +6,11 @@ import { EventEmitter, Injectable } from '@angular/core';
 export class SeasonsService {
 
   tableData: any[] = [
-    { id: '1', code: '1', name: "Navidad", status: true, options: ""},
-    { id: '2', code: '2', name: "Dia de los niños", status: true, options: ""},
-    { id: '3', code: '3', name: "Dia de la madre", status: true, options: ""},
-    { id: '4', code: '4', name: "Dia del padre", status: true, options: ""},
-    { id: '5', code: '5', name: "Amor y amistad", status: true, options: ""},  
+    { id: '1', code: '1', name: "Navidad", status: true},
+    { id: '2', code: '2', name: "Dia de los niños", status: true},
+    { id: '3', code: '3', name: "Dia de la madre", status: true},
+    { id: '4', code: '4', name: "Dia del padre", status: true},
+    { id: '5', code: '5', name: "Amor y amistad", status: true},  
   ];
 
   emitDataTable = new EventEmitter<any>();

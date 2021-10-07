@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { AuthService } from './services/auth/auth.service';
 
 
 @Component({
@@ -8,38 +9,25 @@ import { NavigationStart, Router } from '@angular/router';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-    
-    public login: boolean = false;
-    public reset: boolean = false;
-    public menu: boolean = false;
-    public navigationSubscription: any;
-    public theme: boolean;
+  
+  isLogged: boolean = false;
 
-    constructor(public router:Router) {
-        router.events.forEach((event) => {
-            if(event instanceof NavigationStart) {
-                if (event.url == "/login"){
-                    this.login = true;
-                    this.reset = false;
-                    this.menu = false
-                } else if (event.url == "/reset") {
-                    this.reset = true;
-                    this.login = false;
-                    this.menu = false
-                } else {
-                    this.menu = true;
-                    this.login = false;
-                    this.reset = false;
-                }
-            }
-          });
-          this.theme = localStorage.getItem('theme') == 'true';
-    }
-    
-    onInit(){
-    }
+  public theme: boolean;
 
-    toggleTheme(t: boolean) {
-        this.theme = localStorage.getItem('theme') == 'true';
-    }
+  constructor(
+    public router:Router,
+    private authService: AuthService
+    ) {
+      router.events.forEach((event) => {
+        this.isLogged = this.authService.isAuthenticated();
+      });
+      this.theme = localStorage.getItem('theme') == 'true';
+  }
+
+  onInit(){
+  }
+
+  toggleTheme(t: boolean) {
+    this.theme = localStorage.getItem('theme') == 'true';
+  }
 }

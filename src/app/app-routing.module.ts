@@ -4,6 +4,8 @@ import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetComponent } from './components/reset/reset.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ThemesResolver } from './components/themes/guards/themes.resolver';
+import { AuthGuard } from './auth/auth.guard';
 
 const routes: Routes = [
   { 
@@ -25,26 +27,35 @@ const routes: Routes = [
   },
   { 
     path: 'dashboard',
+    canActivate: [AuthGuard],
     component: DashboardComponent
   },
   { 
     path: 'home',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
   },
   {
     path: 'diseños',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./components/designs/designs.module').then(m => m.MasterBaseModule),
   },
   {
     path: 'ajustes',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./components/settings/settings.module').then(m => m.SettingsModule)
   },
   {
     path: 'temporadas',
+    canActivate: [AuthGuard],
     loadChildren: () => import('./components/seasons/seasons.module').then(m => m.SeasonsModule) },
   { 
     path: 'temas',
-    loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule) },
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule),
+    resolve: {themesResolver: ThemesResolver}
+  },
+  { path: 'keywords', loadChildren: () => import('./components/keywords/keywords.module').then(m => m.KeywordsModule) },
 ] 
 
 @NgModule({

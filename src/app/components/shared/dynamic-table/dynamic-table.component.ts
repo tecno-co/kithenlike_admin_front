@@ -14,7 +14,7 @@ import { DesignsService } from 'src/app/services/designs/designs.service';
   templateUrl: './dynamic-table.component.html',
   styleUrls: ['./dynamic-table.component.scss']
 })
-export class DynamicTableComponent implements OnInit, OnChanges {
+export class DynamicTableComponent implements OnInit {
     
   @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
@@ -34,6 +34,9 @@ export class DynamicTableComponent implements OnInit, OnChanges {
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
   copied: boolean = false;
 
+  filterKeywords = new FormControl();
+  filterSeasons = new FormControl();
+
   constructor(
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -43,13 +46,15 @@ export class DynamicTableComponent implements OnInit, OnChanges {
   ngOnInit(): void {
     this.dataSource.data = this.tableData;
     this.tableCols = (this.tableData && this.tableData.length > 0) ?  Object.keys(this.tableData[0]) : [];
+      
+    //Add column options menu
+    this.tableCols.push('optionsMenu');
+
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-
   ngOnChanges(changes: SimpleChanges) {
-    console.log(this.tableData)
     this.dataSource.data = this.tableData;
   }
   
@@ -86,9 +91,8 @@ export class DynamicTableComponent implements OnInit, OnChanges {
     this.emitEdit.emit(row);
   }
 
-  onDelete(id: number) {
-    this.emitDelete.emit(id);
-    this.dataSource = new MatTableDataSource(this.tableData);
+  onDelete(theme: any) {
+    this.emitDelete.emit(theme);
   }
 
   clipboardCopy(value: string) {   
@@ -107,8 +111,31 @@ export class DynamicTableComponent implements OnInit, OnChanges {
     });
   }
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter() {
+    console.log(this.filterKeywords);
+    console.log(this.filterSeasons);
+    // const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
+    // this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    // console.log(this.dataSource);
+    if (this.filterKeywords.value != null && this.filterSeasons.value != null) {
+      this.dataSource.data = this.dataSource.data.filter((data: any)=> data.keywords.includes(this.filterKeywords.value) && data.seasons.includes(this.filterSeasons.value));
+    } else {
+
+      if (this.filterKeywords.value != null) {
+        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.keywords.includes(this.filterKeywords.value));
+      }
+
+      if (this.filterSeasons.value != null) {
+        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.seasons.includes(this.filterSeasons.value));
+
+      }
+    }  
+  }
+
+  clearFilter(){
+    this.filterKeywords.reset();
+    this.filterSeasons.reset();
+    this.dataSource.data = this.tableData;
   }
 }

@@ -9,57 +9,63 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class ThemesService {
-  tableData: any[] = [
-    { id: '1', code: '1', name: "Navidad", status: true, options: ""},
-    { id: '2', code: '2', name: "Dia de los niños", status: true, options: ""},
-    { id: '3', code: '3', name: "Dia de la madre", status: true, options: ""},
-    { id: '4', code: '4', name: "Dia del padre", status: true, options: ""},
-    { id: '5', code: '5', name: "Amor y amistad", status: true, options: ""},  
-  ];
-
-  httpOptions!: any;
 
   private readonly API = `${environment.API}`;
   
-  emitDataTable = new EventEmitter<any>();
+  emitDataTable = new EventEmitter<TableData>();
   
   constructor(
     private http: HttpClient,
     private authService: AuthService
   ) {}
 
-
-  getThemes() {
-
+  reqOptions(){
     let currentData = this.authService.getAuthData();
-    let httpOptions = {
+
+    return {
       headers: new HttpHeaders({
-        'Accept': 'application/vnd.finapp.v1',
         'access-token': currentData.accessToken,
         'client': currentData.client,
         'uid': currentData.uid
       })
     }
-
-    return this.http.get<TableData>(this.API + '/themes', httpOptions)
-    .pipe(tap((data: any) => this.emitDataTable.emit(data)));
   }
 
-  addTheme(season: any) {
-    this.tableData.push(season);
-    this.emitDataTable.emit(this.tableData);
+  getThemes() {
+    let httpOptions = this.reqOptions();
+    return this.http.get<TableData>(`${this.API}/themes/list` , httpOptions)
+    .pipe(
+      tap(console.log)
+    );
   }
 
-  updateTheme(season: any) {
-    this.tableData.splice(season.data.id-1, 1, season.data);
-    this.emitDataTable.emit(this.tableData);
+  addTheme(theme: any) {
+    let httpOptions = this.reqOptions();
+    return this.http.post<TableData>(`${this.API}/themes`, theme, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
   }
 
-  deleteTheme(id: number) {
-    for (let i = 0; i < this.tableData.length; i++) {
-      if(this.tableData[i].id == id) {
-        this.tableData.splice(i,1);
-      }
-    }
+  updateTheme(theme: any) {
+    let httpOptions = this.reqOptions();
+    return this.http.put<any>(`${this.API}/themes/${theme.idForOptions}`, {'theme': {name: theme.name, theme_class: theme.theme_class}}, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
+  }
+
+  deleteTheme(theme: any) {
+    let httpOptions = this.reqOptions();
+    return this.http.put<any>(`${this.API}/themes/${theme.idForOptions}/logical_delete`, theme, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
   }
 }

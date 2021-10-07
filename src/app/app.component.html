@@ -1,10 +1,7 @@
-<div class="container" [class.dark-theme-tecno]="theme">
+<div class="container" [class.dark-theme-cyan-orange]="theme" [class.light-theme-cyan-orange]="!theme">
     <!-- LOGIN -->
-    <app-login *ngIf="login"></app-login>
+    <app-login *ngIf="!isLogged"></app-login>
 
-    <!-- REGISTER -->
-    <app-reset *ngIf="reset"></app-reset>
-
-    <!-- MENÚ -->
-    <app-home *ngIf="menu" (theme)="toggleTheme($event)" ></app-home>
+    <!-- HOME -->
+    <app-home *ngIf="isLogged" (theme)="toggleTheme($event)" ></app-home>
 </div>
