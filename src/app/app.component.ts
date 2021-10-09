@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, HostListener } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
 import { AuthService } from './services/auth/auth.service';
 
@@ -25,9 +25,17 @@ export class AppComponent {
   }
 
   onInit(){
+    window.onbeforeunload = () => {
+      localStorage.clear();
+    }
   }
 
   toggleTheme(t: boolean) {
     this.theme = localStorage.getItem('theme') == 'true';
+  }
+
+  @HostListener('window:unload')
+  setToSession(): void {
+    this.authService.signOut;
   }
 }

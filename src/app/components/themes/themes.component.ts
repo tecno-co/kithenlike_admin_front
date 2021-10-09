@@ -23,9 +23,7 @@ export class ThemesComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-
     this.route.data.subscribe((res:any) => {
-      console.log(res);
       this.tableData = res.themesResolver.dataTable;
       this.tableHeaders = res.themesResolver.headers;
     })
@@ -44,7 +42,6 @@ export class ThemesComponent implements OnInit {
     dialogConfig.width = "50%";
     let dialogRef = this.dialog.open(ThemesFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
-
       this.themeService.addTheme({theme: res.value}).subscribe((res:any) => {
         if (res.status == 'created') {
           this.openSnackBar('Añadido con Éxito', '', 1000, 'success-snack-bar');
@@ -64,10 +61,11 @@ export class ThemesComponent implements OnInit {
     dialogConfig.width = "50%";
     let dialogRef = this.dialog.open(ThemesFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
+      
       row.name = res.value.name;
       row.theme_class = res.value.theme_class;
       this.themeService.updateTheme(row).subscribe((res:any) => {
-        console.log(res);
+
         if (res.status == 'updated') {
           this.openSnackBar('Editado con éxito', '', 1000, 'success-snack-bar');
         } else {

@@ -1,20 +1,22 @@
-<form #signInForm="ngForm">
-    <mat-dialog-content class="mat-typography dialog-container">
-    <mat-form-field class="field">
-      <input [disabled]="true" placeholder="Código" type="text" matInput name="Código" [(ngModel)]="code">
-    </mat-form-field><br/>
+<form [formGroup]="seasonsForm">
+  <mat-dialog-content class="mat-typography dialog-container">
+
+  <mat-form-field class="field">
+    <mat-label>Nombre</mat-label>
+    <input type="text" matInput name="Nombre" formControlName="name">
+  </mat-form-field><br/>
+
+  <mat-form-field class="field">
+    <mat-label>Descripción</mat-label>
+    <input type="text" matInput name="Nombre" formControlName="description">
+  </mat-form-field><br/> 
+
+  <mat-label>Estado</mat-label><br/>
+  <mat-slide-toggle  formControlName="checkOption"></mat-slide-toggle>
+</mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" mat-dialog-close>Cancel</button>
+    <button mat-button color="accent" (click)="create()">Guardar</button>
+  </mat-dialog-actions>
   
-    <mat-form-field class="field">
-      <mat-label>Nombre</mat-label>
-      <input type="text" matInput name="Nombre" [(ngModel)]="name">
-    </mat-form-field><br/>  
-  
-    <mat-label>Estado</mat-label><br/>
-    <mat-slide-toggle  [(ngModel)]="status" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>
-  </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button color="accent" mat-dialog-close (click)="cancel()">Cancel</button>
-      <button mat-button color="accent" (click)="create()">Guardar</button>
-    </mat-dialog-actions>
-    
 </form>

@@ -15,7 +15,7 @@ export class DesignsComponent implements OnInit {
 
   @Output() image: EventEmitter<boolean> = new EventEmitter();
 
-  tableHeaders: string[] = [ 'No.', 'CÓDIGO', 'NOMBRE', 'IMAGEN', 'DESCRIPCIÓN', 'PALABRAS CLAVE', 'TEMPORADAS', 'ESTADO'];
+  tableHeaders: string[] = ['CÓDIGO', 'NOMBRE', 'IMAGEN', 'DESCRIPCIÓN', 'PALABRAS CLAVE', 'TEMPORADAS', 'ESTADO'];
   path: String = "";
 
   tableData: any[] = [];

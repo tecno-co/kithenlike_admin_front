@@ -1,1 +1,15 @@
-<p>keywords works!</p>
+<div class="general-container">
+  <h1 class="mat-h1">Palabras Clave</h1>
+
+  <div class="master-container">
+
+    <app-dynamic-table class="table-container"
+    [data]=tableData
+    [headers]=tableHeaders
+    (emitAdd)="onAdd()"
+    (emitEdit)="onEdit($event)"
+    (emitDelete)="onDelete($event)">  
+  </app-dynamic-table>
+    
+  </div>
+</div>

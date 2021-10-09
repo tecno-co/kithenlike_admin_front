@@ -19,28 +19,14 @@ export class ThemesService {
     private authService: AuthService
   ) {}
 
-  reqOptions(){
-    let currentData = this.authService.getAuthData();
-
-    return {
-      headers: new HttpHeaders({
-        'access-token': currentData.accessToken,
-        'client': currentData.client,
-        'uid': currentData.uid
-      })
-    }
-  }
-
   getThemes() {
-    let httpOptions = this.reqOptions();
+    let httpOptions = this.authService.reqOptions();
     return this.http.get<TableData>(`${this.API}/themes/list` , httpOptions)
-    .pipe(
-      tap(console.log)
-    );
+    .pipe();
   }
 
   addTheme(theme: any) {
-    let httpOptions = this.reqOptions();
+    let httpOptions = this.authService.reqOptions();
     return this.http.post<TableData>(`${this.API}/themes`, theme, httpOptions)
     .pipe(
       tap((data: any) => 
@@ -50,8 +36,9 @@ export class ThemesService {
   }
 
   updateTheme(theme: any) {
-    let httpOptions = this.reqOptions();
-    return this.http.put<any>(`${this.API}/themes/${theme.idForOptions}`, {'theme': {name: theme.name, theme_class: theme.theme_class}}, httpOptions)
+    let httpOptions = this.authService.reqOptions();
+    console.log(theme);
+    return this.http.put<any>(`${this.API}/themes/${theme.idForOptions}`, theme, httpOptions)
     .pipe(
       tap((data: any) => 
         this.emitDataTable.emit(data),
@@ -60,7 +47,7 @@ export class ThemesService {
   }
 
   deleteTheme(theme: any) {
-    let httpOptions = this.reqOptions();
+    let httpOptions = this.authService.reqOptions();
     return this.http.put<any>(`${this.API}/themes/${theme.idForOptions}/logical_delete`, theme, httpOptions)
     .pipe(
       tap((data: any) => 

@@ -67,9 +67,14 @@ $dark-theme-cyan-orange: mat.define-dark-theme((
     background-color: map-get($dark-primary-cyan-orange, 500);
   }
 
+  .menu-label-text-color {
+    color: map-get($dark-primary-cyan-orange, 500);
+  }
+
   .bg-primary-color {
     background-color: map-get($dark-primary-cyan-orange, 500) !important;
   }
+  
 }
 
 
@@ -110,6 +115,7 @@ $light-theme-deeppurple-amber: mat.define-light-theme((
 }
 
 
+
 // Define a light theme
 $light-primary-tecno: mat.define-palette(tecno.$tecno-primary-palette);
 $light-accent-tecno: mat.define-palette(tecno.$tecno-accent-palette);
@@ -122,7 +128,6 @@ $light-theme-tecno: mat.define-light-theme((
 
 
 .light-theme-tecno {
-  @include mat.all-component-colors($light-theme-tecno);
 
   .bg-menu-options {
     background-color: $bg-color-light;

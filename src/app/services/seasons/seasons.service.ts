@@ -1,41 +1,59 @@
+import { HttpClient } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { tap } from 'rxjs/operators';
+import { TableData } from 'src/app/models/table-data/table-data';
+import { environment } from 'src/environments/environment';
+import { AuthService } from '../auth/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SeasonsService {
 
-  tableData: any[] = [
-    { id: '1', code: '1', name: "Navidad", status: true},
-    { id: '2', code: '2', name: "Dia de los niños", status: true},
-    { id: '3', code: '3', name: "Dia de la madre", status: true},
-    { id: '4', code: '4', name: "Dia del padre", status: true},
-    { id: '5', code: '5', name: "Amor y amistad", status: true},  
-  ];
-
+  private readonly API = `${environment.API}`;
+  
   emitDataTable = new EventEmitter<any>();
 
-  constructor() { }
+  constructor(
+    private http: HttpClient,
+    private authService: AuthService
+  ) { }
 
   getSeasons() {
-    return this.tableData;
+    let httpOptions = this.authService.reqOptions();
+    return this.http.get<TableData>(`${this.API}/seasons/list` , httpOptions)
+    .pipe();
   }
 
   addSeason(season: any) {
-    this.tableData.push(season);
-    this.emitDataTable.emit(this.tableData);
+    console.log(season);
+    let httpOptions = this.authService.reqOptions();
+    return this.http.post<TableData>(`${this.API}/seasons`, season, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
   }
 
   updateSeason(season: any) {
-    this.tableData.splice(season.data.id-1, 1, season.data);
-    this.emitDataTable.emit(this.tableData);
+    console.log(season);
+    let httpOptions = this.authService.reqOptions();
+    return this.http.put<any>(`${this.API}/seasons/${season.idForOptions}`, season, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
   }
 
-  deleteSeason(id: number) {
-    for (let i = 0; i < this.tableData.length; i++) {
-      if(this.tableData[i].id == id) {
-        this.tableData.splice(i,1);
-      }
-    }
+  deleteSeason(season: any) {
+    let httpOptions = this.authService.reqOptions();
+    return this.http.put<any>(`${this.API}/seasons/${season.idForOptions}/logical_delete`, season, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
   }
 }

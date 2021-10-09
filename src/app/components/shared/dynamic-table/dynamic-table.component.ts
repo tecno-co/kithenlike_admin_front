@@ -47,8 +47,8 @@ export class DynamicTableComponent implements OnInit {
     this.dataSource.data = this.tableData;
     this.tableCols = (this.tableData && this.tableData.length > 0) ?  Object.keys(this.tableData[0]) : [];
       
-    //Add column options menu
-    this.tableCols.push('optionsMenu');
+    // Add column options menu
+    // this.tableCols.push('optionsMenu');
 
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
@@ -111,9 +111,16 @@ export class DynamicTableComponent implements OnInit {
     });
   }
 
+  clearFilter(){
+    this.filterKeywords.reset();
+    this.filterSeasons.reset();
+    this.dataSource.data = this.tableData;
+  }
+
   applyFilter() {
-    console.log(this.filterKeywords);
-    console.log(this.filterSeasons);
+    this.dataSource.data = this.tableData;
+
+    console.log(this.filterSeasons.value);
     // const filterValue = (event.target as HTMLInputElement).value.trim().toLowerCase();
     // this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -131,11 +138,5 @@ export class DynamicTableComponent implements OnInit {
 
       }
     }  
-  }
-
-  clearFilter(){
-    this.filterKeywords.reset();
-    this.filterSeasons.reset();
-    this.dataSource.data = this.tableData;
-  }
+  }  
 }

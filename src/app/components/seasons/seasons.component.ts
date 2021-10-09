@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { SeasonsService } from 'src/app/services/seasons/seasons.service';
 import { SeasonsFormComponent } from './seasons-form/seasons-form.component';
 
@@ -10,19 +12,28 @@ import { SeasonsFormComponent } from './seasons-form/seasons-form.component';
 })
 export class SeasonsComponent implements OnInit {
 
-  tableHeaders: string[] = [ 'No.', 'CÓDIGO', 'NOMBRE', 'ESTADO'];
+  tableHeaders: string[] = ['CÓDIGO', 'NOMBRE', 'ESTADO'];
 
   tableData: any[] = [];
 
   constructor(
     public dialog: MatDialog,
     private seasonsService: SeasonsService,
+    private route: ActivatedRoute,
+    private _snackBar: MatSnackBar,
   ) { }
 
   ngOnInit(): void {
-    this.tableData = this.seasonsService.getSeasons();
-    this.seasonsService.emitDataTable.subscribe((data: any) => {
-      this.tableData = this.seasonsService.getSeasons().slice();
+    this.route.data.subscribe((res:any) => {
+      this.tableData = res.seasonsResolver.dataTable;
+      this.tableHeaders = res.seasonsResolver.headers;
+    })
+
+    this.seasonsService.emitDataTable
+      .subscribe((res: any) => {
+        console.log(res)
+        this.tableData = res.data.dataTable;
+        this.tableHeaders = res.data.headers;
     })
   }
 
@@ -32,13 +43,17 @@ export class SeasonsComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
     let dialogRef = this.dialog.open(SeasonsFormComponent, dialogConfig);
-    dialogRef.componentInstance.dialogEmit.subscribe((result: any ) => {
-      result.data.id = this.seasonsService.tableData.length + 1;
-      result.data.code = this.seasonsService.tableData.length + 1;
-      this.seasonsService.addSeason(result.data);
+    dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
+
+      this.seasonsService.addSeason({'season': res.value}).subscribe((res:any) => {
+        if (res.status == 'created') {
+          this.openSnackBar('Añadido con Éxito', '', 1000, 'success-snack-bar');
+        } else {
+          this.openSnackBar('Error al añadir', '', 1000, 'error-snack-bar');
+        }
+      });
       dialogRef.close();
-    }) 
-    
+    })    
   }
 
   onEdit(row: any) {
@@ -49,14 +64,36 @@ export class SeasonsComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
     let dialogRef = this.dialog.open(SeasonsFormComponent, dialogConfig);
-    dialogRef.componentInstance.dialogEmit.subscribe((result: any ) => {
-      this.seasonsService.updateSeason(result);
+    dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
+      row.name = res.value.name;
+      row.description = res.value.description;
+      row.checkOption = res.value.checkOption;
+      this.seasonsService.updateSeason(row).subscribe((res:any) => {
+        if (res.status == 'updated') {
+          this.openSnackBar('Editado con éxito', '', 1000, 'success-snack-bar');
+        } else {
+          this.openSnackBar('Error al aditar', '', 1000, 'error-snack-bar');
+        }
+      });
       dialogRef.close();
     })
   }
   
-  onDelete(id: number) {
-    this.seasonsService.deleteSeason(id);
-    this.tableData = this.seasonsService.getSeasons().slice();
+  onDelete(row: any) {
+    this.seasonsService.deleteSeason(row).subscribe((res:any) => {
+      if (res.status) {
+        this.openSnackBar('Eliminado con éxito', '', 1000, 'success-snack-bar');
+      } else {
+        this.openSnackBar('Error al eliminar', '', 1000, 'error-snack-bar');
+      }
+    });
+  }
+
+  openSnackBar(message: string, action: string, duration: number, className: string) {
+    var panelClass = className;
+    this._snackBar.open(message, action, {
+      duration: duration,
+      panelClass: panelClass
+    });
   }
 }

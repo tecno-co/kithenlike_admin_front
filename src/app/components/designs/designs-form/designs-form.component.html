@@ -26,33 +26,53 @@
   </div><br/>
 
   <mat-form-field class="field">
-    <mat-chip-list #chipList >
-      <mat-chip *ngFor="let keyword of keywords" [selectable]="true"
-               [removable]="true" (removed)="remove(keyword)">
+    <mat-chip-list #keywordsList>
+      <mat-chip
+        *ngFor="let keyword of keywords"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="removeChipKeyword(keyword)">
         {{keyword}}
         <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
       </mat-chip>
-      <input placeholder="Palabras clave"[matChipInputFor]="chipList"
-             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             [matChipInputAddOnBlur]="true"
-             (matChipInputTokenEnd)="add($event)">
-    </mat-chip-list>                
+      <input
+        placeholder="Palabras clave"
+        #keywordsInput
+        [formControl]="keywordCtrl"
+        [matAutocomplete]="autoKeyword"
+        [matChipInputFor]="keywordsList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="addChipKeyword($event)">
+    </mat-chip-list>
+    <mat-autocomplete #autoKeyword="matAutocomplete" (optionSelected)="selectedKeyword($event)">
+      <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword">
+        {{keyword}}
+      </mat-option>
+    </mat-autocomplete>    
   </mat-form-field><br/>
 
 
   <mat-form-field class="field">
-    <mat-chip-list #chipList2 >
-      <mat-chip *ngFor="let season of seasons" [selectable]="true"
-               [removable]="true" (removed)="removeSeason(season)">
+    <mat-chip-list #seasonsList>
+      <mat-chip
+        *ngFor="let season of seasons"
+        [selectable]="true"
+        [removable]="true"
+        (removed)="removeChipSeason(season)">
         {{season}}
         <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
       </mat-chip>
-      <input placeholder="Temporadas"[matChipInputFor]="chipList2"
-             [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-             [matChipInputAddOnBlur]="true"
-             (matChipInputTokenEnd)="addSeason($event)">
+      <input
+        type="button"
+        placeholder="Temporadas"
+        #seasonsInput
+        [formControl]="seasonCtrl"
+        [matAutocomplete]="autoSeason"
+        [matChipInputFor]="seasonsList"
+        (matChipInputTokenEnd)="addChipSeason($event)"
+        (keydown.enter)="$event.preventDefault()">
     </mat-chip-list>
-    <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+    <mat-autocomplete #autoSeason="matAutocomplete" (optionSelected)="selectedSeason($event)">
       <mat-option *ngFor="let season of filteredSeasons | async" [value]="season">
         {{season}}
       </mat-option>
@@ -64,7 +84,7 @@
   <mat-slide-toggle  [(ngModel)]="status" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>
 </mat-dialog-content>
   <mat-dialog-actions align="end">
-    <button mat-button color="accent" mat-dialog-close (click)="cancel()">Cancel</button>
+    <button mat-button color="accent" mat-dialog-close>Cancel</button>
     <button mat-button color="accent" (click)="create()">Guardar</button>
   </mat-dialog-actions>
   

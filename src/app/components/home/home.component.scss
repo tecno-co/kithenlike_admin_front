@@ -1,6 +1,5 @@
 @use '/src/styles';
 
-
 .toolbar {
   position: fixed;
   z-index: 2;
@@ -22,10 +21,6 @@
   height: calc(100vh - 65px);
   overflow: auto;
   flex: 1;
-}
-
-.spacer {
-  flex: 1 1 auto;
 }
 
 .icon {

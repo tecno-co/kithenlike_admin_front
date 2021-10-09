@@ -14,25 +14,28 @@ import { map, startWith } from 'rxjs/operators';
 })
 export class DesignsFormComponent implements OnInit {
 
-  @ViewChild('seasonInput') seasonInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('seasonsInput') seasonInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('keywordsInput') keywordsInput!: ElementRef<HTMLInputElement>;
   @Output() dialogEmit: EventEmitter<any> = new EventEmitter();
   
   extendedImageName: any = null;
 
-  code: String = "";
-  name: String = "";
-  description: String = "";
-  img: String = '';
-  keywords: String[] = [];
+  code: string = "";
+  name: string = "";
+  description: string = "";
+  img: string = '';
+  keywords: string[] = [];
   seasons: string[] = [];
   status: boolean = true;
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
-
   seasonCtrl = new FormControl();
+  keywordCtrl = new FormControl();
   filteredSeasons!: Observable<string[]>;
+  filteredKeywords!: Observable<string[]>;
   allSeasons: string[] = ['navidad', 'dia de los niños', 'dia da la madre'];
+  allKeywords: string[] = ['oscuro', 'niños', 'madre'];
   
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -42,6 +45,11 @@ export class DesignsFormComponent implements OnInit {
     this.filteredSeasons = this.seasonCtrl.valueChanges.pipe (
       startWith(null),
       map((season: string | null) => season ? this._filter(season) : this.allSeasons.slice())
+    );
+
+    this.filteredKeywords = this.keywordCtrl.valueChanges.pipe (
+      startWith(null),
+      map((keyword: string | null) => keyword ? this._filter(keyword) : this.allKeywords.slice())
     );
 
     if (data != null) {
@@ -58,7 +66,7 @@ export class DesignsFormComponent implements OnInit {
 
   ngOnInit(): void {
   }
-
+        
   create() {
     
     if (this.extendedImageName != null){
@@ -76,27 +84,22 @@ export class DesignsFormComponent implements OnInit {
     this.dialogEmit.emit({mode: "create", data: inputData});
   }
 
-  cancel(){
-    this.dialogEmit.emit({mode: "cancel", data: null});
-  }
-
   onFileSelected(e: any) {
     this.extendedImageName = e.target.files[0].name;
   }
 
-  // Chips Component Methods
-  add(event: MatChipInputEvent): void {
+  addChipKeyword(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
     if (value) {
       this.keywords.push(value);
     }
     event.chipInput!.clear();
+    this.keywordCtrl.setValue(null);
   }
 
-  // Chips Component Methods
-  remove(keyword: String): void {
-    const index = this.keywords.indexOf(keyword);
+  removeChipKeyword(keywords: string): void {
+    const index = this.keywords.indexOf(keywords);
 
     if (index >= 0) {
       this.keywords.splice(index, 1);
@@ -104,7 +107,7 @@ export class DesignsFormComponent implements OnInit {
   }
 
 
-  addSeason(event: MatChipInputEvent): void {
+  addChipSeason(event: MatChipInputEvent): void {
     const value = (event.value || '').trim();
 
     // Add our fruit
@@ -118,14 +121,21 @@ export class DesignsFormComponent implements OnInit {
     this.seasonCtrl.setValue(null);
   }
 
-  removeSeason(season: string): void {
+  removeChipSeason(season: string): void {
     const index = this.seasons.indexOf(season);
 
     if (index >= 0) {
       this.seasons.splice(index, 1);
     }
   }
-  selected(event: MatAutocompleteSelectedEvent): void {
+  
+  selectedKeyword(event: MatAutocompleteSelectedEvent): void {
+    this.keywords.push(event.option.viewValue);
+    this.keywordsInput.nativeElement.value = '';
+    this.keywordCtrl.setValue(null);
+  }
+  
+  selectedSeason(event: MatAutocompleteSelectedEvent): void {
     this.seasons.push(event.option.viewValue);
     this.seasonInput.nativeElement.value = '';
     this.seasonCtrl.setValue(null);

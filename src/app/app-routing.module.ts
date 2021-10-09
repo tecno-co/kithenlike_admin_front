@@ -6,6 +6,8 @@ import { ResetComponent } from './components/reset/reset.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ThemesResolver } from './components/themes/guards/themes.resolver';
 import { AuthGuard } from './auth/auth.guard';
+import { KeywordsResolver } from './components/keywords/guards/keywords.resolver';
+import { SeasonsResolver } from './components/seasons/guards/seasons.resolver';
 
 const routes: Routes = [
   { 
@@ -48,14 +50,20 @@ const routes: Routes = [
   {
     path: 'temporadas',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./components/seasons/seasons.module').then(m => m.SeasonsModule) },
+    loadChildren: () => import('./components/seasons/seasons.module').then(m => m.SeasonsModule),
+    resolve: {seasonsResolver: SeasonsResolver}
+  },
   { 
     path: 'temas',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule),
     resolve: {themesResolver: ThemesResolver}
   },
-  { path: 'keywords', loadChildren: () => import('./components/keywords/keywords.module').then(m => m.KeywordsModule) },
+  { path: 'palabras-clave',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/keywords/keywords.module').then(m => m.KeywordsModule),
+    resolve: {keywordsResolver: KeywordsResolver}
+  },
 ] 
 
 @NgModule({

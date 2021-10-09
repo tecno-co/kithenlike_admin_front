@@ -22,6 +22,7 @@ import { SharedModule } from './components/shared/shared.module';
 import { MatButton } from '@angular/material/button';
 import { DesignsFormComponent } from './components/designs/designs-form/designs-form.component';
 import { SeasonsFormComponent } from './components/seasons/seasons-form/seasons-form.component';
+import { KeywordsFormComponent } from './components/keywords/keywords-form/keywords-form.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { SeasonsFormComponent } from './components/seasons/seasons-form/seasons-
     DashboardComponent,
     DesignsFormComponent,
     SeasonsFormComponent,
+    KeywordsFormComponent,
   ],
   imports: [
     BrowserModule,
