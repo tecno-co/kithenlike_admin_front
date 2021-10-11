@@ -1,4 +1,4 @@
-@use '/src/styles';
+@use '/src/assets/scss/variables';
 
 .container {
   height: 100%;
@@ -7,11 +7,11 @@
 .toolbar {
   position: fixed;
   z-index: 2;
-  height: styles.$toolbar-height;
+  height: variables.$toolbar-height;
 }
 
 .logo {
-  height: styles.$toolbar-height;
+  height: variables.$toolbar-height;
 }
 
 
@@ -20,7 +20,7 @@
 }
   
 .sidenav-container {
-  top: styles.$toolbar-height;
+  top: variables.$toolbar-height;
   height: 100vh;
   flex: 1;
 }

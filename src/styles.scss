@@ -1,6 +1,4 @@
-@use 'sass:map';
-@use './assets/scss/tecno-palette' as tecno;
-
+@use '/src/assets/scss/variables';
 // @import '~animate.css/animate.min';
 @import './assets/scss/menu';
 
@@ -11,12 +9,6 @@
 // $bg-menu-options: map.get(tecno.$grey-palette, 100);
 
 // General Variables
-$toolbar-height: 65px;
-
-$width-side-nav: 300px;
-$height-profile-container: 157px;
-$height-toolbar: 70px;
-
 
 // General Styles
 
@@ -64,8 +56,8 @@ body {
 }
 
 .profile-container {
-  width: $width-side-nav;
-  height: $height-profile-container;
+  width: variables.$width-side-nav;
+  height: variables.$height-profile-container;
   background-color: #efefef;
   position: relative;
   //background: url('/assets/images/doodle.jpg');
