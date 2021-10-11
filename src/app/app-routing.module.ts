@@ -8,6 +8,9 @@ import { ThemesResolver } from './components/themes/guards/themes.resolver';
 import { AuthGuard } from './auth/auth.guard';
 import { KeywordsResolver } from './components/keywords/guards/keywords.resolver';
 import { SeasonsResolver } from './components/seasons/guards/seasons.resolver';
+import { DesignsResolver } from './components/designs/guards/designs.resolver';
+import { KeywordsListResolver } from './components/designs/guards/keywords-list.resolver';
+import { SeasonsListResolver } from './components/designs/guards/seasons-list.resolver';
 
 const routes: Routes = [
   { 
@@ -41,6 +44,11 @@ const routes: Routes = [
     path: 'diseños',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/designs/designs.module').then(m => m.MasterBaseModule),
+    resolve: {
+      designsResolver: DesignsResolver,
+      keywordsListResolver: KeywordsListResolver,
+      seasonsListResolver: SeasonsListResolver
+      }
   },
   {
     path: 'ajustes',

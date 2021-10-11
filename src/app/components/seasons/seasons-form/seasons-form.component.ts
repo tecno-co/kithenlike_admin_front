@@ -29,9 +29,9 @@ export class SeasonsFormComponent implements OnInit {
     if (data != null) {
       this.seasonsForm = this.fb.group(
         {
-          name: this.data.name,
-          description: this.data.description,
-          checkOption:  this.data.checkOption,
+          name: data.name,
+          description: data.description,
+          checkOption:  data.checkOption,
         }
       )
     }

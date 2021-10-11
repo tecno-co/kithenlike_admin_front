@@ -5,18 +5,18 @@ import {
   ActivatedRouteSnapshot
 } from '@angular/router';
 import { Observable, of } from 'rxjs';
-import { DesignsService } from 'src/app/services/designs/designs.service';
+import { KeywordsService } from 'src/app/services/keywords/keywords.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class DesignsResolver implements Resolve<boolean> {
-  constructor(private designsService: DesignsService,) {}
+export class KeywordsListResolver implements Resolve<boolean> {
+  constructor(private keywordsService: KeywordsService,) {}
 
   resolve(
     route: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
     ): Observable<any> | Promise<any>|any{
-      return this.designsService.getDesigns();
+      return this.keywordsService.getKeywordList();
   }
 }

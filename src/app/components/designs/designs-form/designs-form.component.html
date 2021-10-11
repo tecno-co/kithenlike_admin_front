@@ -1,29 +1,30 @@
-<form #signInForm="ngForm" >
+<form [formGroup]="designsForm" enctype="multipart/form-data">
   <mat-dialog-content class="mat-typography dialog-container">
-  <mat-form-field class="field">
-    <input [disabled]="true" placeholder="Código" type="text" matInput name="Código" [(ngModel)]="code">
-  </mat-form-field><br/>
 
   <mat-form-field class="field">
     <mat-label>Nombre</mat-label>
-    <input type="text" matInput name="Nombre" [(ngModel)]="name">
+    <input type="text" matInput name="Nombre" formControlName="name">
   </mat-form-field><br/>
 
   <mat-form-field class="field">
     <mat-label>Descripción</mat-label>
-    <input type="text" matInput name="Descripción" [(ngModel)]="description">
+    <input type="text" matInput name="Descripción" formControlName="description">
   </mat-form-field><br/>
 
-  <input type="file" style="display: none;"
-       (change)="onFileSelected($event)" #fileUpload>
+  <input  #imageInput
+          type="file"
+          accept="image/*"
+          (change)="processFile($event)"
+          style="display: none;">
 
   <div class="file-upload">
       <button mat-mini-fab color="accent" style="margin-right: 5px;"
-        (click)="fileUpload.click()">
+        (click)="imageInput.click()">
           <mat-icon>attach_file</mat-icon>
       </button>
       {{extendedImageName || "No hay imagen todavia."}}
   </div><br/>
+
 
   <mat-form-field class="field">
     <mat-chip-list #keywordsList>
@@ -32,7 +33,7 @@
         [selectable]="true"
         [removable]="true"
         (removed)="removeChipKeyword(keyword)">
-        {{keyword}}
+        {{keyword.key_word_name}}
         <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
       </mat-chip>
       <input
@@ -44,13 +45,12 @@
         [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
         (matChipInputTokenEnd)="addChipKeyword($event)">
     </mat-chip-list>
-    <mat-autocomplete #autoKeyword="matAutocomplete" (optionSelected)="selectedKeyword($event)">
-      <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword">
+    <mat-autocomplete #autoKeyword="matAutocomplete">
+      <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword" (click)="selectedKeyword(keyword)">
         {{keyword}}
       </mat-option>
     </mat-autocomplete>    
   </mat-form-field><br/>
-
 
   <mat-form-field class="field">
     <mat-chip-list #seasonsList>
@@ -59,29 +59,27 @@
         [selectable]="true"
         [removable]="true"
         (removed)="removeChipSeason(season)">
-        {{season}}
+        {{season.season_name}}
         <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
       </mat-chip>
       <input
-        type="button"
         placeholder="Temporadas"
         #seasonsInput
         [formControl]="seasonCtrl"
         [matAutocomplete]="autoSeason"
         [matChipInputFor]="seasonsList"
-        (matChipInputTokenEnd)="addChipSeason($event)"
-        (keydown.enter)="$event.preventDefault()">
+        (matChipInputTokenEnd)="addChipSeason($event)">
     </mat-chip-list>
-    <mat-autocomplete #autoSeason="matAutocomplete" (optionSelected)="selectedSeason($event)">
-      <mat-option *ngFor="let season of filteredSeasons | async" [value]="season">
-        {{season}}
+    <mat-autocomplete #autoSeason="matAutocomplete">
+      <mat-option *ngFor="let season of filteredSeasons | async" [value]="season" (click)="selectedSeason(season)">
+        {{season.name}}
       </mat-option>
     </mat-autocomplete>              
   </mat-form-field><br/>
 
 
   <mat-label>Estado</mat-label><br/>
-  <mat-slide-toggle  [(ngModel)]="status" [ngModelOptions]="{standalone: true}"></mat-slide-toggle>
+  <mat-slide-toggle formControlName="checkOption"></mat-slide-toggle>
 </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button color="accent" mat-dialog-close>Cancel</button>

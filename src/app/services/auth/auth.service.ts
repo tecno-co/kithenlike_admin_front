@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, share, tap } from 'rxjs/operators';
@@ -13,6 +13,8 @@ export class AuthService {
 
   private authData!: AuthData;
   
+  private isAuth?: boolean = false;
+
   private readonly API = environment.API;
 
   constructor(
@@ -45,6 +47,7 @@ export class AuthService {
         }
 
         this.setAuthData(resAuthData);
+        this.isAuth = true;
         this.router.navigate(['/home']);
         
       }));
@@ -57,11 +60,12 @@ export class AuthService {
     return this.http.delete<ResponseData>(this.API + '/auth/sign_out', httpOptions)
       .pipe(
         finalize(() => {
-            localStorage.removeItem('accessToken');
-            localStorage.removeItem('client');
-            localStorage.removeItem('expiry');
-            localStorage.removeItem('tokenType');
-            localStorage.removeItem('uid');
+            sessionStorage.removeItem('accessToken');
+            sessionStorage.removeItem('client');
+            sessionStorage.removeItem('expiry');
+            sessionStorage.removeItem('tokenType');
+            sessionStorage.removeItem('uid');
+            this.isAuth = false;
             this.router.navigate(['/login']);
           }
         )
@@ -70,30 +74,31 @@ export class AuthService {
 
   getAuthData(): AuthData{
     const authData: AuthData = {
-      accessToken: localStorage.getItem('accessToken')!,
-      client: localStorage.getItem('client')!,
-      expiry: localStorage.getItem('expiry')!,
-      tokenType: localStorage.getItem('tokenType')!,
-      uid: localStorage.getItem('uid')!
+      accessToken: sessionStorage.getItem('accessToken')!,
+      client: sessionStorage.getItem('client')!,
+      expiry: sessionStorage.getItem('expiry')!,
+      tokenType: sessionStorage.getItem('tokenType')!,
+      uid: sessionStorage.getItem('uid')!
     }
     this.authData = authData;
     return this.authData;
   }
 
   setAuthData(authData: AuthData) {
-    localStorage.setItem('accessToken', authData.accessToken);
-    localStorage.setItem('client', authData.client);
-    localStorage.setItem('uid', authData.uid);
+    sessionStorage.setItem('accessToken', authData.accessToken);
+    sessionStorage.setItem('client', authData.client);
+    sessionStorage.setItem('uid', authData.uid);
   }
 
-  isAuthenticated() {
-
-    let token = localStorage.getItem('accessToken');
+   isAuthenticated() {
+    // this.validateToken();
+    let token = sessionStorage.getItem('accessToken')
 
     if (token) {
       return true;
+    } else {
+      return false;
     }
-    return false;
   }
 
   validateToken() {
@@ -101,9 +106,14 @@ export class AuthService {
     let httpOptions = this.reqOptions();
 
     return this.http.get<ResponseData>(this.API + '/auth/validate_token', httpOptions)
-      .pipe().subscribe(
-        (res) => console.log(res),
-        (error) => this.signOut());
+      .pipe(share()).subscribe(
+        (res) => {
+          this.isAuth = true
+        },
+        (error) => {
+          this.isAuth = false,
+          this.signOut()
+        });
   }
   
 }

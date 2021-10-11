@@ -9,8 +9,11 @@ import { AuthService } from './services/auth/auth.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
+  title(title: any) {
+    throw new Error('Method not implemented.');
+  }
   
-  isLogged: boolean = false;
+  isAuthenticated: boolean = false;
 
   public theme: boolean;
 
@@ -19,23 +22,17 @@ export class AppComponent {
     private authService: AuthService
     ) {
       router.events.forEach((event) => {
-        this.isLogged = this.authService.isAuthenticated();
+        this.isAuthenticated = this.authService.isAuthenticated();
       });
+      
       this.theme = localStorage.getItem('theme') == 'true';
   }
 
   onInit(){
-    window.onbeforeunload = () => {
-      localStorage.clear();
-    }
   }
 
   toggleTheme(t: boolean) {
     this.theme = localStorage.getItem('theme') == 'true';
   }
 
-  @HostListener('window:unload')
-  setToSession(): void {
-    this.authService.signOut;
-  }
 }

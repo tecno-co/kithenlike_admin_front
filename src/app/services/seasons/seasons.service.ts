@@ -26,7 +26,6 @@ export class SeasonsService {
   }
 
   addSeason(season: any) {
-    console.log(season);
     let httpOptions = this.authService.reqOptions();
     return this.http.post<TableData>(`${this.API}/seasons`, season, httpOptions)
     .pipe(
@@ -37,7 +36,6 @@ export class SeasonsService {
   }
 
   updateSeason(season: any) {
-    console.log(season);
     let httpOptions = this.authService.reqOptions();
     return this.http.put<any>(`${this.API}/seasons/${season.idForOptions}`, season, httpOptions)
     .pipe(

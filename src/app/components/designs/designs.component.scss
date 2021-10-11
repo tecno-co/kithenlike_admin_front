@@ -24,10 +24,10 @@
 
 .image {
   border-radius: 20px;
-  position: absolute;
-  top: 50%;
+  position: fixed;
   left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translate(-50%);
   width: 30%;
+  bottom: 100px;
 }
 

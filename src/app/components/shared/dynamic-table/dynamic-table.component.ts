@@ -1,8 +1,7 @@
-import { ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { COMMA, ENTER}  from '@angular/cdk/keycodes';
 import { MatPaginator } from '@angular/material/paginator';
-import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
@@ -16,14 +15,14 @@ import { DesignsService } from 'src/app/services/designs/designs.service';
 })
 export class DynamicTableComponent implements OnInit {
     
-  @ViewChild(MatSort, { static: true }) sort!: MatSort;
+  // @ViewChild(MatSort, { static: true }) sort!: MatSort;
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
 
   @Input("headers") tableHeaders: string[] = [];
   @Input("data") tableData!: any[];
   @Input("filter") filter: boolean = false;
 
-  @Output() image: EventEmitter<String> = new EventEmitter();
+  @Output() image: EventEmitter<string> = new EventEmitter();
   @Output() emitAdd: EventEmitter<number> = new EventEmitter();
   @Output() emitEdit: EventEmitter<number> = new EventEmitter();
   @Output() emitDelete: EventEmitter<any> = new EventEmitter();
@@ -50,16 +49,18 @@ export class DynamicTableComponent implements OnInit {
     // Add column options menu
     // this.tableCols.push('optionsMenu');
 
-    this.dataSource.sort = this.sort;
+    //this.dataSource.sort = this.sort;
+     
     this.dataSource.paginator = this.paginator;
   }
 
   ngOnChanges(changes: SimpleChanges) {
     this.dataSource.data = this.tableData;
+    this.dataSource.paginator = this.paginator;
   }
   
   // Sends path of image in table
-  onSelectImage(path: String) {
+  onSelectImage(path: string) {
     this.image.emit(path);
   }
 
@@ -138,5 +139,18 @@ export class DynamicTableComponent implements OnInit {
 
       }
     }  
-  }  
+  }
+
+
+  keywordsName(keywords: any[]){
+    let names: any[] = [];
+    keywords.map((data: any) => names.push(' ' + data.key_word_name))
+    return names
+  }
+
+  seasonsName(keywords: any[]){
+    let names: any[] = [];
+    keywords.map((data: any) => names.push(' ' + data.season_name))
+    return names
+  }
 }

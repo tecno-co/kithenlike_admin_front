@@ -63,14 +63,27 @@ export class KeywordsComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
     let dialogRef = this.dialog.open(KeywordsFormComponent, dialogConfig);
-    dialogRef.componentInstance.dialogEmit.subscribe((result: any ) => {
-      this.keywordsService.updateKeyword(result);
+    dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
+      row.name = res.value.name;
+      this.keywordsService.updateKeyword(row).subscribe((res:any) => {
+        if (res.status == 'updated') {
+          this.openSnackBar('Editado con éxito', '', 1000, 'success-snack-bar');
+        } else {
+          this.openSnackBar('Error al editar', '', 1000, 'error-snack-bar');
+        }
+      });
       dialogRef.close();
     })
   }
   
-  onDelete(id: number) {
-    this.keywordsService.deleteKeyword(id);
+  onDelete(row: any) {
+    this.keywordsService.deleteKeyword(row).subscribe((res:any) => {
+      if (res.status) {
+        this.openSnackBar('Eliminado con éxito', '', 1000, 'success-snack-bar');
+      } else {
+        this.openSnackBar('Error al eliminar', '', 1000, 'error-snack-bar');
+      }
+    });
   }
 
   openSnackBar(message: string, action: string, duration: number, className: string) {

@@ -1,11 +1,16 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ThrowStmt } from '@angular/compiler';
 import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { KeywordsService } from 'src/app/services/keywords/keywords.service';
+import { SeasonsService } from 'src/app/services/seasons/seasons.service';
 
 @Component({
   selector: 'app-designs-form',
@@ -19,80 +24,112 @@ export class DesignsFormComponent implements OnInit {
   @Output() dialogEmit: EventEmitter<any> = new EventEmitter();
   
   extendedImageName: any = null;
+  
+  image: any = '';
+  keywords: any[] = [];
+  seasons: any[] = [];
 
-  code: string = "";
-  name: string = "";
-  description: string = "";
-  img: string = '';
-  keywords: string[] = [];
-  seasons: string[] = [];
-  status: boolean = true;
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
+  designsForm: FormGroup;
+
   seasonCtrl = new FormControl();
   keywordCtrl = new FormControl();
-  filteredSeasons!: Observable<string[]>;
+  filteredSeasons!: Observable<any[]>;
   filteredKeywords!: Observable<string[]>;
-  allSeasons: string[] = ['navidad', 'dia de los niños', 'dia da la madre'];
-  allKeywords: string[] = ['oscuro', 'niños', 'madre'];
+  allSeasons: any[] = [];
+  allKeywords: string[] = [];
   
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DesignsFormComponent>,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private keywordsService: KeywordsService,
+    private seasonsService: SeasonsService,
+    private _snackBar: MatSnackBar,
   ) {
+
     this.filteredSeasons = this.seasonCtrl.valueChanges.pipe (
       startWith(null),
-      map((season: string | null) => season ? this._filter(season) : this.allSeasons.slice())
+      map((season: string | null) => season ? this.filterSeasons(season) : this.allSeasons.slice())
     );
 
     this.filteredKeywords = this.keywordCtrl.valueChanges.pipe (
       startWith(null),
-      map((keyword: string | null) => keyword ? this._filter(keyword) : this.allKeywords.slice())
+      map((keyword: string | null) => keyword ? this.filterKeywords(keyword) : this.allKeywords.slice())
     );
 
-    if (data != null) {
-      this.code = this.data.code;
-      this.name = this.data.name;
-      this.img = this.data.img;
-      this.extendedImageName = this.data.img.slice(14,this.data.img.length);
-      this.description = this.data.description;
-      this.keywords = this.data.keywords;
-      this.seasons = this.data.seasons;
-      this.status = this.data.status;
+    this.designsForm = new FormGroup({
+      code: new FormControl(''),
+      name: new FormControl(''),
+      description: new FormControl(''),
+      image: new FormControl(''),
+      key_words: new FormControl(''),
+      seasons: new FormControl(''),
+      checkOption: new FormControl(''),
+    })
+
+    if (data.mode == 'edit') {
+
+      if (data.image.original != null) {
+        let name = (data.image.original.split('/'));
+        this.extendedImageName = name[name.length-1];
+      }
+      console.log(data)
+      this.keywords = data.key_words;
+      this.seasons = data.seasons;
+
+      this.designsForm = this.fb.group({
+        code: data.code,
+        name: data.name,
+        description: data.description,
+        image: data.image,
+        key_words: '',
+        seasons: '',
+        checkOption: data.checkOption,
+        idForOptions: data.idForOptions,
+      })
     } 
+
   }
 
   ngOnInit(): void {
+    this.allKeywords = this.data.keywordsList;
+    this.allSeasons = this.data.seasonsList;
   }
         
   create() {
     
-    if (this.extendedImageName != null){
-      this.img = 'assets/images/' + this.extendedImageName;
-    }
-    const inputData = {
-      id: this.code,
-      code: this.code,
-      name: this.name,
-      description: this.description,
-      img: this.img,
-      keywords: this.keywords,
-      seasons: this.seasons,
-      status: this.status}
-    this.dialogEmit.emit({mode: "create", data: inputData});
+    let newSeasons = '';
+    this.seasons.map(s => newSeasons == '' ? newSeasons = newSeasons + s.design_season_id : newSeasons = newSeasons + ', ' + s.design_season_id);
+    
+    let newKeywords = '';
+    this.keywords.map(k => newKeywords == '' ? newKeywords = newKeywords + k.key_word_name: newKeywords = newKeywords + ', ' + k.key_word_name);
+
+    this.designsForm.patchValue({
+      key_words: newKeywords,
+      seasons: newSeasons
+   })
+
+    this.dialogEmit.emit(this.designsForm);
   }
 
-  onFileSelected(e: any) {
-    this.extendedImageName = e.target.files[0].name;
+  processFile(imageInput: any) {
+    const file: File = imageInput.target.files[0];
+    this.extendedImageName = file.name;
+
+    this.designsForm.patchValue({
+       image: file
+    })    
   }
 
   addChipKeyword(event: MatChipInputEvent): void {
+    console.log(this.keywords)
     const value = (event.value || '').trim();
 
     if (value) {
-      this.keywords.push(value);
+      this.keywords.push({"key_word_name": value});
     }
     event.chipInput!.clear();
     this.keywordCtrl.setValue(null);
@@ -108,17 +145,18 @@ export class DesignsFormComponent implements OnInit {
 
 
   addChipSeason(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    this.openSnackBar('Seleccione una opción de la lista', '', 1000, 'error-snack-bar');
+  //   const value = (event.value || '').trim();
 
-    // Add our fruit
-    if (value) {
-      this.seasons.push(value);
-    }
+  //   // Add our fruit
+  //   if (value) {
+  //     this.seasons.push({"season_name": value});
+  //   }
 
-    // Clear the input value
-    event.chipInput!.clear();
+  //   // Clear the input value
+  //   event.chipInput!.clear();
 
-    this.seasonCtrl.setValue(null);
+  //   this.seasonCtrl.setValue(null);
   }
 
   removeChipSeason(season: string): void {
@@ -129,20 +167,47 @@ export class DesignsFormComponent implements OnInit {
     }
   }
   
-  selectedKeyword(event: MatAutocompleteSelectedEvent): void {
-    this.keywords.push(event.option.viewValue);
+  selectedKeyword(event: string): void {
+    console.log(this.keywords)
+    this.keywords.push({"key_word_name": event});
     this.keywordsInput.nativeElement.value = '';
     this.keywordCtrl.setValue(null);
   }
   
-  selectedSeason(event: MatAutocompleteSelectedEvent): void {
-    this.seasons.push(event.option.viewValue);
+  selectedSeason(event: any): void {
+    console.log(this.seasons);
+    let newSeasson = {"design_season_id": event.id, "season_name": event.name};
+    let exists: boolean = false;
+    this.seasons.map(s => s.season_name == newSeasson.season_name ? exists = true : exists = false)
+    if (!exists){ 
+      this.seasons.push({"design_season_id": event.id, "season_name": event.name});
+    }
     this.seasonInput.nativeElement.value = '';
     this.seasonCtrl.setValue(null);
+    this.filteredSeasons = this.seasonCtrl.valueChanges.pipe (
+      startWith(null),
+      map((season: string | null) => season ? this.filterSeasons(season) : this.allSeasons.slice())
+    );
   }
 
-  private _filter(value: string): string[] {
+  private filterSeasons(value: string): any[] {
+    var filterValue: any = '';
+    if (typeof(value) == 'string'){
+      filterValue = value.toLowerCase();      
+    }
+    return this.allSeasons.filter(season => season.name.toLowerCase().includes(filterValue))
+  }
+
+  private filterKeywords(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.allSeasons.filter(season => season.toLowerCase().includes(filterValue));
+    return this.allKeywords.filter(keyword => keyword.toLowerCase().includes(filterValue));
+  }
+
+  openSnackBar(message: string, action: string, duration: number, className: string) {
+    var panelClass = className;
+    this._snackBar.open(message, action, {
+      duration: duration,
+      panelClass: panelClass
+    });
   }
 }
