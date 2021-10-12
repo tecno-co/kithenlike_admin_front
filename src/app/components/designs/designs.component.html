@@ -4,6 +4,8 @@
   <div class="master-container">
 
     <app-dynamic-table class="table-container"
+      [seasons]="allSeasons"
+      [keywords]="allKeywords"
       [data]="tableData"
       [headers]="tableHeaders"
       [filter]="true"
