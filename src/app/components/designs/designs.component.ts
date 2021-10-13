@@ -86,12 +86,15 @@ export class DesignsComponent implements OnInit {
     dialogConfig.data.mode = 'edit';
     let dialogRef = this.dialog.open(DesignsFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
-      this.designsService.updateDesign(res.value).subscribe((res:any) => {
+      this.designsService.updateDesign(res.value).subscribe((res: any) => {
         if (res.status == 'updated') {
           this.openSnackBar('Editado con éxito', '', 1000, 'success-snack-bar');
         } else {
-          this.openSnackBar('Error al aditar', '', 1000, 'error-snack-bar');
+          this.openSnackBar('Error al editar', '', 1000, 'error-snack-bar');
         }
+      },
+      (error: any ) => {
+        this.openSnackBar('Error al editar', '', 1000, 'error-snack-bar');
       });
       dialogRef.close();
     })

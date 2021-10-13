@@ -4,12 +4,26 @@
     <div class="field-container">
       <mat-form-field appearance="standard" class="field">
         <mat-label>Filtro palabras clave</mat-label>
-        <input matInput [formControl]="filterKeywords">
+        <input matInput [formControl]="filterKeywords" [matAutocomplete]="autoKeyword">
+        
+        <mat-autocomplete #autoKeyword="matAutocomplete">
+          <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword">
+            {{keyword}}
+          </mat-option>
+        </mat-autocomplete>   
+        
       </mat-form-field>
 
       <mat-form-field appearance="standard" class="field">
         <mat-label>Filtro temporadas</mat-label>
-        <input matInput [formControl]="filterSeasons">
+        <input matInput [formControl]="filterSeasons" [matAutocomplete]="autoSeason">
+        
+        <mat-autocomplete #autoSeason="matAutocomplete">
+          <mat-option *ngFor="let season of filteredSeasons | async" [value]="season.name">
+            {{season.name}}
+          </mat-option>
+        </mat-autocomplete>
+
       </mat-form-field>
     </div>
     <div>
@@ -18,11 +32,11 @@
     </div>
   </div>
 
-  <table mat-table matSort matSortActive="col1" [dataSource]="dataSource" class="mat-elevation-z1">
+  <table mat-table [dataSource]="dataSource" class="mat-elevation-z1">
 
     <ng-container *ngFor="let col of tableCols; index as i" matColumnDef="{{ col }}">
 
-        <th mat-header-cell mat-sort-header *matHeaderCellDef> {{ tableHeaders[i] }}</th>
+        <th mat-header-cell *matHeaderCellDef> {{ tableHeaders[i] }}</th>
 
 
         <div [ngSwitch]="col">
@@ -111,7 +125,7 @@
     <tr mat-header-row *matHeaderRowDef="tableCols" style="margin: 0 auto;"></tr>
     <tr mat-row *matRowDef="let row; columns: tableCols"></tr>
   </table>
-  <!-- <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [length]="1" [pageSize]="10"> </mat-paginator> -->
+  <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons [pageSize]="10"> </mat-paginator>
 </div>
 <button mat-fab color="accent" class="btn-new mat-elevation-z2 add" (click)="onAdd()">
   <mat-icon style="color: withe;" >add</mat-icon>

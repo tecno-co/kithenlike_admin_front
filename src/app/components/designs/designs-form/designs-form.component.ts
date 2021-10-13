@@ -76,7 +76,6 @@ export class DesignsFormComponent implements OnInit {
         let name = (data.image.original.split('/'));
         this.extendedImageName = name[name.length-1];
       }
-      console.log(data)
       this.keywords = data.key_words;
       this.seasons = data.seasons;
 
