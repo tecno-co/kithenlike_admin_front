@@ -16,7 +16,9 @@ import { map, startWith } from 'rxjs/operators';
   styleUrls: ['./dynamic-table.component.scss']
 })
 export class DynamicTableComponent implements OnInit {
-    
+  
+  render = true;
+
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   filteredSeasons!: Observable<any[]>;
@@ -101,6 +103,10 @@ export class DynamicTableComponent implements OnInit {
   onEdit(row: any) {
     this.emitEdit.emit(row);
   }
+  
+  onStatusChange(row : any) {
+    // this.emit
+  }
 
   onDelete(theme: any) {
     this.emitDelete.emit(theme);
@@ -122,7 +128,7 @@ export class DynamicTableComponent implements OnInit {
     });
   }
 
-  clearFilter(){
+  clearFilter() {
     this.filterKeywords.reset();
     this.filterSeasons.reset();
     this.dataSource.data = this.tableData;
@@ -147,15 +153,19 @@ export class DynamicTableComponent implements OnInit {
   }
 
 
-  keywordsName(keywords: any[]){
+  keywordsName(keywords: any[]) {
     let names: any[] = [];
-    keywords.map((data: any) => names.push(' ' + data.key_word_name))
+    if (keywords != null) {
+      keywords.map((data: any) => names.push(' ' + data.key_word_name))
+    }    
     return names
   }
 
-  seasonsName(keywords: any[]){
+  seasonsName(seasons: any[]) {
     let names: any[] = [];
-    keywords.map((data: any) => names.push(' ' + data.season_name))
+    if (seasons != null) {
+      seasons.map((data: any) => names.push(' ' + data.season_name))
+    }
     return names
   }
 
@@ -166,7 +176,7 @@ export class DynamicTableComponent implements OnInit {
 
   filtersSeasons(value: string): any[] {
     var filterValue: any = '';
-    if (typeof(value) == 'string'){
+    if (typeof(value) == 'string') {
       filterValue = value.toLowerCase();      
     }
     return this.allSeasons.filter(season => season.name.toLowerCase().includes(filterValue))

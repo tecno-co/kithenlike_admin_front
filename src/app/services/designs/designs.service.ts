@@ -16,7 +16,6 @@ export class DesignsService {
 
   emitDataTable = new EventEmitter<any>();
 
-
   constructor(
     private http: HttpClient,
     private authService: AuthService
@@ -32,14 +31,15 @@ export class DesignsService {
     let httpOptions: any = this.authService.reqOptions();
     let designFormData = new FormData();
     
-    // let keywords = 
-
-    designFormData.append('design[image]', design.image);
     designFormData.append('design[name]', design.name);
     designFormData.append('design[description]', design.description);
     designFormData.append('design[key_words]', design.key_words);
     designFormData.append('design[seasons]', design.seasons);
+    designFormData.append('design[is_active]', design.isActive);
 
+    if (design.image.original != undefined) {
+      designFormData.append('design[image]', design.image);
+    }
 
     return this.http.post<any>(`${this.API}/designs`, designFormData, httpOptions)
     .pipe(
@@ -58,9 +58,10 @@ export class DesignsService {
     designFormData.append('design[description]', design.description); 
     designFormData.append('design[key_words]', design.key_words);
     designFormData.append('design[seasons]', design.seasons);
+    designFormData.append('design[is_active]', design.isActive);
 
-    console.log(design.image);
-    if (!design.image.original) {
+    let noImage = !(design.image.original || design.image.original == null);
+    if (noImage) {
       designFormData.append('design[image]', design.image);
     }
 

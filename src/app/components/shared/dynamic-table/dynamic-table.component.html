@@ -1,4 +1,4 @@
-<div *ngIf="true" class="container">
+<div *ngIf="render" class="container">
 
   <div *ngIf="filter" class="filters-row">
     <div class="field-container">
@@ -44,7 +44,7 @@
           <div *ngSwitchCase="col == 'status' || col == 'is_active' || col == 'checkOption' ? col: ''">
             <td mat-cell *matCellDef="let item">
 
-              <mat-slide-toggle [checked]="item[col]"></mat-slide-toggle>
+              <mat-slide-toggle [checked]="item[col]" (change)="item[col] = !item[col]; onStatusChange(item)"></mat-slide-toggle>
 
             </td>
           </div>
@@ -71,9 +71,9 @@
 
           <div *ngSwitchCase="'key_words'">
             <td mat-cell *matCellDef="let item">
-              <div class="column-circle center" [ngStyle]="{'background-color': item[col].length == 0 ? 'red': 'green' }"
+              <div class="column-circle center" [ngStyle]="{'background-color': item[col]?.length ? 'green': 'red'}"
                    matTooltip="{{keywordsName(item[col])}}" matTooltipPosition="right" matTooltipClass="tooltip" >
-                {{item[col].length}}
+                {{item[col]?.length || 0}}
               </div>
 
             </td>
@@ -81,9 +81,9 @@
 
           <div *ngSwitchCase="'seasons'">
             <td mat-cell *matCellDef="let item">
-              <div class="column-circle center" [ngStyle]="{'background-color': item[col].length == 0 ? 'red': 'green' }"
+              <div class="column-circle center" [ngStyle]="{'background-color': item[col]?.length ? 'green': 'red'}"
                    matTooltip="{{seasonsName(item[col])}}" matTooltipPosition="right" matTooltipClass="tooltip" >
-                {{item[col].length}}
+                {{item[col]?.length || 0}}
               </div>
 
             </td>

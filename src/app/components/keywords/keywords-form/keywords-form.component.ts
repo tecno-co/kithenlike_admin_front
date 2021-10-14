@@ -20,16 +20,16 @@ export class KeywordsFormComponent implements OnInit {
 
     this.keywordsForm = new FormGroup({
       name: new FormControl(''),
-      description: new FormControl(''),
-      checkOption:  new FormControl(''),
+      is_active:  new FormControl(true),
+      idForOptions: new FormControl(''),
     });
 
     if (data != null) {
       this.keywordsForm = this.fb.group(
         {
           name: this.data.name,
-          description: this.data.description,
-          checkOption:  this.data.checkOption,
+          is_active:  this.data.checkOption,
+          idForOptions: this.data.idForOptions,
         }
       )
     }
@@ -39,6 +39,7 @@ export class KeywordsFormComponent implements OnInit {
   }
 
   create() {
+    this.keywordsForm.controls['name'].setValue(' ' + this.keywordsForm.controls['name'].value);
     this.dialogEmit.emit(this.keywordsForm);
   }
 }

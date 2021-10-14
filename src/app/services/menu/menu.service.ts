@@ -58,7 +58,6 @@ export class MenuService {
     return this.http.get<Menu[]>(`${this.API}`)
       .pipe(
         tap((data: any) => this._menu = data)
-        // tap(console.log)
       );
   }
 

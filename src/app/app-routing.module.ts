@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core';
-import { RouterModule, Routes } from '@angular/router';
+import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
 import { ResetComponent } from './components/reset/reset.component';
@@ -31,17 +31,17 @@ const routes: Routes = [
     component: ResetComponent
   },
   { 
-    path: 'dashboard',
+    path: 'home',
     canActivate: [AuthGuard],
     component: DashboardComponent
   },
   { 
-    path: 'home',
+    path: 'app',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule)
   },
   {
-    path: 'diseños',
+    path: 'designs',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/designs/designs.module').then(m => m.MasterBaseModule),
     resolve: {
@@ -51,23 +51,23 @@ const routes: Routes = [
       }
   },
   {
-    path: 'ajustes',
+    path: 'settings',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/settings/settings.module').then(m => m.SettingsModule)
   },
   {
-    path: 'temporadas',
+    path: 'seasons',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/seasons/seasons.module').then(m => m.SeasonsModule),
     resolve: {seasonsResolver: SeasonsResolver}
   },
   { 
-    path: 'temas',
+    path: 'themes',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule),
     resolve: {themesResolver: ThemesResolver}
   },
-  { path: 'palabras-clave',
+  { path: 'keywords',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/keywords/keywords.module').then(m => m.KeywordsModule),
     resolve: {keywordsResolver: KeywordsResolver}
@@ -75,7 +75,13 @@ const routes: Routes = [
 ] 
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(
+    routes,
+    {
+      relativeLinkResolution: 'legacy',
+      useHash: true,
+      preloadingStrategy: PreloadAllModules
+    })],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }

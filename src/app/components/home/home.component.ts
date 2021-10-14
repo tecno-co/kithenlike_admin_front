@@ -20,7 +20,7 @@ export class HomeComponent implements OnInit {
     private authService: AuthService
   ) {
     this.currentTheme = localStorage.getItem('theme') == 'true';
-    this.router.navigate(['/dashboard']);    
+    this.router.navigate(['/home']);
   }
 
   ngOnInit(): void {

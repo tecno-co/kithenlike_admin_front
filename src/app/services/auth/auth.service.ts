@@ -1,7 +1,8 @@
+import { C } from '@angular/cdk/keycodes';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, share, tap } from 'rxjs/operators';
 import { AuthData, LoginData, ResponseData } from 'src/app/models/auth/auth';
 import { environment } from 'src/environments/environment';
@@ -11,9 +12,11 @@ import { environment } from 'src/environments/environment';
 })
 export class AuthService {
 
+  private expirationTime: number = 600000; // milisegundos
+
   private authData!: AuthData;
-  
-  private isAuth?: boolean = false;
+
+  private isAuth: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private readonly API = environment.API;
 
@@ -25,6 +28,11 @@ export class AuthService {
 
   reqOptions(){
     let currentData = this.getAuthData();
+
+    if (!this.hasExpired()) {
+      this.setExpiration();
+      console.log('Can extend session');
+    }
 
     return {
       headers: new HttpHeaders({
@@ -47,26 +55,32 @@ export class AuthService {
         }
 
         this.setAuthData(resAuthData);
-        this.isAuth = true;
+        this.isAuth.next(true);
         this.router.navigate(['/home']);
-        
+        this.setExpiration();
       }));
   }
 
   signOut() {
 
-    let httpOptions = this.reqOptions();
-
+    let currentData = this.getAuthData();
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'access-token': currentData.accessToken,
+        'client': currentData.client,
+        'uid': currentData.uid
+      })
+    }
+    this.router.navigate(['/login']);
+    
     return this.http.delete<ResponseData>(this.API + '/auth/sign_out', httpOptions)
       .pipe(
         finalize(() => {
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('client');
-            sessionStorage.removeItem('expiry');
-            sessionStorage.removeItem('tokenType');
-            sessionStorage.removeItem('uid');
-            this.isAuth = false;
-            this.router.navigate(['/login']);
+          localStorage.removeItem('accessToken');
+          localStorage.removeItem('client');
+          localStorage.removeItem('uid');
+          localStorage.removeItem('expiration');
+          this.isAuth.next(false);
           }
         )
       );
@@ -74,31 +88,31 @@ export class AuthService {
 
   getAuthData(): AuthData{
     const authData: AuthData = {
-      accessToken: sessionStorage.getItem('accessToken')!,
-      client: sessionStorage.getItem('client')!,
-      expiry: sessionStorage.getItem('expiry')!,
-      tokenType: sessionStorage.getItem('tokenType')!,
-      uid: sessionStorage.getItem('uid')!
+      accessToken: localStorage.getItem('accessToken')!,
+      client: localStorage.getItem('client')!,
+      uid: localStorage.getItem('uid')!
     }
     this.authData = authData;
     return this.authData;
   }
 
   setAuthData(authData: AuthData) {
-    sessionStorage.setItem('accessToken', authData.accessToken);
-    sessionStorage.setItem('client', authData.client);
-    sessionStorage.setItem('uid', authData.uid);
+    localStorage.setItem('accessToken', authData.accessToken);
+    localStorage.setItem('client', authData.client);
+    localStorage.setItem('uid', authData.uid);
   }
 
    isAuthenticated() {
-    // this.validateToken();
-    let token = sessionStorage.getItem('accessToken')
 
-    if (token) {
-      return true;
+    if (!this.hasExpired()) {
+      this.setExpiration();
+      this.isAuth.next(true);
     } else {
-      return false;
+      this.signOut();
+      this.isAuth.next(false);
     }
+
+    return this.isAuth.asObservable();
   }
 
   validateToken() {
@@ -108,12 +122,34 @@ export class AuthService {
     return this.http.get<ResponseData>(this.API + '/auth/validate_token', httpOptions)
       .pipe(share()).subscribe(
         (res) => {
-          this.isAuth = true
+          this.isAuth.next(true);
         },
         (error) => {
-          this.isAuth = false,
+          this.isAuth.next(false);
           this.signOut()
         });
   }
-  
+
+  setExpiration(time = this.expirationTime) {
+    let now = new Date()
+    localStorage.setItem('expiration', JSON.stringify(now.getTime() + time));
+  }
+
+  hasExpired() {
+    const expirationStr = localStorage.getItem('expiration');
+
+    if (!expirationStr) {
+      return true;
+    }
+
+    const expiration = JSON.parse(expirationStr);
+		const now = new Date();
+
+    if (now.getTime() > expiration) {
+      this.signOut();
+      return true;
+    }
+    
+    return false;
+  }
 }

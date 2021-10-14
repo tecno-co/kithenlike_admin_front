@@ -1,5 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { NavigationStart, Router } from '@angular/router';
+import { Observable } from 'rxjs';
 import { AuthService } from './services/auth/auth.service';
 
 
@@ -9,11 +10,8 @@ import { AuthService } from './services/auth/auth.service';
     styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title(title: any) {
-    throw new Error('Method not implemented.');
-  }
   
-  isAuthenticated: boolean = false;
+  isAuthenticated$: Observable<boolean>;
 
   public theme: boolean;
 
@@ -21,11 +19,8 @@ export class AppComponent {
     public router:Router,
     private authService: AuthService
     ) {
-      router.events.forEach((event) => {
-        this.isAuthenticated = this.authService.isAuthenticated();
-      });
-      
       this.theme = localStorage.getItem('theme') == 'true';
+      this.isAuthenticated$ = this.authService.isAuthenticated();
   }
 
   onInit(){

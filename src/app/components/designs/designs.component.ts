@@ -63,7 +63,7 @@ export class DesignsComponent implements OnInit {
     dialogConfig.data.mode = 'create';
     let dialogRef = this.dialog.open(DesignsFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
-      console.log(res.value);
+
       this.designsService.addDesign(res.value).subscribe((res:any) => {
         if (res.status == 'created') {
           this.openSnackBar('Añadido con Éxito', '', 1000, 'success-snack-bar');

@@ -23,7 +23,8 @@ export class SeasonsFormComponent implements OnInit {
     this.seasonsForm = new FormGroup({
       name: new FormControl(''),
       description: new FormControl(''),
-      checkOption:  new FormControl(true),
+      is_active:  new FormControl(true),
+      idForOptions: new FormControl(''),
     });
 
     if (data != null) {
@@ -31,7 +32,8 @@ export class SeasonsFormComponent implements OnInit {
         {
           name: data.name,
           description: data.description,
-          checkOption:  data.checkOption,
+          is_active:  data.checkOption,
+          idForOptions: data.idForOptions,
         }
       )
     }

@@ -37,7 +37,6 @@ export class ThemesService {
 
   updateTheme(theme: any) {
     let httpOptions = this.authService.reqOptions();
-    console.log(theme);
     return this.http.put<any>(`${this.API}/themes/${theme.idForOptions}`, theme, httpOptions)
     .pipe(
       tap((data: any) => 

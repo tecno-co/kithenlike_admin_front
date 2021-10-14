@@ -31,7 +31,6 @@ export class SeasonsComponent implements OnInit {
 
     this.seasonsService.emitDataTable
       .subscribe((res: any) => {
-        console.log(res)
         this.tableData = res.data.dataTable;
         this.tableHeaders = res.data.headers;
     })
@@ -57,7 +56,6 @@ export class SeasonsComponent implements OnInit {
   }
 
   onEdit(row: any) {
-    console.log(row);
     let dialogConfig = new MatDialogConfig;
     dialogConfig.data = row;
     dialogConfig.disableClose = false;
@@ -65,10 +63,7 @@ export class SeasonsComponent implements OnInit {
     dialogConfig.width = "50%";
     let dialogRef = this.dialog.open(SeasonsFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
-      row.name = res.value.name;
-      row.description = res.value.description;
-      row.checkOption = res.value.checkOption;
-      this.seasonsService.updateSeason(row).subscribe((res:any) => {
+      this.seasonsService.updateSeason(res.value).subscribe((res:any) => {
         if (res.status == 'updated') {
           this.openSnackBar('Editado con éxito', '', 1000, 'success-snack-bar');
         } else {

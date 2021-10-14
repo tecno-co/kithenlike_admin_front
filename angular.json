@@ -3,7 +3,7 @@
 	"version": 1,
 	"newProjectRoot": "projects",
 	"projects": {
-		"base-front-tecno-angular": {
+		"kitchen-like": {
 			"projectType": "application",
 			"schematics": {
 				"@schematics/angular:application": {
@@ -15,12 +15,12 @@
 			},
 			"root": "",
 			"sourceRoot": "src",
-			"prefix": "app",
+			"prefix": "tecno",
 			"architect": {
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "dist/base-front-tecno-angular",
+						"outputPath": "dist/kitchen-like",
 						"index": "src/index.html",
 						"main": "src/main.ts",
 						"polyfills": "src/polyfills.ts",
@@ -73,10 +73,10 @@
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"configurations": {
 						"production": {
-							"browserTarget": "base-front-tecno-angular:build:production"
+							"browserTarget": "kitchen-like:build:production"
 						},
 						"development": {
-							"browserTarget": "base-front-tecno-angular:build:development"
+							"browserTarget": "kitchen-like:build:development"
 						}
 					},
 					"defaultConfiguration": "development"
@@ -84,7 +84,7 @@
 				"extract-i18n": {
 					"builder": "@angular-devkit/build-angular:extract-i18n",
 					"options": {
-						"browserTarget": "base-front-tecno-angular:build"
+						"browserTarget": "kitchen-like:build"
 					}
 				},
 				"test": {
@@ -107,5 +107,5 @@
 			}
 		}
 	},
-	"defaultProject": "base-front-tecno-angular"
+	"defaultProject": "kitchen-like"
 }

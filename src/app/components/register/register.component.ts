@@ -19,14 +19,6 @@ export class RegisterComponent implements OnInit {
   }
 
   register(){
-    /*
-    this.tokenService.registerAccount({
-      login:                'example@example.org',
-      password:             'secretPassword',
-      passwordConfirmation: 'secretPassword'
-    }).subscribe(
-      res =>      console.log(res),
-      error =>    console.log(error)
-  );*/
+   
   } 
 }

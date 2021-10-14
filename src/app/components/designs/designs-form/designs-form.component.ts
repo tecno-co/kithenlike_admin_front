@@ -63,11 +63,11 @@ export class DesignsFormComponent implements OnInit {
     this.designsForm = new FormGroup({
       code: new FormControl(''),
       name: new FormControl(''),
-      description: new FormControl(''),
+      description: new FormControl(' '),
       image: new FormControl(''),
       key_words: new FormControl(''),
       seasons: new FormControl(''),
-      checkOption: new FormControl(''),
+      isActive: new FormControl(true),
     })
 
     if (data.mode == 'edit') {
@@ -76,8 +76,9 @@ export class DesignsFormComponent implements OnInit {
         let name = (data.image.original.split('/'));
         this.extendedImageName = name[name.length-1];
       }
-      this.keywords = data.key_words;
-      this.seasons = data.seasons;
+
+      this.keywords = data.key_words != null ? data.key_words : [];      
+      this.seasons = data.seasons != null ? data.seasons : [];
 
       this.designsForm = this.fb.group({
         code: data.code,
@@ -86,7 +87,7 @@ export class DesignsFormComponent implements OnInit {
         image: data.image,
         key_words: '',
         seasons: '',
-        checkOption: data.checkOption,
+        isActive: data.checkOption,
         idForOptions: data.idForOptions,
       })
     } 
@@ -101,10 +102,14 @@ export class DesignsFormComponent implements OnInit {
   create() {
     
     let newSeasons = '';
-    this.seasons.map(s => newSeasons == '' ? newSeasons = newSeasons + s.design_season_id : newSeasons = newSeasons + ', ' + s.design_season_id);
+    if (this.seasons != null) {
+      this.seasons.map(s => newSeasons == '' ? newSeasons = newSeasons + s.season_id : newSeasons = newSeasons + ', ' + s.season_id);
+    }
     
     let newKeywords = '';
-    this.keywords.map(k => newKeywords == '' ? newKeywords = newKeywords + k.key_word_name: newKeywords = newKeywords + ', ' + k.key_word_name);
+    if (this.keywords != null) {
+      this.keywords.map(k => newKeywords == '' ? newKeywords = newKeywords + k.key_word_name: newKeywords = newKeywords + ', ' + k.key_word_name);
+    }
 
     this.designsForm.patchValue({
       key_words: newKeywords,
@@ -124,7 +129,6 @@ export class DesignsFormComponent implements OnInit {
   }
 
   addChipKeyword(event: MatChipInputEvent): void {
-    console.log(this.keywords)
     const value = (event.value || '').trim();
 
     if (value) {
@@ -145,17 +149,6 @@ export class DesignsFormComponent implements OnInit {
 
   addChipSeason(event: MatChipInputEvent): void {
     this.openSnackBar('Seleccione una opción de la lista', '', 1000, 'error-snack-bar');
-  //   const value = (event.value || '').trim();
-
-  //   // Add our fruit
-  //   if (value) {
-  //     this.seasons.push({"season_name": value});
-  //   }
-
-  //   // Clear the input value
-  //   event.chipInput!.clear();
-
-  //   this.seasonCtrl.setValue(null);
   }
 
   removeChipSeason(season: string): void {
@@ -167,19 +160,17 @@ export class DesignsFormComponent implements OnInit {
   }
   
   selectedKeyword(event: string): void {
-    console.log(this.keywords)
     this.keywords.push({"key_word_name": event});
     this.keywordsInput.nativeElement.value = '';
     this.keywordCtrl.setValue(null);
   }
   
   selectedSeason(event: any): void {
-    console.log(this.seasons);
-    let newSeasson = {"design_season_id": event.id, "season_name": event.name};
+    let newSeasson = {"season_id": event.id, "season_name": event.name};
     let exists: boolean = false;
     this.seasons.map(s => s.season_name == newSeasson.season_name ? exists = true : exists = false)
     if (!exists){ 
-      this.seasons.push({"design_season_id": event.id, "season_name": event.name});
+      this.seasons.push({"season_id": event.id, "season_name": event.name});
     }
     this.seasonInput.nativeElement.value = '';
     this.seasonCtrl.setValue(null);

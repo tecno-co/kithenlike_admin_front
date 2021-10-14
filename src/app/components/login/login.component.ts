@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild, } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { Subscription } from 'rxjs';
+import { delay } from 'rxjs/operators';
 import { LoginData } from 'src/app/models/auth/auth';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -9,7 +11,9 @@ import { AuthService } from 'src/app/services/auth/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss']
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
+
+  suscription?: Subscription;
 
   constructor(
     private authService: AuthService,
@@ -17,8 +21,21 @@ export class LoginComponent implements OnInit {
     private _snackBar: MatSnackBar
   ) { }
 
+  ngOnDestroy(): void {
+    if (this.suscription){ 
+      this.suscription.unsubscribe();
+    }
+  }
+
   ngOnInit(): void {
-    this.authService.signOut();
+    this.suscription = this.authService.isAuthenticated()
+    .subscribe((res) => {
+        if (res) {
+          this.ngOnDestroy();
+          this.router.navigate(['/home']);
+        }
+      }
+    )
   }
 
   onLogin(signInData: any) {
