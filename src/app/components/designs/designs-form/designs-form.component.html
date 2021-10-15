@@ -3,7 +3,10 @@
 
   <mat-form-field class="field">
     <mat-label>Nombre</mat-label>
-    <input type="text" matInput name="Nombre" formControlName="name">
+    <input type="text" matInput name="Nombre" formControlName="name" required>
+    <mat-error *ngIf="this.designsForm.get('name')?.invalid">
+      Campo requerido
+    </mat-error>
   </mat-form-field><br/>
 
   <mat-form-field class="field">
@@ -13,7 +16,7 @@
 
   <input  #imageInput
           type="file"
-          accept="image/*"
+          accept="image/jpeg, image/png"
           (change)="processFile($event)"
           style="display: none;">
 
@@ -23,6 +26,7 @@
           <mat-icon>attach_file</mat-icon>
       </button>
       {{extendedImageName || "No hay imagen todavia."}}
+      <mat-hint *ngIf="!extendedImageName" style="font-size: 10px;">Max: 5 MB .jpeg .jpg .png</mat-hint>
   </div><br/>
 
   <mat-form-field class="field">
@@ -82,7 +86,7 @@
 </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button color="accent" mat-dialog-close>Cancel</button>
-    <button mat-button color="accent" (click)="create()">Guardar</button>
+    <button mat-button color="accent" [disabled]="this.designsForm.invalid" (click)="create()">Guardar</button>
   </mat-dialog-actions>
   
 </form>

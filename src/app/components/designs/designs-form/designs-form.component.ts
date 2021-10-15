@@ -1,7 +1,7 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { ThrowStmt } from '@angular/compiler';
 import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -62,7 +62,7 @@ export class DesignsFormComponent implements OnInit {
 
     this.designsForm = new FormGroup({
       code: new FormControl(''),
-      name: new FormControl(''),
+      name: new FormControl('', Validators.required),
       description: new FormControl(''),
       image: new FormControl(null),
       key_words: new FormControl(''),
@@ -120,12 +120,30 @@ export class DesignsFormComponent implements OnInit {
   }
 
   processFile(imageInput: any) {
-    const file: File = imageInput.target.files[0];
-    this.extendedImageName = file.name;
+    const maxSize = 5000000;
 
-    this.designsForm.patchValue({
-       image: file
-    })    
+    this.extendedImageName = null;
+    this.designsForm.controls.image.reset;
+
+    console.log(imageInput.target.files[0]);
+    let file: File = imageInput.target.files[0];
+    if (imageInput.target.files[0]){
+      if (file?.type == 'image/jpeg' || file?.type == 'image/png'){
+  
+        if (file?.size <= maxSize) {
+  
+          this.extendedImageName = file.name;
+          this.designsForm.patchValue({
+            image: file
+          })        
+        } else {
+          this.openSnackBar('Tamaño maximo superado', '', 2000, 'error-snack-bar');
+        }
+        
+      } else {
+        this.openSnackBar('Tipo de archivo no permitido', '', 2000, 'error-snack-bar');
+      }
+    }        
   }
 
   addChipKeyword(event: MatChipInputEvent): void {

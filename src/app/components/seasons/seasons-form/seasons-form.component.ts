@@ -1,6 +1,6 @@
 
 import { Component, EventEmitter, Inject, OnInit, Output,} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -21,7 +21,7 @@ export class SeasonsFormComponent implements OnInit {
   ) {
 
     this.seasonsForm = new FormGroup({
-      name: new FormControl(''),
+      name: new FormControl('', Validators.required),
       description: new FormControl(''),
       is_active:  new FormControl(true),
       idForOptions: new FormControl(''),

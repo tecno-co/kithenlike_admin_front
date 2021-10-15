@@ -3,7 +3,10 @@
 
   <mat-form-field class="field">
     <mat-label>Nombre</mat-label>
-    <input type="text" matInput name="Nombre" formControlName="name">
+    <input type="text" matInput name="Nombre" formControlName="name" required>
+    <mat-error *ngIf="this.seasonsForm.get('name')?.invalid">
+      Campo requerido
+    </mat-error>
   </mat-form-field><br/>
 
   <mat-form-field class="field">
@@ -16,7 +19,7 @@
 </mat-dialog-content>
   <mat-dialog-actions align="end">
     <button mat-button color="accent" mat-dialog-close>Cancel</button>
-    <button mat-button color="accent" (click)="create()">Guardar</button>
+    <button mat-button color="accent" [disabled]="this.seasonsForm.invalid" (click)="create()">Guardar</button>
   </mat-dialog-actions>
   
 </form>

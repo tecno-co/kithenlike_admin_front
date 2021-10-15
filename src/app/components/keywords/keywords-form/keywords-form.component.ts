@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
@@ -19,7 +19,7 @@ export class KeywordsFormComponent implements OnInit {
   ) {
 
     this.keywordsForm = new FormGroup({
-      name: new FormControl(''),
+      name: new FormControl('', Validators.required),
       is_active:  new FormControl(true),
       idForOptions: new FormControl(''),
     });
