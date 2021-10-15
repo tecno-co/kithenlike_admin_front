@@ -1,0 +1,59 @@
+<div class="general-container">
+  <h1 class="mat-h1">Menu</h1>
+
+  <div class="master-container">
+
+    <div class="modules-container">
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel *ngFor="let module of menuModules">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ module.name }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ module.name }}
+              <mat-icon>{{ module.iconv2.name ? module.iconv2.name : "link_off" }}</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- FORMULARIO PARA PAGINAS -->
+          <div class="row pt-20">
+            <div class="col col-12">
+              <mat-card-content>
+                <tecno-pages-form></tecno-pages-form>
+              </mat-card-content>
+            </div>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+
+    <div class="pages-container">
+      <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel *ngFor="let page of menuPages">
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{ page.name }}
+            </mat-panel-title>
+            <mat-panel-description>
+              {{ page.description }}
+              <mat-icon>{{ page.icon ? page.icon_name : "link_off" }}</mat-icon>
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- FORMULARIO PARA PAGINAS -->
+          <div class="row pt-20">
+            <div class="col col-12">
+              <mat-card-content>
+                <tecno-module-form></tecno-module-form>
+              </mat-card-content>
+            </div>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+    </div>
+    
+  </div>
+</div>

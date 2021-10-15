@@ -1,0 +1,12 @@
+<h1 mat-dialog-title>{{data.title}}</h1>
+<div mat-dialog-content>
+    <p>¿Está seguro de cambiar el estado del siguiente registro?</p>
+    <p>
+      <strong>{{data.name}}</strong>
+    </p>
+</div>
+<mat-dialog-actions align="end">
+  <button mat-button color="accent" mat-dialog-close>Cancel</button>
+  <button mat-button color="accent" (click)="create()">Guardar</button>
+</mat-dialog-actions>
+

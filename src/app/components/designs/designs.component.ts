@@ -4,6 +4,7 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from "@angu
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { DesignsService } from 'src/app/services/designs/designs.service';
+import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { DynamicTableComponent } from '../shared/dynamic-table/dynamic-table.component';
 import { DesignsFormComponent } from './designs-form/designs-form.component'; 
 
@@ -64,12 +65,16 @@ export class DesignsComponent implements OnInit {
     let dialogRef = this.dialog.open(DesignsFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
 
-      this.designsService.addDesign(res.value).subscribe((res:any) => {
+      this.designsService.addDesign(res.value).subscribe(
+        (res:any) => {
         if (res.status == 'created') {
-          this.openSnackBar('Añadido con Éxito', '', 1000, 'success-snack-bar');
+          this.openSnackBar('Añadido con Éxito', '', 2000, 'success-snack-bar');
         } else {
-          this.openSnackBar('Error al añadir', '', 1000, 'error-snack-bar');
+          this.openSnackBar('Error al añadir', '', 2000, 'error-snack-bar');
         }
+      },
+        (error:any) => {
+          this.openSnackBar('Error al añadir: ' + error?.error?.name, '', 2000, 'error-snack-bar');
       });
       dialogRef.close();
     }) 
@@ -88,14 +93,14 @@ export class DesignsComponent implements OnInit {
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
       this.designsService.updateDesign(res.value).subscribe((res: any) => {
         if (res.status == 'updated') {
-          this.openSnackBar('Editado con éxito', '', 1000, 'success-snack-bar');
+          this.openSnackBar('Editado con éxito', '', 2000, 'success-snack-bar');
         } else {
-          this.openSnackBar('Error al editar', '', 1000, 'error-snack-bar');
+          this.openSnackBar('Error al editar', '', 2000, 'error-snack-bar');
         }
       },
-      (error: any ) => {
-        this.openSnackBar('Error al editar', '', 1000, 'error-snack-bar');
-      });
+      (error:any) => {
+        this.openSnackBar('Error al editar: ' + error?.error?.name, '', 2000, 'error-snack-bar');
+    });
       dialogRef.close();
     })
   }
@@ -103,11 +108,54 @@ export class DesignsComponent implements OnInit {
   onDelete(row: any) {
     this.designsService.deleteDesign(row).subscribe((res:any) => {
       if (res.status) {
-        this.openSnackBar('Eliminado con éxito', '', 1000, 'success-snack-bar');
+        this.openSnackBar('Eliminado con éxito', '', 2000, 'success-snack-bar');
       } else {
-        this.openSnackBar('Error al eliminar', '', 1000, 'error-snack-bar');
+        this.openSnackBar('Error al eliminar', '', 2000, 'error-snack-bar');
       }
+    },
+    (error:any) => {
+      this.openSnackBar('Error al eliminar: ' + error?.error?.name, '', 2000, 'error-snack-bar');
     });
+  }
+
+  onStatusChange(row: any) {
+    let dialogConfig = new MatDialogConfig;
+    dialogConfig.data = row;
+    dialogConfig.data.title = 'Cambiar Estado';
+    dialogConfig.disableClose = false;  
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "30%";
+    let dialogRef = this.dialog.open(AlertDialogComponent, dialogConfig);
+
+    dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
+
+      let newSeasons = '';
+      if (res.seasons != null) {
+        res.seasons.map((s:any) => newSeasons == '' ? newSeasons = newSeasons + s.season_id : newSeasons = newSeasons + ', ' + s.season_id);
+      }
+      
+      let newKeywords = '';
+      if (res.key_words != null) {
+        res.key_words.map((k:any) => newKeywords == '' ? newKeywords = newKeywords + k.key_word_name: newKeywords = newKeywords + ', ' + k.key_word_name);
+      }
+
+      res.seasons = newSeasons;
+      res.key_words = newKeywords;
+      res.checkOption = !res.checkOption;
+      
+      this.designsService.updateDesignStatus(res).subscribe((res: any) => {
+        
+        if (res.status == 'updated') {
+          this.openSnackBar('Editado con éxito', '', 2000, 'success-snack-bar');
+        } else {
+          this.openSnackBar('Error al editar', '', 2000, 'error-snack-bar');
+        }
+      },
+      (error: any ) => {
+        this.openSnackBar('Error al editar', '', 2000, 'error-snack-bar');
+      });
+      dialogRef.close();
+    })
   }
 
   openSnackBar(message: string, action: string, duration: number, className: string) {

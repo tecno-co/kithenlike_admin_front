@@ -63,8 +63,8 @@ export class DesignsFormComponent implements OnInit {
     this.designsForm = new FormGroup({
       code: new FormControl(''),
       name: new FormControl(''),
-      description: new FormControl(' '),
-      image: new FormControl(''),
+      description: new FormControl(''),
+      image: new FormControl(null),
       key_words: new FormControl(''),
       seasons: new FormControl(''),
       isActive: new FormControl(true),

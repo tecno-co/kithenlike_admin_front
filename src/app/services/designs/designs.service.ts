@@ -36,8 +36,9 @@ export class DesignsService {
     designFormData.append('design[key_words]', design.key_words);
     designFormData.append('design[seasons]', design.seasons);
     designFormData.append('design[is_active]', design.isActive);
+    console.log(design);
 
-    if (design.image.original != undefined) {
+    if (design.image != null) {
       designFormData.append('design[image]', design.image);
     }
 
@@ -72,6 +73,24 @@ export class DesignsService {
       )
     );
   }
+
+  updateDesignStatus(design: any) {
+    let httpOptions = this.authService.reqOptions();
+
+    let designFormData = new FormData();
+
+    designFormData.append('design[is_active]', design.checkOption);
+    designFormData.append('design[key_words]', design.key_words);
+    designFormData.append('design[seasons]', design.seasons);
+
+    return this.http.put<any>(`${this.API}/designs/${design.idForOptions}`, designFormData, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
+  }
+  
 
   deleteDesign(design: any) {
     let httpOptions = this.authService.reqOptions();

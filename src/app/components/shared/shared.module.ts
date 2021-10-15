@@ -12,6 +12,7 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { ProfileCircleComponent } from './profile-circle/profile-circle.component';
 import { MenuBComponent } from "./menu-b/menu-b.component";
 import { BannerComponent } from './banner/banner.component';
+import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 
 const COMPONENTS = [
   MenuAComponent,
@@ -24,6 +25,7 @@ const COMPONENTS = [
 @NgModule({
     declarations: [
       COMPONENTS,
+      AlertDialogComponent,
     ],
     imports: [
       CommonModule,

@@ -1,0 +1,42 @@
+.general-container {
+  margin: 20px;
+}
+
+.master-container {
+  padding: 16px;
+  display:inline-table;
+  display: flex;
+  margin: 0px;
+}
+
+.example-action-buttons {
+  padding-bottom: 20px;
+}
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.example-headers-align .mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.cursor-move {
+  cursor: move;
+}
+
+.modules-container {
+  width: 50%;
+  margin-right: 20px;
+}
+
+.pages-container {
+  width: 50%;
+  margin-left: 20px;
+}

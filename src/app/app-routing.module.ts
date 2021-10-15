@@ -11,6 +11,7 @@ import { SeasonsResolver } from './components/seasons/guards/seasons.resolver';
 import { DesignsResolver } from './components/designs/guards/designs.resolver';
 import { KeywordsListResolver } from './components/designs/guards/keywords-list.resolver';
 import { SeasonsListResolver } from './components/designs/guards/seasons-list.resolver';
+import { MenuResolver } from './components/pages/guards/menu.resolver';
 
 const routes: Routes = [
   { 
@@ -72,6 +73,11 @@ const routes: Routes = [
     loadChildren: () => import('./components/keywords/keywords.module').then(m => m.KeywordsModule),
     resolve: {keywordsResolver: KeywordsResolver}
   },
+  { path: 'pages',
+  canActivate: [AuthGuard],
+  loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule),
+  resolve: {menuResolver: MenuResolver}
+},
 ] 
 
 @NgModule({

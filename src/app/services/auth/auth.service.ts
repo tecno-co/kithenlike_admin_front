@@ -31,7 +31,6 @@ export class AuthService {
 
     if (!this.hasExpired()) {
       this.setExpiration();
-      console.log('Can extend session');
     }
 
     return {

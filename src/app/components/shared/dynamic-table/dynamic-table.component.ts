@@ -30,10 +30,12 @@ export class DynamicTableComponent implements OnInit {
   @Input("headers") tableHeaders: string[] = [];
   @Input("data") tableData!: any[];
   @Input("filter") filter: boolean = false;
+  @Input("add") addButton: boolean = true;
 
   @Output() image: EventEmitter<string> = new EventEmitter();
   @Output() emitAdd: EventEmitter<number> = new EventEmitter();
   @Output() emitEdit: EventEmitter<number> = new EventEmitter();
+  @Output() emitStatusChange: EventEmitter<number> = new EventEmitter();
   @Output() emitDelete: EventEmitter<any> = new EventEmitter();
   
   dataSource =  new MatTableDataSource<any>();
@@ -105,7 +107,7 @@ export class DynamicTableComponent implements OnInit {
   }
   
   onStatusChange(row : any) {
-    // this.emit
+    this.emitStatusChange.emit(row);
   }
 
   onDelete(theme: any) {
@@ -139,19 +141,18 @@ export class DynamicTableComponent implements OnInit {
 
 
     if (this.filterKeywords.value != null && this.filterSeasons.value != null) {
-      this.dataSource.data = this.dataSource.data.filter((data: any)=> data.key_words.some((e: any) => e.key_word_name == this.filterKeywords.value) && data.seasons.some((e: any) => e.season_name == this.filterSeasons.value));
+      this.dataSource.data = this.dataSource.data.filter((data: any)=> data.key_words?.some((e: any) => e.key_word_name == this.filterKeywords.value) && data.seasons?.some((e: any) => e.season_name == this.filterSeasons.value));
     } else {
 
       if (this.filterKeywords.value != null) {
-        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.key_words.some((e: any) => e.key_word_name == this.filterKeywords.value));
+        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.key_words?.some((e: any) => e.key_word_name == this.filterKeywords.value));
       }
 
       if (this.filterSeasons.value != null) {
-        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.seasons.some((e: any) => e.season_name == this.filterSeasons.value));
+        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.seasons?.some((e: any) => e.season_name == this.filterSeasons.value));
       }
     }  
   }
-
 
   keywordsName(keywords: any[]) {
     let names: any[] = [];

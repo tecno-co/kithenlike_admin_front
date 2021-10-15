@@ -45,6 +45,18 @@ export class SeasonsService {
     );
   }
 
+  updateSeasonStatus(season: any) {
+    season.is_active = season.checkOption;
+    let httpOptions = this.authService.reqOptions();
+    return this.http.put<any>(`${this.API}/seasons/${season.idForOptions}`, season, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
+  }
+
+
   deleteSeason(season: any) {
     let httpOptions = this.authService.reqOptions();
     return this.http.put<any>(`${this.API}/seasons/${season.idForOptions}/logical_delete`, season, httpOptions)

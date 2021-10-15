@@ -52,6 +52,17 @@ export class KeywordsService {
     );
   }
 
+  updateKeywordStatus(keyword: any) {
+    let httpOptions = this.authService.reqOptions();
+    keyword.is_active = keyword.checkOption;
+    return this.http.put<any>(`${this.API}/key_words/${keyword.idForOptions}`, keyword, httpOptions)
+    .pipe(
+      tap((data: any) => 
+        this.emitDataTable.emit(data),
+      )
+    );
+  }
+
   deleteKeyword(keyword: any) {
     let httpOptions = this.authService.reqOptions();
     return this.http.put<any>(`${this.API}/key_words/${keyword.idForOptions}/logical_delete`, keyword, httpOptions)
