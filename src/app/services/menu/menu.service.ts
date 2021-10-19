@@ -23,8 +23,8 @@ export class MenuService {
   
   private readonly API = `${environment.API}/menus`;
   private _menu: Menu[] = [];
-  private _oOption!: Page;
-  emitOption = new EventEmitter<any>();
+  private _page: string = 'Home';
+  emitPage = new EventEmitter<any>();
 
   inputParams: any = {
     user_email: "",
@@ -38,7 +38,6 @@ export class MenuService {
   constructor(private http: HttpClient) { }
 
   getFullMenu() {
-    // return this.menu
     
     if (localStorage.user) {
       this.inputParams.user_email = JSON.parse(localStorage.user).email;
@@ -47,7 +46,6 @@ export class MenuService {
 
     this.httpOptions = {
       headers: new HttpHeaders({
-        // Authorization: `Bareer ${localStorage.token}`
         Authorization: `Bareer `
       }),
       params: this.inputParams
@@ -63,10 +61,12 @@ export class MenuService {
 
   get getMenu(): Menu [] { return this._menu }
 
-  get getOption(): any { return this._oOption }
+  getPage(): any { return this._page }
 
   set setMenu(menu: Menu []) { this._menu = menu }
 
-  set setOption(oOption: any) { this._oOption = oOption }
+  setPage(page: any) { this.emitPage.emit(this._page); this._page = page }
+
+
 
 }

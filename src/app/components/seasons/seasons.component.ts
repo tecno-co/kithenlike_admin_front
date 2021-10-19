@@ -81,22 +81,33 @@ export class SeasonsComponent implements OnInit {
   }
   
   onDelete(row: any) {
-    this.seasonsService.deleteSeason(row).subscribe((res:any) => {
-      if (res.status) {
-        this.openSnackBar('Eliminado con éxito', '', 1000, 'success-snack-bar');
-      } else {
-        this.openSnackBar('Error al eliminar', '', 1000, 'error-snack-bar');
-      }
-    },
-    (error:any) => {
-      this.openSnackBar('Error al eliminar: ' + error?.error?.name, '', 2000, 'error-snack-bar');
-    });
+    let dialogConfig = new MatDialogConfig;
+    dialogConfig.data = row;
+    dialogConfig.data.title = 'Eliminar temporada';
+    dialogConfig.disableClose = false;  
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "40%";
+    let dialogRef = this.dialog.open(AlertDialogComponent, dialogConfig);
+    dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
+
+      this.seasonsService.deleteSeason(row).subscribe((res:any) => {
+        if (res.status) {
+          this.openSnackBar('Eliminado con éxito', '', 1000, 'success-snack-bar');
+        } else {
+          this.openSnackBar('Error al eliminar', '', 1000, 'error-snack-bar');
+        }
+      },
+      (error:any) => {
+        this.openSnackBar('Error al eliminar: ' + error?.error?.name, '', 2000, 'error-snack-bar');
+      });
+      dialogRef.close();
+    })
   }
 
   onStatusChange(row: any) {
     let dialogConfig = new MatDialogConfig;
     dialogConfig.data = row;
-    dialogConfig.data.title = 'Cambiar Estado';
+    dialogConfig.data.title = 'Cambiar estado';
     dialogConfig.disableClose = false;  
     dialogConfig.autoFocus = true;
     dialogConfig.width = "30%";

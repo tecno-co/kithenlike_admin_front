@@ -1,4 +1,4 @@
-<mat-nav-list class="nav-list-container" >
+<mat-nav-list class="nav-list-container">
 
   <div class="profile-container">
     <!-- AVATAR -->
@@ -14,8 +14,6 @@
     </mat-menu>
   </div>
 
-
-
   <div class="menu-container">
     <div class="icons-menu">
       <mat-list-item
@@ -29,6 +27,7 @@
           <mat-icon color="primary" class="icon">{{item.module.iconv2.name}}</mat-icon>
           <span class="menu-label-text-color" style="font-size: small;">{{item.module.name}}</span>
       </mat-list-item>
+      <a *ngIf="!extendedMenu" href="http://tecno.co" target="_blank"><img href="tecno.co" routerLink="/home" src="assets/images/tecno-icon.png" alt="logo" class="tecno-icon"></a>
     </div>
 
     <div class="extended-menu bg-menu-options" *ngIf="extendedMenu">
@@ -38,12 +37,20 @@
         color="primary"
         [routerLink]="[page.route]"
         *ngFor="let page of pages"
-        (click)="extendedMenu = false; size = 50"
+        (click)="extendedMenu = false; size = 50; setPage(page)"
         [class.mat-raised-button]="overButton && page.name == overOption"
         (mouseover)="overOption = page.name; overButton = true"
         (mouseout)="overButton = false">
           {{page.name}}
       </button>
-    </div>
+
+      <footer class="footer">
+        
+        <div class="footer-copyright text-center p-0">
+          <span>© 2021 Copyright:</span>
+          <a href="http://tecno.co" target="_blank">  tecno.co</a>
+        </div>
+      </footer>
+    </div>    
   </div>
 </mat-nav-list>

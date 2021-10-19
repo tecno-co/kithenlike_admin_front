@@ -2,14 +2,6 @@
 // @import '~animate.css/animate.min';
 @import './assets/scss/menu';
 
-
-// Theme Variables
-// $primary: map.get(tecno.$light-primary-tecno, 500);
-// $accent: map.get(tecno.$light-accent-tecno, 500);
-// $bg-menu-options: map.get(tecno.$grey-palette, 100);
-
-// General Variables
-
 // General Styles
 
 @font-face {
@@ -31,8 +23,8 @@ html, body {
 }
 
 .dialog-container {
-  padding: 20px 40px 0;
-  overflow: hidden;
+  // padding: 20px 40px 0;
+  // overflow: hidden;
 }
 
 .master-container {
@@ -59,7 +51,7 @@ html, body {
   background-color: #efefef;
   position: relative;
   //background: url('/assets/images/doodle.jpg');
-  background-color: #B3B3B3;
+  background-color: #b3b3b3;
 
   & .btn-profile {
     position: absolute;
@@ -109,4 +101,28 @@ html, body {
 
 .spacer{
   flex: 1 1 auto;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+}
+
+
+.footer {
+  position: absolute;
+  left: variables.$width-icons-menu;
+  right: 0;
+  bottom: 10px;
+  line-height: 50px;
+  // background-color: #fff;
+  & span {
+    color: #BDBDBD;
+  }
+  & a {
+    color: #9E9E9E !important;
+    text-decoration: none;
+    &:hover {
+      color: #a61e5e !important;
+    }
+  }
 }

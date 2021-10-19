@@ -1,89 +1,98 @@
-<form [formGroup]="designsForm" enctype="multipart/form-data">
-  <mat-dialog-content class="mat-typography dialog-container">
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <h1 class="mat-headline">Diseño</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
 
-  <mat-form-field class="field">
-    <mat-label>Nombre</mat-label>
-    <input type="text" matInput name="Nombre" formControlName="name" required>
-    <mat-error *ngIf="this.designsForm.get('name')?.invalid">
-      Campo requerido
-    </mat-error>
-  </mat-form-field><br/>
+<form [formGroup]="designsForm" class="dialog-content-container">
+  
+  <mat-dialog-content>
+    
+    <mat-form-field class="field">
+      <mat-label>Nombre diseño</mat-label>
+      <input type="text" matInput name="Nombre" placeholder="Ingrese el nombre del diseño" formControlName="name" required>
+      <mat-error *ngIf="this.designsForm.get('name')?.invalid">
+        Campo requerido
+      </mat-error>
+    </mat-form-field>
 
-  <mat-form-field class="field">
-    <mat-label>Descripción</mat-label>
-    <input type="text" matInput name="Descripción" formControlName="description">
-  </mat-form-field><br/>
-
-  <input  #imageInput
-          type="file"
-          accept="image/jpeg, image/png"
-          (change)="processFile($event)"
-          style="display: none;">
-
-  <div class="file-upload">
+    <mat-form-field class="field">
+      <mat-label>Descripción</mat-label>
+      <textarea type="textarea" matInput name="Descripción" placeholder="Ingrese una descripción detallada del diseño (opcional)" formControlName="description"></textarea>
+    </mat-form-field>
+    
+    <div class="field">
+      <input  #imageInput
+              type="file"
+              accept="image/jpeg, image/png"
+              (change)="processFile($event)"
+              style="display: none;">
+      
       <button mat-mini-fab color="accent" style="margin-right: 5px;"
         (click)="imageInput.click()">
           <mat-icon>attach_file</mat-icon>
       </button>
-      {{extendedImageName || "No hay imagen todavia."}}
+      {{extendedImageName || "No hay imagen todavía."}}
       <mat-hint *ngIf="!extendedImageName" style="font-size: 10px;">Max: 5 MB .jpeg .jpg .png</mat-hint>
-  </div><br/>
+    </div>
 
-  <mat-form-field class="field">
-    <mat-chip-list #keywordsList>
-      <mat-chip
-        *ngFor="let keyword of keywords"
-        [selectable]="true"
-        [removable]="true"
-        (removed)="removeChipKeyword(keyword)">
-        {{keyword.key_word_name}}
-        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-      </mat-chip>
-      <input
-        placeholder="Palabras clave"
-        #keywordsInput
-        [formControl]="keywordCtrl"
-        [matAutocomplete]="autoKeyword"
-        [matChipInputFor]="keywordsList"
-        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-        (matChipInputTokenEnd)="addChipKeyword($event)">
-    </mat-chip-list>
-    <mat-autocomplete #autoKeyword="matAutocomplete">
-      <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword" (click)="selectedKeyword(keyword)">
-        {{keyword}}
-      </mat-option>
-    </mat-autocomplete>    
-  </mat-form-field><br/>
+    <mat-form-field class="field">
+      <mat-chip-list #keywordsList>
+        <mat-chip
+          *ngFor="let keyword of keywords"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="removeChipKeyword(keyword)">
+          {{keyword.key_word_name}}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Palabras clave"
+          #keywordsInput
+          [formControl]="keywordCtrl"
+          [matAutocomplete]="autoKeyword"
+          [matChipInputFor]="keywordsList"
+          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          (matChipInputTokenEnd)="addChipKeyword($event)">
+      </mat-chip-list>
+      <mat-autocomplete #autoKeyword="matAutocomplete">
+        <mat-option *ngFor="let keyword of filteredKeywords | async" [value]="keyword" (click)="selectedKeyword(keyword)">
+          {{keyword}}
+        </mat-option>
+      </mat-autocomplete>    
+    </mat-form-field>
 
-  <mat-form-field class="field">
-    <mat-chip-list #seasonsList>
-      <mat-chip
-        *ngFor="let season of seasons"
-        [selectable]="true"
-        [removable]="true"
-        (removed)="removeChipSeason(season)">
-        {{season.season_name}}
-        <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
-      </mat-chip>
-      <input
-        placeholder="Temporadas"
-        #seasonsInput
-        [formControl]="seasonCtrl"
-        [matAutocomplete]="autoSeason"
-        [matChipInputFor]="seasonsList"
-        (matChipInputTokenEnd)="addChipSeason($event)">
-    </mat-chip-list>
-    <mat-autocomplete #autoSeason="matAutocomplete">
-      <mat-option *ngFor="let season of filteredSeasons | async" [value]="season" (click)="selectedSeason(season)">
-        {{season.name}}
-      </mat-option>
-    </mat-autocomplete>              
-  </mat-form-field><br/>
+    <mat-form-field class="field">
+      <mat-chip-list #seasonsList>
+        <mat-chip
+          *ngFor="let season of seasons"
+          [selectable]="true"
+          [removable]="true"
+          (removed)="removeChipSeason(season)">
+          {{season.season_name}}
+          <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
+        </mat-chip>
+        <input
+          placeholder="Temporadas"
+          #seasonsInput
+          [formControl]="seasonCtrl"
+          [matAutocomplete]="autoSeason"
+          [matChipInputFor]="seasonsList"
+          (matChipInputTokenEnd)="addChipSeason($event)">
+      </mat-chip-list>
+      <mat-autocomplete #autoSeason="matAutocomplete">
+        <mat-option *ngFor="let season of filteredSeasons | async" [value]="season" (click)="selectedSeason(season)">
+          {{season.name}}
+        </mat-option>
+      </mat-autocomplete>              
+    </mat-form-field>
+    
+    <mat-slide-toggle formControlName="isActive" class="slide-toggle">Estado</mat-slide-toggle>
 
-
-  <mat-label>Estado</mat-label><br/>
-  <mat-slide-toggle formControlName="isActive"></mat-slide-toggle>
-</mat-dialog-content>
+  </mat-dialog-content>
+  
   <mat-dialog-actions align="end">
     <button mat-button color="accent" mat-dialog-close>Cancel</button>
     <button mat-button color="accent" [disabled]="this.designsForm.invalid" (click)="create()">Guardar</button>

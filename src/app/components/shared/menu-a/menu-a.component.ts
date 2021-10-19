@@ -2,6 +2,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { Component, OnInit } from '@angular/core';
 import { Menu } from 'src/app/models/menu/menu';
 import { User } from 'src/app/models/user/user';
+import { AuthService } from 'src/app/services/auth/auth.service';
 import { MenuService } from 'src/app/services/menu/menu.service';
 
 @Component({
@@ -21,15 +22,18 @@ export class MenuAComponent implements OnInit {
   user!: User;
 
   constructor(
-    private menuService: MenuService,  
-  ) { }
+    private menuService: MenuService,
+    private authService: AuthService,
+  ) {}
 
   ngOnInit(): void {
+    let uid = this.authService.getAuthData()?.uid;
+    let fullname = uid?.split('@')[0]?.split('.');
     this.user = new User({
       id: 1,
-      first_name: 'Kevin',
-      last_name: 'Garzón',
-      email: 'kevin.garzon@tecno.co'
+      first_name: fullname[0]?.charAt(0)?.toUpperCase() + fullname[0]?.slice(1),
+      last_name: fullname[1]?.charAt(0)?.toUpperCase() + fullname[1]?.slice(1),
+      email: uid,
     });
     this.getMenu();
   }
@@ -54,12 +58,10 @@ export class MenuAComponent implements OnInit {
   getMenu() {
     this.menuService.getFullMenu().subscribe((data: any) => {
       this.menu = this.menuService.getMenu;
-    });;
-    /*
-    this.menuService.getFullMenu()
-      .subscribe(data => {
-        this.menu = this.menuService.getMenu;
-        return this.menu;
-    })*/
+    });
+  }
+
+  setPage(page: any){
+    this.menuService.setPage(page.name);
   }
 }

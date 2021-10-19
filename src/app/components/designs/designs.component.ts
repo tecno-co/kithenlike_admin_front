@@ -106,25 +106,36 @@ export class DesignsComponent implements OnInit {
   }
   
   onDelete(row: any) {
-    this.designsService.deleteDesign(row).subscribe((res:any) => {
-      if (res.status) {
-        this.openSnackBar('Eliminado con éxito', '', 2000, 'success-snack-bar');
-      } else {
-        this.openSnackBar('Error al eliminar', '', 2000, 'error-snack-bar');
-      }
-    },
-    (error:any) => {
-      this.openSnackBar('Error al eliminar: ' + error?.error?.name, '', 2000, 'error-snack-bar');
-    });
+    let dialogConfig = new MatDialogConfig;
+    dialogConfig.data = row;
+    dialogConfig.data.title = 'Eliminar diseño';
+    dialogConfig.disableClose = false;  
+    dialogConfig.autoFocus = true;
+    dialogConfig.width = "40%";
+    let dialogRef = this.dialog.open(AlertDialogComponent, dialogConfig);
+    dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
+
+      this.designsService.deleteDesign(row).subscribe((res:any) => {
+        if (res.status) {
+          this.openSnackBar('Eliminado con éxito', '', 2000, 'success-snack-bar');
+        } else {
+          this.openSnackBar('Error al eliminar', '', 2000, 'error-snack-bar');
+        }
+      },
+      (error:any) => {
+        this.openSnackBar('Error al eliminar: ' + error?.error?.name, '', 2000, 'error-snack-bar');
+      });
+      dialogRef.close();
+    })
   }
 
   onStatusChange(row: any) {
     let dialogConfig = new MatDialogConfig;
     dialogConfig.data = row;
-    dialogConfig.data.title = 'Cambiar Estado';
+    dialogConfig.data.title = 'Cambiar estado';
     dialogConfig.disableClose = false;  
     dialogConfig.autoFocus = true;
-    dialogConfig.width = "30%";
+    dialogConfig.width = "40%";
     let dialogRef = this.dialog.open(AlertDialogComponent, dialogConfig);
 
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
