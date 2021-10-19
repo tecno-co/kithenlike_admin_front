@@ -1,12 +1,12 @@
-// @use '/src/styles';
 
 .general-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    height: 100%;
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   width: 100%;
+   height: 100%;
+   min-height: 600px;
 }
 
 .cards-container {
@@ -14,6 +14,7 @@
    width: 25%;
    height: 80%;
    border-radius: 30px;
+   min-height: 600px;
 }
 
 .logo {
@@ -45,10 +46,10 @@
    bottom: 0%;
    left: 50%;
    transform: translate(-50%, -50%);
-   font-size: 0.9rem;
+   min-width: 200px;
 }
 
 .link-text {
-   //color: styles.$primary-contrast;
    text-decoration: none;
+   color: rgb(165, 165, 165);
 }
