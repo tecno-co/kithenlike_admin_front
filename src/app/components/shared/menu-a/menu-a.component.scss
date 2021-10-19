@@ -2,7 +2,8 @@
 
 .profile-container {
 	width: auto;
-	background: url('/assets/images/doodle.jpg');
+	// background: url('/assets/images/doodle.jpg');
+	background-color: #b3b3b3;
 }
 
 .item {
@@ -11,7 +12,6 @@
 }
 
 .icons-menu {
-	// display: inline-block;
   vertical-align: top;
 	width: 70px;
 }
@@ -19,9 +19,7 @@
 .extended-menu {
 	padding: 20px;
   width: 230px;
-	// display: inline-block;
   vertical-align: top;
-	// background-color: bg-menu-options;
 }
 
 ::ng-deep .mat-list-item-content {

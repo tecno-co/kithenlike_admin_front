@@ -2,14 +2,6 @@
 // @import '~animate.css/animate.min';
 @import './assets/scss/menu';
 
-
-// Theme Variables
-// $primary: map.get(tecno.$light-primary-tecno, 500);
-// $accent: map.get(tecno.$light-accent-tecno, 500);
-// $bg-menu-options: map.get(tecno.$grey-palette, 100);
-
-// General Variables
-
 // General Styles
 
 @font-face {
@@ -61,7 +53,7 @@ body {
   background-color: #efefef;
   position: relative;
   //background: url('/assets/images/doodle.jpg');
-  background-color: #B3B3B3;
+  background-color: #b3b3b3;
 
   & .btn-profile {
     position: absolute;

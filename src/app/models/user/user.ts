@@ -34,10 +34,16 @@ export class User {
   }
 
   getPartialName?(): string {
-    return this.first_name!.split(' ')[0] + " " + this.last_name!.split(' ')[0];
+    if (this.last_name){
+      return this.first_name?.split(' ')[0] + " " + this.last_name?.split(' ')[0];
+    }
+    return this.first_name?.split(' ')[0];
   }
 
   getInitialsName?(): string {
-    return this.first_name![0].toUpperCase() + this.last_name![0].toUpperCase();
+    if (this.last_name){
+      return this.first_name![0].toUpperCase() + this.last_name![0].toUpperCase();
+    }
+    return this.first_name![0].toUpperCase();
   }
 }
