@@ -7,13 +7,18 @@
 }
 
 .logo {
-  height: 40px;
+  min-height: 20px;
   margin-left: 20px;
+  cursor: pointer;
+  height: 1.5vw;
 }
 
 .logo-text {
   font-family: tex-one;
-  font-size: 40px;
+  font-size: calc(15px + 1vw);
+  cursor: pointer;
+  height: 24px;
+  margin: 0;
 }
   
 .sidenav-container {

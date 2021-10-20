@@ -2,13 +2,15 @@
   <mat-toolbar color="primary" class="toolbar">
 
     <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
-    <img routerLink="/dashboard" src="assets/images/logo1.png" alt="logo" class="logo">
-    <!-- <img routerLink="/dashboard" src="assets/images/text.png" alt="logo" class="logo" style="margin-left: -5px;"> -->
-    <h1 class="logo-text">Tex-one</h1>
+
+    <img routerLink="/home" src="assets/images/logo1.png" alt="logo" class="logo">
+    <p routerLink="/home" class="logo-text">Tex</p>
+      <p routerLink="/home" class="logo-text"style="font-family: Roboto;">-</p>
+    <p routerLink="/home" class="logo-text">one</p>
 
     <span class="spacer"></span>
 
-    <mat-icon class="icon" routerLink="/home">home</mat-icon>
+    <!-- <mat-icon class="icon" routerLink="/home">home</mat-icon> -->
     <mat-icon class="icon" (click)="toggleTheme()">brightness_medium</mat-icon>
     <mat-icon class="icon" (click)="logout()">logout</mat-icon>
 
