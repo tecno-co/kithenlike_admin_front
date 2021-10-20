@@ -8,14 +8,17 @@
 
 .logo {
   min-height: 20px;
-  height: 2vw;
   margin-left: 20px;
   cursor: pointer;
+  height: 1.5vw;
 }
 
 .logo-text {
   font-family: tex-one;
-  font-size: calc(15px + 1.5vw);
+  font-size: calc(15px + 1vw);
+  cursor: pointer;
+  height: 24px;
+  margin: 0;
 }
   
 .sidenav-container {

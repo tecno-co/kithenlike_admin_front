@@ -46,23 +46,15 @@ export class LoginComponent implements OnInit, OnDestroy {
         (res) => {
           
         }, error => {
-          let message = this.getLoginError(error.statusText);
-          this.openSnackBar(message, '', 1000);
+          this.showErrors(error.error.errors);          
         }
       )
   }
 
-  getLoginError(error: string): string{
-    var message: string = '';
-
-    if (error == 'Unauthorized'){
-      message ='Credenciales Incorrectas';
+  showErrors(errors: string[]){
+    for (let i=0; i<=errors.length-1; i++) {
+      setTimeout(() => {this.openSnackBar(errors[i], '', 2000)}, 2000 * i);
     }
-    else {
-      message ='Error desconocido';
-    }
-
-    return message;
   }
 
   openSnackBar(message: string, action: string, duration: number) {

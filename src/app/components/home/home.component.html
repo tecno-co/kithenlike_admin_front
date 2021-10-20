@@ -4,11 +4,13 @@
     <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
 
     <img routerLink="/home" src="assets/images/logo1.png" alt="logo" class="logo">
-    <h1 class="logo-text">Tex-one</h1>
+    <p routerLink="/home" class="logo-text">Tex</p>
+      <p routerLink="/home" class="logo-text"style="font-family: Roboto;">-</p>
+    <p routerLink="/home" class="logo-text">one</p>
 
     <span class="spacer"></span>
 
-    <mat-icon class="icon" routerLink="/home">home</mat-icon>
+    <!-- <mat-icon class="icon" routerLink="/home">home</mat-icon> -->
     <mat-icon class="icon" (click)="toggleTheme()">brightness_medium</mat-icon>
     <mat-icon class="icon" (click)="logout()">logout</mat-icon>
 
