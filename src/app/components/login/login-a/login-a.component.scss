@@ -9,32 +9,33 @@
 }
 
 .cards-container {
-   padding: 0px;
-   width: 25%;
-   height: 80%;
+   height: 75%;
+   width: 45vh;
    border-radius: 30px;
-   min-height: 500px;
-   min-width: 300px;
+   min-width: 250px;
 }
 
 .logo {
-   margin: 6vh 10% 6vh;
+   display: flex;
+   justify-content: center;
+   margin: 12% auto;
    width: 80%;
 }
  
 .field {
-   margin: 1vh 10%;
-   width: 80%;
+   margin: 0 5% 5%;
+   width: 90%;
 }
 
 .check {
-   margin: 1vh 10%;
+   margin: 0 5%;
 }
  
 .btn {
-   margin: 6vh 10% 0vh;
-   width: 80%;
-   height: 55px;
+   margin: 15% 5%;
+   width: 90%;
+   height: 6vh;
+   min-height: 45px;
    text-align: center;
    justify-content: center;     
    border-radius: 30px;
