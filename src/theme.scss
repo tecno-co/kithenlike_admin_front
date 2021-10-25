@@ -52,8 +52,6 @@ $dark-theme-cyan-orange: mat.define-dark-theme((
 
 .dark-theme-cyan-orange {
   @include mat.all-component-colors($dark-theme-cyan-orange);
-  // @include mat.core-color($dark-theme-tecno);
-  // @include mat.button-color($dark-theme-tecno);
 
   .bg-menu-options {
     background-color: $bg-color-dark;
@@ -116,7 +114,7 @@ $light-theme-deeppurple-amber: mat.define-light-theme((
 
 
 
-// Define a light theme
+// Define a light theme tecno
 $light-primary-tecno: mat.define-palette(tecno.$tecno-primary-palette);
 $light-accent-tecno: mat.define-palette(tecno.$tecno-accent-palette);
 $light-theme-tecno: mat.define-light-theme((
@@ -126,8 +124,8 @@ $light-theme-tecno: mat.define-light-theme((
  )
 ));
 
-
 .light-theme-tecno {
+  @include mat.all-component-colors($light-theme-tecno);
 
   .bg-menu-options {
     background-color: $bg-color-light;
@@ -162,8 +160,6 @@ $dark-theme-tecno: mat.define-dark-theme((
 
 .dark-theme-tecno {
   @include mat.all-component-colors($dark-theme-tecno);
-  // @include mat.core-color($dark-theme-tecno);
-  // @include mat.button-color($dark-theme-tecno);
 
   .bg-menu-options {
     background-color: $bg-color-dark;

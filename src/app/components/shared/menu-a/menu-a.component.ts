@@ -60,4 +60,8 @@ export class MenuAComponent implements OnInit {
       this.menu = this.menuService.getMenu;
     });
   }
+
+  setPage(page: any){
+    this.menuService.setPage(page.name);
+  }
 }

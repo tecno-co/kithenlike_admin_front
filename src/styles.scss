@@ -23,8 +23,8 @@ html, body {
 }
 
 .dialog-container {
-  padding: 20px 40px 0;
-  overflow: hidden;
+  // padding: 20px 40px 0;
+  // overflow: hidden;
 }
 
 .master-container {
@@ -101,4 +101,28 @@ html, body {
 
 .spacer{
   flex: 1 1 auto;
+}
+
+.mat-dialog-container {
+  padding: 0 !important;
+}
+
+
+.footer {
+  position: absolute;
+  left: variables.$width-icons-menu;
+  right: 0;
+  bottom: 10px;
+  line-height: 50px;
+  // background-color: #fff;
+  & span {
+    color: #BDBDBD;
+  }
+  & a {
+    color: #9E9E9E !important;
+    text-decoration: none;
+    &:hover {
+      color: #a61e5e !important;
+    }
+  }
 }

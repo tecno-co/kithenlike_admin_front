@@ -1,12 +1,21 @@
-<h1 mat-dialog-title>{{data.title}}</h1>
-<div mat-dialog-content>
-    <p>¿Está seguro de cambiar el estado del siguiente registro?</p>
-    <p>
-      <strong>{{data.name}}</strong>
-    </p>
-</div>
-<mat-dialog-actions align="end">
-  <button mat-button color="accent" mat-dialog-close>Cancel</button>
-  <button mat-button color="accent" (click)="create()">Guardar</button>
-</mat-dialog-actions>
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <h1 class="mat-headline">{{data.title}}</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
 
+<div class="dialog-content-container">
+
+  <mat-dialog-content>
+    <p>¿Está seguro de {{data.title.toLowerCase()}}?</p>
+    <p>Se modificará la siguiente información: <strong>{{data.name}}</strong></p>
+ </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" mat-dialog-close>Cancel</button>
+    <button mat-button color="accent" (click)="create()">{{data.title}}</button>
+  </mat-dialog-actions>
+
+</div>

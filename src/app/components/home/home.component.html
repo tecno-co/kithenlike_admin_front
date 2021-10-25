@@ -1,12 +1,15 @@
 <div>
-  <mat-toolbar color="primary" class="toolbar">
+  <mat-toolbar color="primary" class="toolbar mat-elevation-z5">
 
     <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
 
     <img routerLink="/home" src="assets/images/logo1.png" alt="logo" class="logo">
-    <p routerLink="/home" class="logo-text">Tex</p>
-      <p routerLink="/home" class="logo-text"style="font-family: Roboto;"><span style="margin: 0 3px;">-</span></p>
-    <p routerLink="/home" class="logo-text">one</p>
+
+    <div routerLink="/home" class="logo-text" style="display: contents;">
+      Tex
+      <div style="font-family: Roboto; margin: 0 3px;">-</div>
+      one
+    </div>
 
     <span class="spacer"></span>
 

@@ -1,34 +1,11 @@
-<div class="info-page">
-  <div class="grid">
-    <div class="header-container">
-      <div class="header-info animate__animated" >
-        <h1 class="txt-color-white mat-display-2 mb-20">{{ title }}</h1>
-        <p class="txt-color-white mat-body-1 description">{{ description }}</p>
+<mat-card class="banner-container bg-primary-color">
 
-        <div class="buttons-container mt-40">
-          <button mat-mini-fab [color]="'#fff'" aria-label="Menu" class="mr-12" (click)="onBack()">
-            <mat-icon>chevron_left</mat-icon>
-          </button>
-          <!-- <button mat-mini-fab [color]="'#fff'" aria-label="Menu" class="mr-12">
-            <mat-icon>delete_outline</mat-icon>
-          </button>
-          <button mat-mini-fab [color]="'#fff'" aria-label="Menu">
-            <mat-icon>restore_from_trash</mat-icon>
-          </button> -->
-        </div>
-      </div>
-    </div>
+  <div class="banner-card-content">
+
+    <mat-card-title class="banner-title">{{title}}</mat-card-title>
+    <button class="back-button" mat-mini-fab [color]="'white'">
+      <mat-icon color="primary">chevron_left</mat-icon>
+    </button>
+
   </div>
-
-  <div class="box box-1"></div>
-  <div class="box box-2"></div>
-
-  <!-- <div class="favorite" *ngIf="route !== '/home'">
-    <mat-icon aria-hidden="false"
-      [color]="bgFavorite"
-      aria-label="Icono de favoritos"
-      (click)="onFavorite()">
-        {{ flagFavorite ? 'star' : 'star_border' }}
-    </mat-icon>
-  </div> -->
-</div>
+</mat-card>
