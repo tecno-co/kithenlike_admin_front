@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MenuService } from 'src/app/services/menu/menu.service';
+import { Location } from '@angular/common'
+import { Observable } from 'rxjs';
+import { C } from '@angular/cdk/keycodes';
 
 @Component({
   selector: 'app-banner',
@@ -8,7 +11,7 @@ import { MenuService } from 'src/app/services/menu/menu.service';
 })
 export class BannerComponent implements OnInit {
 
-  @Input() title?: string;
+  title: string = "Home";
 
   flagFavorite: boolean = false;
   description: string = "";
@@ -20,16 +23,15 @@ export class BannerComponent implements OnInit {
   constructor(
     private menuService: MenuService,
     // private router: Router,
-    //private location: Location
-  ) { }
+    private location: Location,
+  ) {
+    this.menuService.getPage().subscribe((res:any) => {
+      this.title = res;
+    });
+  }
 
   ngOnInit(): void {
-    this.menuService.emitPage
-    .subscribe(
-      (page: any) => {
-        this.title = page;
-      }
-    )
+
   }
 
   onFavorite() {
@@ -38,7 +40,7 @@ export class BannerComponent implements OnInit {
   }
 
   onBack(){
-    // this.location.back();
-    console.log("Back")
+    this.location.back();
+    //console.log("Back")
   }
 }

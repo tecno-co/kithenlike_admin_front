@@ -18,6 +18,7 @@ import { map, startWith } from 'rxjs/operators';
 export class DynamicTableComponent implements OnInit {
   
   render = true;
+  copied: boolean = true;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
@@ -42,7 +43,6 @@ export class DynamicTableComponent implements OnInit {
   tableCols: any[] = [];
   formControl = new FormControl(['angular']);
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
-  copied: boolean = false;
 
   filterKeywords = new FormControl();
   filterSeasons = new FormControl();
@@ -119,11 +119,11 @@ export class DynamicTableComponent implements OnInit {
   }
 
   clipboardCopied() {
-    this.openSnackBar('Copiado', 'Cerrar', 1000)
+    this.openSnackBar('Copiado', '', 1000)
   }
 
   openSnackBar(message: string, action: string, duration: number) {
-    var panelClass = "succes-snack-bar";
+    var panelClass = "default-snack-bar";
     this._snackBar.open(message, action, {
       duration: duration,
       panelClass: panelClass

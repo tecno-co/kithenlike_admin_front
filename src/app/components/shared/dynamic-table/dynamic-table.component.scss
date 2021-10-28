@@ -40,9 +40,9 @@ table {
 }
 
 .copy-icon {
-  margin: 0 20px;
+  font-size: 1.3rem;
   cursor: pointer;
-  color: gray;
+  color: rgb(194, 194, 194);
  }
 
 ::ng-deep .mat-tooltip.tooltip {
@@ -73,4 +73,13 @@ table {
 
 .field-container {
   margin-right: 10px;
+}
+
+.column-id {
+  display: inline-block;
+}
+
+.copy-button {
+  display: inline-block;
+  vertical-align: middle;
 }

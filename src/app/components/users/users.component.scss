@@ -1,5 +1,3 @@
-@use '/src/assets/scss/variables';
-
 .add {
   position: fixed !important;  
   bottom: 50px !important;
@@ -17,16 +15,8 @@
   margin: 0px;
 }
 
+
 .table-container {
   width: 100%;
   margin: 0px;
-}
-
-.image {
-  border-radius: 20px;
-  position: fixed;
-  right: 20px;
-  width: 30%;
-  top: calc(20px + #{variables.$toolbar-height});
-  z-index: 100;
 }

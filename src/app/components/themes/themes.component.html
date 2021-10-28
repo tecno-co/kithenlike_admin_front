@@ -1,5 +1,4 @@
 <div class="grid-container">
-  <h1 class="mat-h1">Temas</h1>
   <mat-grid-list cols="4" rowHeight="350px">
     <mat-grid-tile *ngFor="let theme of tableData" [colspan]="1" [rowspan]="1">
       <mat-card class="theme-card" [ngClass]="'light-' + theme.theme_class">
@@ -37,22 +36,3 @@
 <button mat-fab color="accent" class="btn-new mat-elevation-z2 add" (click)="onAdd()">
   <mat-icon >add</mat-icon>
 </button>
-
-
-
-
-<!-- <div class="general-container">
-  <h1 class="mat-h1">Temas</h1>
-
-  <div class="master-container">
-
-    <app-dynamic-table class="table-container"
-    [data]=tableData
-    [headers]=tableHeaders
-    (emitAdd)="onAdd()"
-    (emitEdit)="onEdit($event)"
-    (emitDelete)="onDelete($event)">  
-  </app-dynamic-table>
-    
-  </div>
-</div> -->

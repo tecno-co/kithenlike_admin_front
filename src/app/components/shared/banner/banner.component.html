@@ -2,10 +2,14 @@
 
   <div class="banner-card-content">
 
-    <mat-card-title class="banner-title">{{title}}</mat-card-title>
-    <button class="back-button" mat-mini-fab [color]="'white'">
+    <button class="back-button" mat-mini-fab [color]="'white'" (click)="onBack()">
       <mat-icon color="primary">chevron_left</mat-icon>
     </button>
+
+    <h1 class="banner-title">{{title}}</h1>
+
+    <div class="box box-1"></div>
+    <div class="box box-2"></div>
 
   </div>
 </mat-card>

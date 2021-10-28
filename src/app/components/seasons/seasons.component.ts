@@ -13,7 +13,7 @@ import { SeasonsFormComponent } from './seasons-form/seasons-form.component';
 })
 export class SeasonsComponent implements OnInit {
 
-  tableHeaders: string[] = ['CÓDIGO', 'NOMBRE', 'ESTADO'];
+  tableHeaders: string[] = [];
 
   tableData: any[] = [];
 

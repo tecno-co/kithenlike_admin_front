@@ -1,23 +1,24 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { SeasonsRoutingModule } from './seasons-routing.module';
-import { SeasonsComponent } from './seasons.component';
+import { UsersRoutingModule } from './users-routing.module';
+import { UsersComponent } from './users.component';
 import { RouterModule } from '@angular/router';
 import { AngularMaterialModule } from '../shared/angular-material.module';
 import { SharedModule } from '../shared/shared.module';
+import { UsersFormComponent } from './users-form/users-form.component';
 
 
 @NgModule({
   declarations: [
-    SeasonsComponent,
+    UsersComponent,
   ],
   imports: [
     CommonModule,
-    SeasonsRoutingModule,
+    UsersRoutingModule,
     RouterModule,
     AngularMaterialModule,
-    SharedModule,
+    SharedModule
   ]
 })
-export class SeasonsModule { }
+export class UsersModule { }

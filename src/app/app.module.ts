@@ -23,6 +23,8 @@ import { MatButton } from '@angular/material/button';
 import { DesignsFormComponent } from './components/designs/designs-form/designs-form.component';
 import { SeasonsFormComponent } from './components/seasons/seasons-form/seasons-form.component';
 import { KeywordsFormComponent } from './components/keywords/keywords-form/keywords-form.component';
+import { UsersFormComponent } from './components/users/users-form/users-form.component';
+import { CategoriesFormComponent } from './components/categories/categories-form/categories-form.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +41,8 @@ import { KeywordsFormComponent } from './components/keywords/keywords-form/keywo
     DesignsFormComponent,
     SeasonsFormComponent,
     KeywordsFormComponent,
+    UsersFormComponent,
+    CategoriesFormComponent
   ],
   imports: [
     BrowserModule,

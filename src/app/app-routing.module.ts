@@ -12,6 +12,8 @@ import { DesignsResolver } from './components/designs/guards/designs.resolver';
 import { KeywordsListResolver } from './components/designs/guards/keywords-list.resolver';
 import { SeasonsListResolver } from './components/designs/guards/seasons-list.resolver';
 import { MenuResolver } from './components/pages/guards/menu.resolver';
+import { UsersResolver } from './components/users/guards/users.resolver';
+import { CategoriesResolver } from './components/categories/guards/categories.resolver';
 
 const routes: Routes = [
   { 
@@ -74,10 +76,21 @@ const routes: Routes = [
     resolve: {keywordsResolver: KeywordsResolver}
   },
   { path: 'pages',
-  canActivate: [AuthGuard],
-  loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule),
-  resolve: {menuResolver: MenuResolver}
-},
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule),
+    resolve: {menuResolver: MenuResolver}
+  },
+  // {
+  //   path: 'users',
+  //   canActivate: [AuthGuard],
+  //   // loadChildren: () => import('./components/users/users.module').then(m => m.UsersModule),
+  //   // resolve: {usersResolver: UsersResolver}
+  // },
+  {
+    path: 'categories', loadChildren: () => import('./components/categories/categories.module').then(m => m.CategoriesModule),
+    canActivate: [AuthGuard],
+    resolve: {categoriesResolver: CategoriesResolver}
+  },
 ] 
 
 @NgModule({
