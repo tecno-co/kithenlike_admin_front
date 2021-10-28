@@ -9,7 +9,7 @@ $bg-color-dark: mat.get-color-from-palette(tecno.$tecno-dark-theme-background-pa
 
 // Define cyan-orange theme
 $light-primary-cyan-orange: mat.define-palette(tecno.$cyan-palette);
-$light-accent-cyan-orange: mat.define-palette(tecno.$orange-palette);
+$light-accent-cyan-orange: mat.define-palette(tecno.$red-palette);
 $light-theme-cyan-orange: mat.define-light-theme((
  color: (
    primary: $light-primary-cyan-orange,
@@ -42,7 +42,7 @@ $light-theme-cyan-orange: mat.define-light-theme((
 }
 
 $dark-primary-cyan-orange: mat.define-palette(tecno.$cyan-palette);
-$dark-accent-cyan-orange: mat.define-palette(tecno.$orange-palette);
+$dark-accent-cyan-orange: mat.define-palette(tecno.$red-palette);
 $dark-theme-cyan-orange: mat.define-dark-theme((
  color: (
    primary: $dark-primary-cyan-orange,

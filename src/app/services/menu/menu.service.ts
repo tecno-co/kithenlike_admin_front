@@ -1,5 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
+import { BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Menu } from 'src/app/models/menu/menu';
 import { environment } from 'src/environments/environment';
@@ -23,12 +24,11 @@ export class MenuService {
   
   private readonly API = `${environment.API}/menus`;
   private _menu: Menu[] = [];
-  private _page: string = 'Home';
-  emitPage = new EventEmitter<any>();
+  private page: BehaviorSubject<string> = new BehaviorSubject<string>('Inicio');
 
   inputParams: any = {
     user_email: "",
-    user_token: ""
+    user_token: "",
   };
 
   httpOptions!: any;
@@ -61,12 +61,24 @@ export class MenuService {
 
   get getMenu(): Menu [] { return this._menu }
 
-  getPage(): any { return this._page }
-
   set setMenu(menu: Menu []) { this._menu = menu }
 
-  setPage(page: any) { this.emitPage.emit(this._page); this._page = page }
+  getPage(){
+    return this.page.asObservable();
+  }
 
-
+  setPage(route: any){
+    console.log(this._menu)
+    this._menu.forEach(module=> {
+      module.pages.forEach(page => {
+        if (route == 'home') {
+          this.page.next('Inicio');
+        }
+        if (page.route == route) {
+          this.page.next(page.name);
+        }
+      })
+    });
+  }
 
 }
