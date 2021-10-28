@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, ViewChild } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-login-a',
@@ -9,17 +10,24 @@ export class LoginAComponent implements OnInit {
 
   @Output() login = new EventEmitter<any>();
 
-  @ViewChild('signInForm', { static: true })
+  loginForm: FormGroup;
+  hidePassword: boolean = true;
 
-  signInData!: any;
   output: any = {};
 
-  constructor() {}
+  constructor(
+    private fb: FormBuilder
+  ) {
+    this.loginForm = new FormGroup({
+      login: new FormControl('', Validators.required),
+      password:  new FormControl(''),
+    });
+  }
 
   ngOnInit(): void {
   }
 
   onLogin() {
-    this.login.emit(this.signInData);
+    this.login.emit(this.loginForm.value);
   }
 }

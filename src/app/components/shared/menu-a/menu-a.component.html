@@ -37,7 +37,7 @@
         color="primary"
         [routerLink]="[page.route]"
         *ngFor="let page of pages"
-        (click)="extendedMenu = false; size = 50; setPage(page)"
+        (click)="extendedMenu = false; size = 50;"
         [class.mat-raised-button]="overButton && page.name == overOption"
         (mouseover)="overOption = page.name; overButton = true"
         (mouseout)="overButton = false">

@@ -1,4 +1,4 @@
-// @use '/src/styles';
+@use '/src/assets/scss/variables';
 
 .add {
   position: fixed !important;  
@@ -25,9 +25,8 @@
 .image {
   border-radius: 20px;
   position: fixed;
-  left: 50%;
-  transform: translate(-50%);
+  right: 20px;
   width: 30%;
-  bottom: 100px;
+  top: calc(20px + #{variables.$toolbar-height});
+  z-index: 100;
 }
-

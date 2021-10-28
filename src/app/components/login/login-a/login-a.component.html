@@ -4,21 +4,22 @@
       <img src="assets/images/logo_dark.png" alt="logo" class="logo">
     </mat-card-title>
     <mat-card-content>
-      <form #signInForm="ngForm">
+      <form [formGroup]="loginForm">
 
         <mat-form-field class="field">
           <mat-label>Usuario</mat-label>
-          <input type="email"  matInput [(ngModel)]="signInData.login" name="email">
+          <input type="email"  matInput name="email" formControlName="login">
         </mat-form-field>
 
         <mat-form-field class="field">
           <mat-label>Contraseña</mat-label>
-          <input type="password" matInput [(ngModel)]="signInData.password" name="password">
+          <input [type]="hidePassword ? 'password' : 'text'" matInput name="password" formControlName="password">
+          <mat-icon matSuffix style="opacity: 0.5" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
         </mat-form-field>
           
-        <mat-checkbox class="check mat-primary" name="checkRemember" >Recuérdame</mat-checkbox>
+        <mat-checkbox class="check mat-primary" name="checkRemember">Recuérdame</mat-checkbox>
 
-        <button mat-stroked-button color="primary" class="btn mat-elevation-z2" (click)=onLogin()>Iniciar sesión</button>
+        <button mat-raised-button color="accent" class="btn mat-elevation-z2" (click)=onLogin()>Iniciar sesión</button>
 
         <div class="link">
           <a class="link-text" routerLink="/reset">¿Olvidaste tu contraseña?</a><br>
