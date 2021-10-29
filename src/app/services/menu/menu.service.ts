@@ -70,7 +70,7 @@ export class MenuService {
   setPage(route: any){
     this._menu.forEach(module=> {
       module.pages.forEach(page => {
-        if (route == '/home') {
+        if (route == 'home') {
           this.page.next('Inicio');
         }
         if (page.route == '/'+route) {
