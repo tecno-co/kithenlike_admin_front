@@ -68,13 +68,12 @@ export class MenuService {
   }
 
   setPage(route: any){
-    console.log(this._menu)
     this._menu.forEach(module=> {
       module.pages.forEach(page => {
-        if (route == 'home') {
+        if (route == '/home') {
           this.page.next('Inicio');
         }
-        if (page.route == route) {
+        if (page.route == '/'+route) {
           this.page.next(page.name);
         }
       })
