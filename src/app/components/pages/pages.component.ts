@@ -21,8 +21,6 @@ export class PagesComponent implements OnInit {
     this.route.data.subscribe((res:any) => {
       res.menuResolver.forEach((module: any) => this.menuModules.push(module.module));
       res.menuResolver.forEach((module: any) => module.pages.forEach((page: any) => this.menuPages.push(page)));
-      console.log(this.menuModules);
-      console.log(this.menuPages);
     })
 
     // this.menuService.emitDataTable

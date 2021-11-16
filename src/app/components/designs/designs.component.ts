@@ -23,7 +23,7 @@ export class DesignsComponent implements OnInit {
 
   tableData: any[] = [];
 
-  allSeasons: any[] = [];
+  allCategories: any[] = [];
   allKeywords: string[] = [];
 
   constructor(
@@ -38,7 +38,7 @@ export class DesignsComponent implements OnInit {
       this.tableData = res.designsResolver.dataTable;
       this.tableHeaders = res.designsResolver.headers;
       res.keywordsListResolver.dataTable.map((data: any) => this.allKeywords.push(data.name));
-      res.seasonsListResolver.dataTable.map((data: any) => this.allSeasons.push({name: data.name, id: data.idForOptions}));
+      res.categoriesListResolver.dataTable.map((data: any) => this.allCategories.push({name: data.name, id: data.idForOptions}));
     })
 
     this.designsService.emitDataTable
@@ -60,7 +60,7 @@ export class DesignsComponent implements OnInit {
     dialogConfig.width = "50%";
     dialogConfig.data = {};
     dialogConfig.data.keywordsList = this.allKeywords;
-    dialogConfig.data.seasonsList = this.allSeasons;
+    dialogConfig.data.categoriesList = this.allCategories;
     dialogConfig.data.mode = 'create';
     let dialogRef = this.dialog.open(DesignsFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
@@ -87,7 +87,7 @@ export class DesignsComponent implements OnInit {
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
     dialogConfig.data.keywordsList = this.allKeywords;
-    dialogConfig.data.seasonsList = this.allSeasons;
+    dialogConfig.data.categoriesList = this.allCategories;
     dialogConfig.data.mode = 'edit';
     let dialogRef = this.dialog.open(DesignsFormComponent, dialogConfig);
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
@@ -140,9 +140,9 @@ export class DesignsComponent implements OnInit {
 
     dialogRef.componentInstance.dialogEmit.subscribe((res: any ) => {
 
-      let newSeasons = '';
-      if (res.seasons != null) {
-        res.seasons.map((s:any) => newSeasons == '' ? newSeasons = newSeasons + s.season_id : newSeasons = newSeasons + ', ' + s.season_id);
+      let newCategories = '';
+      if (res.categories != null) {
+        res.categories.map((s:any) => newCategories == '' ? newCategories = newCategories + s.category_id : newCategories = newCategories + ', ' + s.category_id);
       }
       
       let newKeywords = '';
@@ -150,7 +150,7 @@ export class DesignsComponent implements OnInit {
         res.key_words.map((k:any) => newKeywords == '' ? newKeywords = newKeywords + k.key_word_name: newKeywords = newKeywords + ', ' + k.key_word_name);
       }
 
-      res.seasons = newSeasons;
+      res.categories = newCategories;
       res.key_words = newKeywords;
       res.checkOption = !res.checkOption;
       

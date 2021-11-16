@@ -1,7 +1,7 @@
 <div style="height: 100%;" [class.dark-theme-cyan-orange]="theme" [class.light-theme-cyan-orange]="!theme">
     <!-- LOGIN -->
-    <app-login *ngIf="!(isAuthenticated$ | async)"></app-login>
-
+    <!-- <app-login *ngIf="!(isAuthenticated$ | async)"></app-login> -->
+    <router-outlet *ngIf="!(isAuthenticated$ | async)"></router-outlet>
     <!-- HOME -->
     <app-home *ngIf="isAuthenticated$ | async" (theme)="toggleTheme($event)" ></app-home>
 </div>

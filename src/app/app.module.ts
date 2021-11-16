@@ -13,7 +13,6 @@ import { LoginAComponent } from './components/login/login-a/login-a.component';
 import { PieChartsComponent } from './components/shared/google-charts/pie-charts/pie-charts.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularMaterialModule } from './components/shared/angular-material.module';
@@ -25,6 +24,9 @@ import { SeasonsFormComponent } from './components/seasons/seasons-form/seasons-
 import { KeywordsFormComponent } from './components/keywords/keywords-form/keywords-form.component';
 import { UsersFormComponent } from './components/users/users-form/users-form.component';
 import { CategoriesFormComponent } from './components/categories/categories-form/categories-form.component';
+import { RolesFormComponent } from './components/roles/roles-form/roles-form.component';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -42,7 +44,8 @@ import { CategoriesFormComponent } from './components/categories/categories-form
     SeasonsFormComponent,
     KeywordsFormComponent,
     UsersFormComponent,
-    CategoriesFormComponent
+    CategoriesFormComponent,
+    RolesFormComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +56,9 @@ import { CategoriesFormComponent } from './components/categories/categories-form
     AngularMaterialModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgIdleKeepaliveModule.forRoot(),
+    MomentModule,
   ],
   exports: [],
   providers: [],

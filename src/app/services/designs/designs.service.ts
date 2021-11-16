@@ -34,9 +34,8 @@ export class DesignsService {
     designFormData.append('design[name]', design.name);
     designFormData.append('design[description]', design.description);
     designFormData.append('design[key_words]', design.key_words);
-    designFormData.append('design[seasons]', design.seasons);
+    designFormData.append('design[categories]', design.categories);
     designFormData.append('design[is_active]', design.isActive);
-    console.log(design);
 
     if (design.image != null) {
       designFormData.append('design[image]', design.image);
@@ -58,14 +57,15 @@ export class DesignsService {
     designFormData.append('design[name]', design.name);
     designFormData.append('design[description]', design.description); 
     designFormData.append('design[key_words]', design.key_words);
-    designFormData.append('design[seasons]', design.seasons);
+    designFormData.append('design[categories]', design.categories);
     designFormData.append('design[is_active]', design.isActive);
 
-    let noImage = !(design.image.original || design.image.original == null);
+    let noImage = !(design.image.original || design.image == null);
     if (noImage) {
       designFormData.append('design[image]', design.image);
     }
 
+    
     return this.http.put<any>(`${this.API}/designs/${design.idForOptions}`, designFormData, httpOptions)
     .pipe(
       tap((data: any) => 

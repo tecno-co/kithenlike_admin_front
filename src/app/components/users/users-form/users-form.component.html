@@ -9,7 +9,8 @@
 <form [formGroup]="userForm" class="dialog-content-container">
   
   <mat-dialog-content>
-    
+    <img *ngIf="data.mode == 'edit'" [src]="imagePreviewUrl == '' ? userForm.get('avatar')?.value.original : imagePreviewUrl" alt="" class="form-image-preview">
+
     <mat-form-field class="field">
       <mat-label>Nombres usuario</mat-label>
       <input type="text" matInput name="Nombre" placeholder="Ingrese los nombres del usuario" formControlName="name" required>
@@ -33,25 +34,37 @@
         Campo requerido
       </mat-error>
     </mat-form-field>
-    
+
     <mat-form-field class="field">
-      <mat-label>Perfil usuario</mat-label>
-      <mat-select formControlName="profile">
-        <mat-option *ngFor="let profile of profiles" [value]="profile">
-          {{profile}}
-        </mat-option>
+      <mat-label>Roles</mat-label>
+      <mat-select formControlName="roles">
+        <mat-option *ngFor="let role of roles" value="{{role?.name}}">{{role?.name}}</mat-option>
       </mat-select>
-      <mat-error *ngIf="this.userForm.get('profile')?.invalid">
-        Campo requerido
-      </mat-error>
     </mat-form-field>
 
-    <mat-form-field *ngIf="['Administrador', 'Sistema'].includes(this.userForm.get('profile')?.value)" class="field">
-      <mat-label>Contraseña usuario</mat-label>
-      <input autocomplete="new-password" [type]="hidePassword ? 'password' : 'text'" matInput name="Nombre" placeholder="Ingrese la nueva contraseña del usuario" formControlName="password" required>
+    <div class="field">
+      <input  #imageInput
+              type="file"
+              accept="image/jpeg, image/png"
+              (change)="processFile($event)"
+              style="display: none;">
+      
+      <button mat-mini-fab color="accent" style="margin-right: 5px;"
+        (click)="imageInput.click()">
+          <mat-icon>attach_file</mat-icon>
+      </button>
+      {{extendedImageName || "No hay imagen todavía."}}
+      <mat-hint style="font-size: 10px;">Max: 200 kB .jpeg .jpg .png</mat-hint>
+    </div>
+    
+    <mat-slide-toggle *ngIf="data.mode != 'edit'" formControlName="hasAccess" class="slide-toggle" (click)="changeAccess()">¿Tiene acceso?</mat-slide-toggle><br/>
+
+    <mat-form-field *ngIf="this.userForm.get('hasAccess')?.value && data.mode != 'edit'" class="field">
+      <mat-label>Contraseña</mat-label>
+      <input autocomplete="new-password" [type]="hidePassword ? 'password' : 'text'" matInput name="Nombre" placeholder="Ingrese la nueva contraseña del usuario" formControlName="password">
       <mat-icon matSuffix style="opacity: 0.5" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
       <mat-error *ngIf="this.userForm.get('password')?.invalid">
-        Campo requerido
+        Mínimo 6 caracteres
       </mat-error>
     </mat-form-field>
 

@@ -1,0 +1,14 @@
+<div class="general-container">
+  <div class="master-container">
+
+    <app-dynamic-table class="table-container"
+    [data]=tableData
+    [headers]=tableHeaders
+    (emitAdd)="onAdd()"
+    (emitEdit)="onEdit($event)"
+    (emitDelete)="onDelete($event)"
+    (emitStatusChange)="onStatusChange($event)">  
+  </app-dynamic-table>
+    
+  </div>
+</div>

@@ -29,9 +29,9 @@ export class AuthService {
   reqOptions(){
     let currentData = this.getAuthData();
 
-    if (!this.hasExpired()) {
-      this.setExpiration();
-    }
+    // if (!this.hasExpired()) {
+    //   this.setExpiration();
+    // }
 
     return {
       headers: new HttpHeaders({
@@ -56,7 +56,7 @@ export class AuthService {
         this.setAuthData(resAuthData);
         this.isAuth.next(true);
         this.router.navigate(['/home']);
-        this.setExpiration();
+        // this.setExpiration();
       }));
   }
 
@@ -70,8 +70,7 @@ export class AuthService {
         'uid': currentData.uid
       })
     }
-    this.router.navigate(['/login']);
-    
+        
     return this.http.delete<ResponseData>(this.API + '/auth/sign_out', httpOptions)
       .pipe(
         finalize(() => {
@@ -80,6 +79,7 @@ export class AuthService {
           localStorage.removeItem('uid');
           localStorage.removeItem('expiration');
           this.isAuth.next(false);
+          this.router.navigate(['/login']);
           }
         )
       );
@@ -101,54 +101,53 @@ export class AuthService {
     localStorage.setItem('uid', authData.uid);
   }
 
-   isAuthenticated() {
+  isAuthenticated() {
+    let now = new Date();
+    let expiryTime = localStorage.getItem('ng2Idle.main.expiry');
+    let currentTime = JSON.stringify(now.getTime())
 
-    if (!this.hasExpired()) {
-      this.setExpiration();
+    if (expiryTime && currentTime < expiryTime) {
       this.isAuth.next(true);
-    } else {
-      this.signOut();
-      this.isAuth.next(false);
     }
-
     return this.isAuth.asObservable();
   }
 
-  validateToken() {
+  // validateToken() {
 
-    let httpOptions = this.reqOptions();
+  //   let httpOptions = this.reqOptions();
 
-    return this.http.get<ResponseData>(this.API + '/auth/validate_token', httpOptions)
-      .pipe(share()).subscribe(
-        (res) => {
-          this.isAuth.next(true);
-        },
-        (error) => {
-          this.isAuth.next(false);
-          this.signOut()
-        });
-  }
+  //   return this.http.get<ResponseData>(this.API + '/auth/validate_token', httpOptions)
+  //     .pipe(share()).subscribe(
+  //       (res) => {
+  //         this.isAuth.next(true);
+  //       },
+  //       (error) => {
+  //         this.isAuth.next(false);
+  //         this.signOut()
+  //       });
+  // }
 
-  setExpiration(time = this.expirationTime) {
-    let now = new Date()
-    localStorage.setItem('expiration', JSON.stringify(now.getTime() + time));
-  }
+  // setExpiration(time = this.expirationTime) {
+  //   let now = new Date()
+  //   localStorage.setItem('expiration', JSON.stringify(now.getTime() + time));
+  // }
+  
 
-  hasExpired() {
-    const expirationStr = localStorage.getItem('expiration');
+  // hasExpired() {
+  //   const expirationStr = localStorage.getItem('expiration');
 
-    if (!expirationStr) {
-      return true;
-    }
+  //   if (!expirationStr) {
+  //     return true;
+  //   }
 
-    const expiration = JSON.parse(expirationStr);
-		const now = new Date();
+  //   const expiration = JSON.parse(expirationStr);
+	// 	const now = new Date();
 
-    if (now.getTime() > expiration) {
-      this.signOut();
-      return true;
-    }
+  //   if (now.getTime() > expiration) {
+  //     this.signOut();
+  //     return true;
+  //   }
     
-    return false;
-  }
+  //   return false;
+  // }
 }

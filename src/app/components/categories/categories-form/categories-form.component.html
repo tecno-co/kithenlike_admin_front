@@ -1,0 +1,35 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <h1 class="mat-headline">Categorias</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<form [formGroup]="categoriesForm" class="dialog-content-container">
+
+  <mat-dialog-content>
+
+  <mat-form-field class="field">
+    <mat-label>Nombre</mat-label>
+    <input type="text" matInput name="Nombre" placeholder="Ingrese el nombre de la temporada" formControlName="name" required>
+    <mat-error *ngIf="this.categoriesForm.get('name')?.invalid">
+      Campo requerido
+    </mat-error>
+  </mat-form-field><br/>
+
+  <mat-form-field class="field">
+    <mat-label>Descripción</mat-label>
+    <textarea type="text" matInput name="Nombre" placeholder="Ingrese una descripción detallada de la temporada (opcional)" formControlName="description"></textarea>
+  </mat-form-field><br/> 
+
+  <mat-slide-toggle formControlName="is_active" class="slide-toggle">Estado</mat-slide-toggle>
+
+</mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" mat-dialog-close>Cancel</button>
+    <button mat-button color="accent" [disabled]="this.categoriesForm.invalid" (click)="create()">Guardar</button>
+  </mat-dialog-actions>
+  
+</form>
