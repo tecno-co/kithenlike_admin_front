@@ -1,4 +1,11 @@
-<div style="height: 100%; display: flex; justify-content: center; align-items: center; flex-direction: column;">
-  <h1 class="center">Página en construcción</h1>
-  <h1 routerLink="/home" style="cursor: pointer;">Volver</h1>
+<div class="general-container bg-menu-options">
+  <mat-card class="card-container mat-elevation-z7">
+    <mat-card-title class="title center">
+      Oops!
+    </mat-card-title>
+    <mat-card-content>
+      <h1>Esta página está en construcción</h1>
+      <button mat-raised-button color="accent" class="btn center mat-elevation-z2" [routerLink]="['/login']">Ir al inicio</button>
+    </mat-card-content>
+  </mat-card>
 </div>

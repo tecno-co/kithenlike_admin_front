@@ -2,7 +2,6 @@ import { Component, OnDestroy, OnInit, ViewChild, } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { delay } from 'rxjs/operators';
 import { LoginData } from 'src/app/models/auth/auth';
 import { AuthService } from 'src/app/services/auth/auth.service';
 

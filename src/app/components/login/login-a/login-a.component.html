@@ -21,7 +21,7 @@
         <button mat-stroked-button color="primary" class="btn mat-elevation-z2" (click)=onLogin()>Iniciar sesión</button>
 
         <div class="link">
-          <a class="link-text" routerLink="/reset">¿Olvidaste tu contraseña?</a><br>
+          <a class="link-text" [routerLink]="['/reset']">¿Olvidaste tu contraseña?</a><br>
         </div>
 
       </form>

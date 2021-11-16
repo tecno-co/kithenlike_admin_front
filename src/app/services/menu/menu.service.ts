@@ -21,7 +21,7 @@ export interface Page {
 })
 export class MenuService {
   
-  private readonly API = `${environment.API}/menus`;
+  private readonly API = `${environment.API}/menus/1/modules_pages`;
   private _menu: Menu[] = [];
   private _page: string = 'Home';
   emitPage = new EventEmitter<any>();

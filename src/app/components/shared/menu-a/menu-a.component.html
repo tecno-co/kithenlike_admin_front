@@ -2,16 +2,14 @@
 
   <div class="profile-container">
     <!-- AVATAR -->
-    <app-profile-circle [user]="user" [size]="size" class="center" style="height: 80%;"></app-profile-circle>
+    <app-profile-circle [user]="user" [size]="size" class="center" [ngStyle]="{'height': extendedMenu ? '80%' : '100%'}"></app-profile-circle>
 
     <!-- MENU PERFIL NOMBRE -->
-    <div class="btn-profile" [matMenuTriggerFor]="afterMenu" style="height: 30px">
-      <div *ngIf="extendedMenu">{{ user.getPartialName!() }}</div>
-    </div>
-    <mat-menu #afterMenu="matMenu" xPosition="before" >
+    <div class="btn-profile" *ngIf="extendedMenu">{{ user.getPartialName!() }}</div>
+    <!-- <mat-menu #afterMenu="matMenu" xPosition="before" >
       <button mat-menu-item>Item 1</button>
       <button mat-menu-item>Item 2</button>
-    </mat-menu>
+    </mat-menu> -->
   </div>
 
   <div class="menu-container">

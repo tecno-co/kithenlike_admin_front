@@ -1,0 +1,80 @@
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <h1 class="mat-headline">Usuario</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<form [formGroup]="userForm" class="dialog-content-container">
+  
+  <mat-dialog-content>
+    <img *ngIf="data.mode == 'edit'" [src]="imagePreviewUrl == '' ? userForm.get('avatar')?.value.original : imagePreviewUrl" alt="" class="form-image-preview">
+
+    <mat-form-field class="field">
+      <mat-label>Nombres usuario</mat-label>
+      <input type="text" matInput name="Nombre" placeholder="Ingrese los nombres del usuario" formControlName="name" required>
+      <mat-error *ngIf="this.userForm.get('name')?.invalid">
+        Campo requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="field">
+      <mat-label>Apellidos usuario</mat-label>
+      <input type="text" matInput name="Nombre" placeholder="Ingrese los apellidos del usuario" formControlName="lastName" required>
+      <mat-error *ngIf="this.userForm.get('lastName')?.invalid">
+        Campo requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="field">
+      <mat-label>Correo usuario</mat-label>
+      <input type="text" matInput name="Correo" placeholder="Ingrese el correo del usuario" formControlName="email" required>
+      <mat-error *ngIf="this.userForm.get('lastName')?.invalid">
+        Campo requerido
+      </mat-error>
+    </mat-form-field>
+
+    <mat-form-field class="field">
+      <mat-label>Roles</mat-label>
+      <mat-select formControlName="roles">
+        <mat-option *ngFor="let role of roles" value="{{role?.name}}">{{role?.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <div class="field">
+      <input  #imageInput
+              type="file"
+              accept="image/jpeg, image/png"
+              (change)="processFile($event)"
+              style="display: none;">
+      
+      <button mat-mini-fab color="accent" style="margin-right: 5px;"
+        (click)="imageInput.click()">
+          <mat-icon>attach_file</mat-icon>
+      </button>
+      {{extendedImageName || "No hay imagen todavía."}}
+      <mat-hint style="font-size: 10px;">Max: 200 kB .jpeg .jpg .png</mat-hint>
+    </div>
+    
+    <mat-slide-toggle *ngIf="data.mode != 'edit'" formControlName="hasAccess" class="slide-toggle" (click)="changeAccess()">¿Tiene acceso?</mat-slide-toggle><br/>
+
+    <mat-form-field *ngIf="this.userForm.get('hasAccess')?.value && data.mode != 'edit'" class="field">
+      <mat-label>Contraseña</mat-label>
+      <input autocomplete="new-password" [type]="hidePassword ? 'password' : 'text'" matInput name="Nombre" placeholder="Ingrese la nueva contraseña del usuario" formControlName="password">
+      <mat-icon matSuffix style="opacity: 0.5" (click)="hidePassword = !hidePassword">{{hidePassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+      <mat-error *ngIf="this.userForm.get('password')?.invalid">
+        Mínimo 6 caracteres
+      </mat-error>
+    </mat-form-field>
+
+    <mat-slide-toggle formControlName="isActive" class="slide-toggle">Estado</mat-slide-toggle>
+
+  </mat-dialog-content>
+  
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" mat-dialog-close>Cancel</button>
+    <button mat-button color="accent" [disabled]="this.userForm.invalid" (click)="create()">Guardar</button>
+  </mat-dialog-actions>
+  
+</form>

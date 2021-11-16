@@ -9,6 +9,8 @@
 <form [formGroup]="designsForm" class="dialog-content-container">
   
   <mat-dialog-content>
+
+    <img *ngIf="data.mode == 'edit'" [src]="imagePreviewUrl == '' ? designsForm.get('image')?.value.medium : imagePreviewUrl" alt="" class="form-image-preview">
     
     <mat-form-field class="field">
       <mat-label>Nombre diseño</mat-label>
@@ -35,7 +37,7 @@
           <mat-icon>attach_file</mat-icon>
       </button>
       {{extendedImageName || "No hay imagen todavía."}}
-      <mat-hint *ngIf="!extendedImageName" style="font-size: 10px;">Max: 5 MB .jpeg .jpg .png</mat-hint>
+      <mat-hint *ngIf="!extendedImageName" style="font-size: 10px;">Max: 200 kB .jpeg .jpg .png</mat-hint>
     </div>
 
     <mat-form-field class="field">
@@ -65,26 +67,26 @@
     </mat-form-field>
 
     <mat-form-field class="field">
-      <mat-chip-list #seasonsList>
+      <mat-chip-list #categoriesList>
         <mat-chip
-          *ngFor="let season of seasons"
+          *ngFor="let category of categories"
           [selectable]="true"
           [removable]="true"
-          (removed)="removeChipSeason(season)">
-          {{season.season_name}}
+          (removed)="removeChipCategory(category)">
+          {{category.category_name}}
           <mat-icon matChipRemove *ngIf="true">cancel</mat-icon>
         </mat-chip>
         <input
-          placeholder="Temporadas"
-          #seasonsInput
-          [formControl]="seasonCtrl"
-          [matAutocomplete]="autoSeason"
-          [matChipInputFor]="seasonsList"
-          (matChipInputTokenEnd)="addChipSeason($event)">
+          placeholder="Categorias"
+          #categoriesInput
+          [formControl]="categoryCtrl"
+          [matAutocomplete]="autoCategory"
+          [matChipInputFor]="categoriesList"
+          (matChipInputTokenEnd)="addChipCategory($event)">
       </mat-chip-list>
-      <mat-autocomplete #autoSeason="matAutocomplete">
-        <mat-option *ngFor="let season of filteredSeasons | async" [value]="season" (click)="selectedSeason(season)">
-          {{season.name}}
+      <mat-autocomplete #autoCategory="matAutocomplete">
+        <mat-option *ngFor="let category of filteredCategories | async" [value]="category" (click)="selectedCategory(category)">
+          {{category.name}}
         </mat-option>
       </mat-autocomplete>              
     </mat-form-field>

@@ -12,6 +12,11 @@ import { DesignsResolver } from './components/designs/guards/designs.resolver';
 import { KeywordsListResolver } from './components/designs/guards/keywords-list.resolver';
 import { SeasonsListResolver } from './components/designs/guards/seasons-list.resolver';
 import { MenuResolver } from './components/pages/guards/menu.resolver';
+import { UsersResolver } from './components/users/guards/users.resolver';
+import { CategoriesResolver } from './components/categories/guards/categories.resolver';
+import { RolesResolver } from './components/roles/guards/roles.resolver';
+import { RolesListResolver } from './components/users/guards/roles-list.resolver';
+import { CategoriesListResolver } from './components/designs/guards/categories-list.resolver';
 
 const routes: Routes = [
   { 
@@ -48,7 +53,7 @@ const routes: Routes = [
     resolve: {
       designsResolver: DesignsResolver,
       keywordsListResolver: KeywordsListResolver,
-      seasonsListResolver: SeasonsListResolver
+      categoriesListResolver: CategoriesListResolver
       }
   },
   {
@@ -74,10 +79,31 @@ const routes: Routes = [
     resolve: {keywordsResolver: KeywordsResolver}
   },
   { path: 'pages',
-  canActivate: [AuthGuard],
-  loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule),
-  resolve: {menuResolver: MenuResolver}
-},
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule),
+    resolve: {menuResolver: MenuResolver}
+  },
+  {
+    path: 'users',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/users/users.module').then(m => m.UsersModule),
+    resolve: {
+      usersResolver: UsersResolver,
+      rolesListResolver: RolesListResolver,
+    }
+  },
+  {
+    path: 'categories',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/categories/categories.module').then(m => m.CategoriesModule),
+    resolve: {categoriesResolver: CategoriesResolver}
+  },
+  {
+    path: 'roles',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/roles/roles.module').then(m => m.RolesModule),
+    resolve: {rolesResolver: RolesResolver}
+  },
 ] 
 
 @NgModule({

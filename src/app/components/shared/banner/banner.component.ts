@@ -39,6 +39,5 @@ export class BannerComponent implements OnInit {
 
   onBack(){
     // this.location.back();
-    console.log("Back")
   }
 }

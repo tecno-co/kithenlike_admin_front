@@ -21,10 +21,10 @@ export class DynamicTableComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  filteredSeasons!: Observable<any[]>;
+  filteredCategories!: Observable<any[]>;
   filteredKeywords!: Observable<string[]>;
 
-  @Input("seasons") allSeasons: any[] = [];
+  @Input("categories") allCategories: any[] = [];
   @Input("keywords") allKeywords: string[] = [];
 
   @Input("headers") tableHeaders: string[] = [];
@@ -45,7 +45,7 @@ export class DynamicTableComponent implements OnInit {
   copied: boolean = false;
 
   filterKeywords = new FormControl();
-  filterSeasons = new FormControl();
+  filterCategories = new FormControl();
 
   constructor(
     public dialog: MatDialog,
@@ -63,9 +63,9 @@ export class DynamicTableComponent implements OnInit {
       map((keyword: string | null) => keyword ? this.filtersKeywords(keyword) : this.allKeywords.slice())
     );
 
-    this.filteredSeasons = this.filterSeasons.valueChanges.pipe (
+    this.filteredCategories = this.filterCategories.valueChanges.pipe (
       startWith(null),
-      map((season: string | null) => season ? this.filtersSeasons(season) : this.allSeasons.slice())
+      map((category: string | null) => category ? this.filtersCategories(category) : this.allCategories.slice())
     );
   }
 
@@ -132,7 +132,7 @@ export class DynamicTableComponent implements OnInit {
 
   clearFilter() {
     this.filterKeywords.reset();
-    this.filterSeasons.reset();
+    this.filterCategories.reset();
     this.dataSource.data = this.tableData;
   }
 
@@ -140,16 +140,16 @@ export class DynamicTableComponent implements OnInit {
     this.dataSource.data = this.tableData;
 
 
-    if (this.filterKeywords.value != null && this.filterSeasons.value != null) {
-      this.dataSource.data = this.dataSource.data.filter((data: any)=> data.key_words?.some((e: any) => e.key_word_name == this.filterKeywords.value) && data.seasons?.some((e: any) => e.season_name == this.filterSeasons.value));
+    if (this.filterKeywords.value != null && this.filterCategories.value != null) {
+      this.dataSource.data = this.dataSource.data.filter((data: any)=> data.key_words?.some((e: any) => e.key_word_name == this.filterKeywords.value) && data.categories?.some((e: any) => e.category_name == this.filterCategories.value));
     } else {
 
       if (this.filterKeywords.value != null) {
         this.dataSource.data = this.dataSource.data.filter((data: any)=> data.key_words?.some((e: any) => e.key_word_name == this.filterKeywords.value));
       }
 
-      if (this.filterSeasons.value != null) {
-        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.seasons?.some((e: any) => e.season_name == this.filterSeasons.value));
+      if (this.filterCategories.value != null) {
+        this.dataSource.data = this.dataSource.data.filter((data: any)=> data.categories?.some((e: any) => e.category_name == this.filterCategories.value));
       }
     }  
   }
@@ -162,10 +162,10 @@ export class DynamicTableComponent implements OnInit {
     return names
   }
 
-  seasonsName(seasons: any[]) {
+  categoriesName(categories: any[]) {
     let names: any[] = [];
-    if (seasons != null) {
-      seasons.map((data: any) => names.push(' ' + data.season_name))
+    if (categories != null) {
+      categories.map((data: any) => names.push(' ' + data.category_name))
     }
     return names
   }
@@ -175,12 +175,12 @@ export class DynamicTableComponent implements OnInit {
     return this.allKeywords.filter(keyword => keyword.toLowerCase().includes(filterValue));
   }
 
-  filtersSeasons(value: string): any[] {
+  filtersCategories(value: string): any[] {
     var filterValue: any = '';
     if (typeof(value) == 'string') {
       filterValue = value.toLowerCase();      
     }
-    return this.allSeasons.filter(season => season.name.toLowerCase().includes(filterValue))
+    return this.allCategories.filter(category => category.name.toLowerCase().includes(filterValue))
   }
   
 }

@@ -13,7 +13,6 @@ import { LoginAComponent } from './components/login/login-a/login-a.component';
 import { PieChartsComponent } from './components/shared/google-charts/pie-charts/pie-charts.component';
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 
-
 import { FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AngularMaterialModule } from './components/shared/angular-material.module';
@@ -23,6 +22,11 @@ import { MatButton } from '@angular/material/button';
 import { DesignsFormComponent } from './components/designs/designs-form/designs-form.component';
 import { SeasonsFormComponent } from './components/seasons/seasons-form/seasons-form.component';
 import { KeywordsFormComponent } from './components/keywords/keywords-form/keywords-form.component';
+import { UsersFormComponent } from './components/users/users-form/users-form.component';
+import { CategoriesFormComponent } from './components/categories/categories-form/categories-form.component';
+import { RolesFormComponent } from './components/roles/roles-form/roles-form.component';
+import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
+import { MomentModule } from 'angular2-moment';
 
 @NgModule({
   declarations: [
@@ -39,6 +43,9 @@ import { KeywordsFormComponent } from './components/keywords/keywords-form/keywo
     DesignsFormComponent,
     SeasonsFormComponent,
     KeywordsFormComponent,
+    UsersFormComponent,
+    CategoriesFormComponent,
+    RolesFormComponent
   ],
   imports: [
     BrowserModule,
@@ -49,7 +56,9 @@ import { KeywordsFormComponent } from './components/keywords/keywords-form/keywo
     AngularMaterialModule,
     SharedModule,
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
+    NgIdleKeepaliveModule.forRoot(),
+    MomentModule,
   ],
   exports: [],
   providers: [],
