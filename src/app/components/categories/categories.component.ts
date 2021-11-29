@@ -53,7 +53,8 @@ export class CategoriesComponent implements OnInit {
         }
       },
       (error:any) => {
-        this.openSnackBar('Error al añadir: ' + error?.error?.name, '', 2000, 'error-snack-bar');
+        let message = error?.error?.name == 'translation missing: es.activerecord.errors.models.category.attributes.name.taken' ? 'El nombre ya existe' : error?.error?.name;
+        this.openSnackBar('Error al añadir: ' + message, '', 2000, 'error-snack-bar');
       });
       dialogRef.close();
     })    
@@ -74,7 +75,8 @@ export class CategoriesComponent implements OnInit {
           this.openSnackBar('Error al editar', '', 1000, 'error-snack-bar');
         }
       },(error:any) => {
-        this.openSnackBar('Error al editar: ' + error?.error?.name, '', 2000, 'error-snack-bar');
+        let message = error?.error?.name == 'translation missing: es.activerecord.errors.models.category.attributes.name.taken' ? 'El nombre ya existe' : error?.error?.name;
+        this.openSnackBar('Error al editar: ' + message, '', 2000, 'error-snack-bar');
       });
       dialogRef.close();
     })
@@ -83,7 +85,7 @@ export class CategoriesComponent implements OnInit {
   onDelete(row: any) {
     let dialogConfig = new MatDialogConfig;
     dialogConfig.data = row;
-    dialogConfig.data.title = 'Eliminar temporada';
+    dialogConfig.data.title = 'Eliminar categoría';
     dialogConfig.disableClose = false;  
     dialogConfig.autoFocus = true;
     dialogConfig.width = "40%";
