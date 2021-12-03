@@ -1,16 +1,12 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ThrowStmt } from '@angular/compiler';
 import { Component, ElementRef, EventEmitter, Inject, Input, OnInit, Output, ViewChild} from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
-import { KeywordsService } from 'src/app/services/keywords/keywords.service';
-import { SeasonsService } from 'src/app/services/seasons/seasons.service';
 
 @Component({
   selector: 'app-designs-form',
@@ -19,40 +15,39 @@ import { SeasonsService } from 'src/app/services/seasons/seasons.service';
 })
 export class DesignsFormComponent implements OnInit {
 
-  @ViewChild('seasonsInput') seasonInput!: ElementRef<HTMLInputElement>;
+  @ViewChild('categoriesInput') categoriesInput!: ElementRef<HTMLInputElement>;
   @ViewChild('keywordsInput') keywordsInput!: ElementRef<HTMLInputElement>;
   @Output() dialogEmit: EventEmitter<any> = new EventEmitter();
   
   extendedImageName: any = null;
-  
   image: any = '';
   keywords: any[] = [];
-  seasons: any[] = [];
+  categories: any[] = [];
+  imagePreviewUrl: any = '';
 
 
   readonly separatorKeysCodes = [ENTER, COMMA] as const;
 
   designsForm: FormGroup;
 
-  seasonCtrl = new FormControl();
+  categoryCtrl = new FormControl();
   keywordCtrl = new FormControl();
-  filteredSeasons!: Observable<any[]>;
+  filteredCategories!: Observable<any[]>;
   filteredKeywords!: Observable<string[]>;
-  allSeasons: any[] = [];
+  allCategories: any[] = [];
   allKeywords: string[] = [];
   
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
     public dialogRef: MatDialogRef<DesignsFormComponent>,
     private fb: FormBuilder,
-    private keywordsService: KeywordsService,
-    private seasonsService: SeasonsService,
     private _snackBar: MatSnackBar,
+    private _sanitizer: DomSanitizer,
   ) {
 
-    this.filteredSeasons = this.seasonCtrl.valueChanges.pipe (
+    this.filteredCategories = this.categoryCtrl.valueChanges.pipe (
       startWith(null),
-      map((season: string | null) => season ? this.filterSeasons(season) : this.allSeasons.slice())
+      map((category: string | null) => category ? this.filterCategories(category) : this.allCategories.slice())
     );
 
     this.filteredKeywords = this.keywordCtrl.valueChanges.pipe (
@@ -66,7 +61,7 @@ export class DesignsFormComponent implements OnInit {
       description: new FormControl(''),
       image: new FormControl(null),
       key_words: new FormControl(''),
-      seasons: new FormControl(''),
+      categories: new FormControl(''),
       isActive: new FormControl(true),
     })
 
@@ -78,7 +73,7 @@ export class DesignsFormComponent implements OnInit {
       }
 
       this.keywords = data.key_words != null ? data.key_words : [];      
-      this.seasons = data.seasons != null ? data.seasons : [];
+      this.categories = data.categories != null ? data.categories : [];
 
       this.designsForm = this.fb.group({
         code: data.code,
@@ -86,24 +81,23 @@ export class DesignsFormComponent implements OnInit {
         description: data.description,
         image: data.image,
         key_words: '',
-        seasons: '',
+        categories: '',
         isActive: data.checkOption,
         idForOptions: data.idForOptions,
       })
-    } 
-
+    }
   }
 
   ngOnInit(): void {
     this.allKeywords = this.data.keywordsList;
-    this.allSeasons = this.data.seasonsList;
+    this.allCategories = this.data.categoriesList;
   }
         
   create() {
     
-    let newSeasons = '';
-    if (this.seasons != null) {
-      this.seasons.map(s => newSeasons == '' ? newSeasons = newSeasons + s.season_id : newSeasons = newSeasons + ', ' + s.season_id);
+    let newCategories = '';
+    if (this.categories != null) {
+      this.categories.map(s => newCategories == '' ? newCategories = newCategories + s.category_id : newCategories = newCategories + ', ' + s.category_id);
     }
     
     let newKeywords = '';
@@ -113,29 +107,28 @@ export class DesignsFormComponent implements OnInit {
 
     this.designsForm.patchValue({
       key_words: newKeywords,
-      seasons: newSeasons
+      categories: newCategories
    })
-
     this.dialogEmit.emit(this.designsForm);
   }
 
   processFile(imageInput: any) {
-    const maxSize = 5000000;
+    const maxSize = 200000;
 
     this.extendedImageName = null;
     this.designsForm.controls.image.reset;
 
-    console.log(imageInput.target.files[0]);
     let file: File = imageInput.target.files[0];
+    
     if (imageInput.target.files[0]){
       if (file?.type == 'image/jpeg' || file?.type == 'image/png'){
   
         if (file?.size <= maxSize) {
-  
           this.extendedImageName = file.name;
           this.designsForm.patchValue({
             image: file
-          })        
+          })
+          this.imagePreviewUrl = this._sanitizer.bypassSecurityTrustResourceUrl(URL.createObjectURL(file));
         } else {
           this.openSnackBar('Tamaño maximo superado', '', 2000, 'error-snack-bar');
         }
@@ -143,7 +136,8 @@ export class DesignsFormComponent implements OnInit {
       } else {
         this.openSnackBar('Tipo de archivo no permitido', '', 2000, 'error-snack-bar');
       }
-    }        
+    }      
+ 
   }
 
   addChipKeyword(event: MatChipInputEvent): void {
@@ -165,15 +159,15 @@ export class DesignsFormComponent implements OnInit {
   }
 
 
-  addChipSeason(event: MatChipInputEvent): void {
+  addChipCategory(event: MatChipInputEvent): void {
     this.openSnackBar('Seleccione una opción de la lista', '', 1000, 'error-snack-bar');
   }
 
-  removeChipSeason(season: string): void {
-    const index = this.seasons.indexOf(season);
+  removeChipCategory(category: string): void {
+    const index = this.categories.indexOf(category);
 
     if (index >= 0) {
-      this.seasons.splice(index, 1);
+      this.categories.splice(index, 1);
     }
   }
   
@@ -183,27 +177,27 @@ export class DesignsFormComponent implements OnInit {
     this.keywordCtrl.setValue(null);
   }
   
-  selectedSeason(event: any): void {
-    let newSeasson = {"season_id": event.id, "season_name": event.name};
+  selectedCategory(event: any): void {
+    let newSeasson = {"category_id": event.id, "category_name": event.name};
     let exists: boolean = false;
-    this.seasons.map(s => s.season_name == newSeasson.season_name ? exists = true : exists = false)
+    this.categories.map(s => s.category_name == newSeasson.category_name ? exists = true : exists = false)
     if (!exists){ 
-      this.seasons.push({"season_id": event.id, "season_name": event.name});
+      this.categories.push({"category_id": event.id, "category_name": event.name});
     }
-    this.seasonInput.nativeElement.value = '';
-    this.seasonCtrl.setValue(null);
-    this.filteredSeasons = this.seasonCtrl.valueChanges.pipe (
+    this.categoriesInput.nativeElement.value = '';
+    this.categoryCtrl.setValue(null);
+    this.filteredCategories = this.categoryCtrl.valueChanges.pipe (
       startWith(null),
-      map((season: string | null) => season ? this.filterSeasons(season) : this.allSeasons.slice())
+      map((category: string | null) => category ? this.filterCategories(category) : this.allCategories.slice())
     );
   }
 
-  private filterSeasons(value: string): any[] {
+  private filterCategories(value: string): any[] {
     var filterValue: any = '';
     if (typeof(value) == 'string'){
       filterValue = value.toLowerCase();      
     }
-    return this.allSeasons.filter(season => season.name.toLowerCase().includes(filterValue))
+    return this.allCategories.filter(category => category.name.toLowerCase().includes(filterValue))
   }
 
   private filterKeywords(value: string): string[] {

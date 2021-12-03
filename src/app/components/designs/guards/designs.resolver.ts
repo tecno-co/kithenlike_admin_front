@@ -11,7 +11,10 @@ import { DesignsService } from 'src/app/services/designs/designs.service';
   providedIn: 'root'
 })
 export class DesignsResolver implements Resolve<boolean> {
-  constructor(private designsService: DesignsService,) {}
+
+  constructor(
+    private designsService: DesignsService,
+  ) {}
 
   resolve(
     route: ActivatedRouteSnapshot,

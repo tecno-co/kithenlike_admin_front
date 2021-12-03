@@ -13,6 +13,7 @@ import { ProfileCircleComponent } from './profile-circle/profile-circle.componen
 import { MenuBComponent } from "./menu-b/menu-b.component";
 import { BannerComponent } from './banner/banner.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
+import { ExpirationWarningComponent } from './expiration-warning/expiration-warning.component';
 
 const COMPONENTS = [
   MenuAComponent,
@@ -26,6 +27,7 @@ const COMPONENTS = [
     declarations: [
       COMPONENTS,
       AlertDialogComponent,
+      ExpirationWarningComponent,
     ],
     imports: [
       CommonModule,

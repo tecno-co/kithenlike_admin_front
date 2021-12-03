@@ -1,0 +1,31 @@
+<!-- <div class="dialog-content-container">
+  <h2 class="txt-primary title">Advertencia de caducidad</h2>
+  <div>
+      Esta página caducará a menos que reciba una respuesta en {{data.time}} segundos.
+      Haga clic en Aceptar para que no caduque.
+  </div>
+  <div mat-dialog-actions class="d-flex justify-content-center">
+      <button mat-button class="txt-primary bttn"(click)="onClick()">Aceptar</button>
+  </div>
+</div> -->
+
+<mat-toolbar color="primary" class="mat-elevation-z4">
+  <h1 class="mat-headline">Advertencia de caducidad</h1>
+  <span class="spacer"></span>
+  <button mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+</mat-toolbar>
+
+<div class="dialog-content-container">
+
+  <mat-dialog-content>
+    <p>Esta página caducará a menos que reciba una respuesta en {{data.time}} segundos.
+      Haga clic en Aceptar para que no caduque.</p>
+ </mat-dialog-content>
+
+  <mat-dialog-actions align="end">
+    <button mat-button color="accent" (click)="onClick()">Aceptar</button>
+  </mat-dialog-actions>
+
+</div>
