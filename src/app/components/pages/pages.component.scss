@@ -40,3 +40,14 @@
   width: 50%;
   margin-left: 20px;
 }
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.add-button {
+ display: flex;
+ align-items: flex-end;
+}

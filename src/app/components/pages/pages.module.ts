@@ -8,6 +8,7 @@ import { AngularMaterialModule } from '../shared/angular-material.module';
 import { SharedModule } from '../shared/shared.module';
 import { PagesFormComponent } from './pages-form/pages-form.component';
 import { ModuleFormComponent } from './module-form/module-form.component';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -21,7 +22,9 @@ import { ModuleFormComponent } from './module-form/module-form.component';
     PagesRoutingModule,
     RouterModule,
     AngularMaterialModule,
-    SharedModule
+    SharedModule,
+    FormsModule,
+    ReactiveFormsModule
   ]
 })
 export class PagesModule { }

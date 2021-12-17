@@ -1,4 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { E } from '@angular/cdk/keycodes';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'tecno-module-form',
@@ -7,9 +9,49 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ModuleFormComponent implements OnInit {
 
-  constructor() { }
+  @Input() module: any;
+  @Input() addMode: boolean = false;
+  @Output() emitAddModule: EventEmitter<any> = new EventEmitter();
+  @Output() emitEditModule: EventEmitter<any> = new EventEmitter();
+  @Output() emitDeleteModule: EventEmitter<any> = new EventEmitter();
 
-  ngOnInit(): void {
+  moduleForm: FormGroup
+
+  constructor(
+    private fb: FormBuilder
+  ) {
+    
+    this.moduleForm = this.fb.group({
+      name: [''],
+      icon_id: [''],
+      ordering:[''],
+      menu_id:[''],
+    })    
   }
 
+  ngOnInit(): void {    
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+
+    this.moduleForm.patchValue({
+      name: this.module?.name,
+      icon_id: this.module?.iconv2.id,
+      route: this.module?.route,
+      ordering: this.module?.ordering,
+      menu_id: this.module?.menu,
+    })
+  }
+
+  onEdit() {
+    if(this.addMode) {
+      this.emitAddModule.emit(this.moduleForm);
+    } else {
+      this.emitEditModule.emit(this.moduleForm);      
+    }    
+  }
+  
+  onDelete() {
+    // this.emitDeleteModule.emit();
+  }
 }

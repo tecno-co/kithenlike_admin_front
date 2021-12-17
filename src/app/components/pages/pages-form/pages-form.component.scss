@@ -1,3 +1,12 @@
+$margin: 10px;
+
 .field {
-  width: 50%;
+  margin-right: $margin;
+  width: calc(33% - #{$margin});
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
 }
