@@ -36,3 +36,11 @@
 .main-container {
   display: block;  
 }
+
+.loading-container {
+  background-color: white;
+  position: absolute;
+  height: calc(100vh - #{variables.$toolbar-height});
+  width: 100%;
+  z-index: 1000;
+}

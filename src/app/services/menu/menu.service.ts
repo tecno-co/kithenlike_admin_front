@@ -21,9 +21,10 @@ export interface Page {
 })
 export class MenuService {
   
-  private readonly API = `${environment.API}/menus/1/modules_pages`;
+  private readonly API = `${environment.API}`;
   private _menu: Menu[] = [];
   private _page: string = 'Home';
+  private _pages: any[] = [];
   emitPage = new EventEmitter<any>();
 
   inputParams: any = {
@@ -38,35 +39,25 @@ export class MenuService {
   constructor(private http: HttpClient) { }
 
   getFullMenu() {
-    
-    if (localStorage.user) {
-      this.inputParams.user_email = JSON.parse(localStorage.user).email;
-      this.inputParams.user_token = JSON.parse(localStorage.user).authentication_token;
-    }
-
-    this.httpOptions = {
-      headers: new HttpHeaders({
-        Authorization: `Bareer `
-      }),
-      params: this.inputParams
-      
-    };
-
-
-    return this.http.get<Menu[]>(`${this.API}`)
+    return this.http.get<Menu[]>(`${this.API}/menus/1/modules_pages`)
       .pipe(
         tap((data: any) => this._menu = data)
-      );
+    );
   }
 
   get getMenu(): Menu [] { return this._menu }
+  set setMenu(menu: Menu []) { this._menu = menu }
 
   getPage(): any { return this._page }
-
-  set setMenu(menu: Menu []) { this._menu = menu }
+  
+  getPages(): any { return this._pages }
 
   setPage(page: any) { this.emitPage.emit(this._page); this._page = page }
 
-
-
+  getFullPages(){
+    return this.http.get<any[]>(`${this.API}/pages`)
+      .pipe(
+        tap((data: any) => this._pages = data)
+    );
+  }
 }
