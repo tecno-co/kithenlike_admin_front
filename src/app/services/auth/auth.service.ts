@@ -1,11 +1,13 @@
 import { C } from '@angular/cdk/keycodes';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { finalize, share, tap } from 'rxjs/operators';
 import { AuthData, LoginData, ResponseData } from 'src/app/models/auth/auth';
 import { environment } from 'src/environments/environment';
+import { MenuService } from '../menu/menu.service';
+import { PermissionsService } from '../permissions/permissions.service';
 
 @Injectable({
   providedIn: 'root'
@@ -16,19 +18,22 @@ export class AuthService {
 
   private authData!: AuthData;
 
+  private pageId = 2;
+
   private isAuth: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   private readonly API = environment.API;
 
   constructor(
     private router: Router,
-    private http: HttpClient
+    private http: HttpClient,
+    private menuService: MenuService
   ) {}
 
 
   reqOptions(){
     let currentData = this.getAuthData();
-
+    
     // if (!this.hasExpired()) {
     //   this.setExpiration();
     // }
@@ -38,7 +43,8 @@ export class AuthService {
         'access-token': currentData.accessToken,
         'client': currentData.client,
         'uid': currentData.uid
-      })
+      }),
+      params: new HttpParams().append('page_id', this.pageId + '')
     }
   }
   
@@ -46,7 +52,6 @@ export class AuthService {
 
     return this.http.post<ResponseData>(this.API + '/auth/sign_in', loginData, {observe: 'response'})
       .pipe(tap((res: any) => {
-        
         let resAuthData: AuthData = {
           accessToken: res.headers.get('access-token'),
           client: res.headers.get('client'),
@@ -56,6 +61,7 @@ export class AuthService {
         this.setAuthData(resAuthData);
         this.isAuth.next(true);
         this.router.navigate(['/home']);
+        localStorage.setItem('user', JSON.stringify(res.body.data));
         // this.setExpiration();
       }));
   }
@@ -73,11 +79,13 @@ export class AuthService {
         
     return this.http.delete<ResponseData>(this.API + '/auth/sign_out', httpOptions)
       .pipe(
-        finalize(() => {
+        tap(() => {
           localStorage.removeItem('accessToken');
           localStorage.removeItem('client');
           localStorage.removeItem('uid');
           localStorage.removeItem('expiration');
+          localStorage.removeItem('authorizedPageActions');
+          localStorage.removeItem('user');
           this.isAuth.next(false);
           this.router.navigate(['/login']);
           }
@@ -106,48 +114,32 @@ export class AuthService {
     let expiryTime = localStorage.getItem('ng2Idle.main.expiry');
     let currentTime = JSON.stringify(now.getTime())
 
-    if (expiryTime && currentTime < expiryTime) {
-      this.isAuth.next(true);
+    
+    if (expiryTime && currentTime < expiryTime && this.isAuth.getValue() != true) {
+      if (localStorage.getItem('accessToken') == null) {
+        this.isAuth.next(false);
+      } else {
+        this.isAuth.next(true);
+      }
     }
     return this.isAuth.asObservable();
   }
 
-  // validateToken() {
+  forgetPassword(email: string){
+    return this.http.post<any>(this.API + '/auth/password', {"email": email})
+  }
 
-  //   let httpOptions = this.reqOptions();
+  resetPassword(headers: any, params: any){
+    return this.http.put<any>(this.API + '/auth/password', params, headers)
+  }
 
-  //   return this.http.get<ResponseData>(this.API + '/auth/validate_token', httpOptions)
-  //     .pipe(share()).subscribe(
-  //       (res) => {
-  //         this.isAuth.next(true);
-  //       },
-  //       (error) => {
-  //         this.isAuth.next(false);
-  //         this.signOut()
-  //       });
-  // }
+  changePassword(params: any) {
+    let httpOptions = this.reqOptions();
+    console.log(params)
+    return this.http.put<any>(this.API + '/auth', params, httpOptions)
+  }
 
-  // setExpiration(time = this.expirationTime) {
-  //   let now = new Date()
-  //   localStorage.setItem('expiration', JSON.stringify(now.getTime() + time));
-  // }
-  
-
-  // hasExpired() {
-  //   const expirationStr = localStorage.getItem('expiration');
-
-  //   if (!expirationStr) {
-  //     return true;
-  //   }
-
-  //   const expiration = JSON.parse(expirationStr);
-	// 	const now = new Date();
-
-  //   if (now.getTime() > expiration) {
-  //     this.signOut();
-  //     return true;
-  //   }
-    
-  //   return false;
-  // }
+  setPageId(id: number){
+    this.pageId = id;
+  }
 }

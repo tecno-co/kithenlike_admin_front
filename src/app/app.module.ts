@@ -27,6 +27,8 @@ import { CategoriesFormComponent } from './components/categories/categories-form
 import { RolesFormComponent } from './components/roles/roles-form/roles-form.component';
 import { NgIdleKeepaliveModule } from '@ng-idle/keepalive';
 import { MomentModule } from 'angular2-moment';
+import { AuthGuard } from './auth/auth.guard';
+import { PasswordFormComponent } from './components/password/password-form/password-form.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +47,8 @@ import { MomentModule } from 'angular2-moment';
     KeywordsFormComponent,
     UsersFormComponent,
     CategoriesFormComponent,
-    RolesFormComponent
+    RolesFormComponent,
+    PasswordFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,7 @@ import { MomentModule } from 'angular2-moment';
     MomentModule,
   ],
   exports: [],
-  providers: [],
+  providers: [AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [MatButton]
 })

@@ -9,23 +9,45 @@
  }
  
  .card-container {
-    padding: 70px;
-    border-radius: 30px;
+   width: 30%;
+   padding: 70px;
+   border-radius: 30px;
  }
    
  .btn {
-    width: 60%;
-    margin: 50px 20%;
+    width: 100%;
+    margin: 50px 0;
     border-radius: 30px;
+    line-height: 50px;
  }
 
  .title {
     margin: 50px;
-    font-size: 3rem;
+    font-size: 2rem;
  }
 
- .center{
+ .center {
     display: flex;
     justify-content: center;
     align-items: center;
  }
+
+ .field {
+    width: 100%;
+    margin: 0 0 20px;
+ }
+
+.link {
+   text-align: center;
+}
+
+.link-text {
+   text-decoration: none;
+   color: rgb(165, 165, 165);
+}
+
+.message {
+  margin: 0 0 30px;
+  text-align: justify;
+  text-justify: inter-word;
+}
