@@ -14,20 +14,22 @@ import { MenuBComponent } from "./menu-b/menu-b.component";
 import { BannerComponent } from './banner/banner.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ExpirationWarningComponent } from './expiration-warning/expiration-warning.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
 
 const COMPONENTS = [
   MenuAComponent,
   MenuBComponent,
   DynamicTableComponent,
   ProfileCircleComponent,
-  BannerComponent
+  BannerComponent,
+  ExpirationWarningComponent,
+  UnauthorizedComponent,
+  AlertDialogComponent
 ];
 
 @NgModule({
     declarations: [
       COMPONENTS,
-      AlertDialogComponent,
-      ExpirationWarningComponent,
     ],
     imports: [
       CommonModule,

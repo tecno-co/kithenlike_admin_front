@@ -18,7 +18,6 @@ export class UsersFormComponent implements OnInit {
   hidePassword: boolean = true;
   newPassword: boolean = true;
   imagePreviewUrl: any = '';
-  roles: any = [];
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -26,13 +25,13 @@ export class UsersFormComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private _sanitizer: DomSanitizer,
   ) {
-    this.roles = this.data.allRoles;
+    // this.selectedRoles = this.data.allRoles;
     this.userForm = this.fb.group({
       avatar: [''],
       name: ['', Validators.required],
       lastName: ['', Validators.required],
       email:['', [Validators.required, Validators.email]],
-      roles: ['', Validators.required],
+      roles: [['']],
       hasAccess: [false],
       password: ['', [Validators.minLength(6)]],
       isActive: [true],
@@ -46,7 +45,6 @@ export class UsersFormComponent implements OnInit {
       }
 
       this.newPassword = false;
-      
       this.userForm.patchValue(
         {
           avatar: this.data.avatar,
@@ -66,49 +64,45 @@ export class UsersFormComponent implements OnInit {
   }
 
   create(){
+    // let selectedRoles = this.userForm.get('roles')?.value.map((role: any)=>({name: role}));
+
     let user = new FormData();
     user.append('idForOptions', this.data.idForOptions);
-    user.append('person[avatar]', this.userForm.value.avatar);
+    user.append('person[first_name]', this.userForm.value.name);
+    user.append('person[last_name]', this.userForm.value.lastName);
+    user.append('person[email]', this.userForm.value.email);
+    user.append('roles', this.userForm.get('roles')?.value.join(','));
+    
+    if (this.data.mode == 'create'){
+      // user.append('person[avatar]', this.userForm.value.avatar);
+    }
     if (this.userForm.value.hasAccess && this.userForm.value.password) {
-      user.append('person[first_name]', this.userForm.value.name);
-      user.append('person[last_name]', this.userForm.value.lastName);
-      user.append('person[email]', this.userForm.value.email);
       user.append('user[email]', this.userForm.value.email);
       user.append('user[password]', this.userForm.value.password);
       user.append('user[password_confirmation]', this.userForm.value.password);
-      user.append('role[first_name]', this.userForm.value.roles);
     } else {
       this.userForm.patchValue({hasAccess: false});
-      user.append('person[first_name]', this.userForm.value.name);
-      user.append('person[last_name]', this.userForm.value.lastName);
-      user.append('person[email]', this.userForm.value.email);
+    }
+  
+    // let user: any = {};
+    // let personData = (({name:first_name, lastName:last_name, email}) => ({first_name, last_name, email}))(this.userForm.value);
+    // user.person = personData;
+    // user.idForOptions = this.data.idForOptions;
+
+    // if (this.userForm.value.avatar) {
+    //   console.log('Tiene avatar');
+    // }
 
     // if (this.userForm.value.hasAccess && this.userForm.value.password) {
-    //   user = {
-    //     person: {
-    //       first_name: this.userForm.value.name,
-    //       last_name: this.userForm.value.lastName,
-    //       email: this.userForm.value.email
-    //     },
-    //     user: {
-    //       email: this.userForm.value.email,
-    //       password: this.userForm.value.password,
-    //       password_confirmation: this.userForm.value.password,
-    //     },
-    //     role: {name: this.userForm.value.roles},
-    //     idForOptions: this.data.idForOptions,
-    //   }
+    //   let userData: any = (({email, password, password:password_confirmation, roles}) => ({email, password, password_confirmation, roles}))(this.userForm.value);
+    //   user.user = userData;
+    //   user.roles = this.userForm.get('roles')?.value;
     // } else {
     //   this.userForm.patchValue({hasAccess: false});
-    //   user = {
-    //     idForOptions: this.data.idForOptions,
-    //     person: {
-    //       first_name: this.userForm.value.name,
-    //       last_name: this.userForm.value.lastName,
-    //       email: this.userForm.value.email
-    //     }
-    //   }
-    }
+    // }
+
+    console.log(user);
+        
     this.dialogEmit.emit(user);
   }
 
@@ -149,6 +143,9 @@ export class UsersFormComponent implements OnInit {
       duration: duration,
       panelClass: panelClass
     });
+  }
+
+  addRole(role: string): void {
   }
 
 }

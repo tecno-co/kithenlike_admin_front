@@ -1,4 +1,6 @@
-<div class="general-container">
+<tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
+
+<div class="animate__animated animate__fadeIn general-container" *ngIf="authorizedActions.status == undefined">
   <h1 class="mat-h1">Diseños</h1>
   
   <div class="master-container">
@@ -9,6 +11,15 @@
       [data]="tableData"
       [headers]="tableHeaders"
       [filter]="true"
+
+      [actionIndex]="true"
+      [actionIndexNotEliminated]="true"
+      [actionShow]="authorizedActions?.action_create"
+      [actionCreate]="authorizedActions?.action_create"
+      [actionUpdate]="authorizedActions?.action_update"
+      [actionDestroy]="authorizedActions?.action_destroy"
+      [actionLogicalDelete]="authorizedActions?.action_logical_delete"
+
       (image)="setImage($event)"
       (emitAdd)="onAdd()"
       (emitEdit)="onEdit($event)"

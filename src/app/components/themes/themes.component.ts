@@ -1,7 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { MainService } from 'src/app/services/main/main.service';
 import { ThemesService } from 'src/app/services/themes/themes.service';
 import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { ThemesFormComponent } from './themes-form/themes-form.component';
@@ -9,24 +10,30 @@ import { ThemesFormComponent } from './themes-form/themes-form.component';
 @Component({
   selector: 'app-themes',
   templateUrl: './themes.component.html',
-  styleUrls: ['./themes.component.scss']
+  styleUrls: ['./themes.component.scss'],
 })
 export class ThemesComponent implements OnInit {
-  tableHeaders: string[] = [];
 
+  @Output() themeEmmiter: EventEmitter<any> = new EventEmitter();
+  tableHeaders: string[] = [];
   tableData: any[] = [];
+  authorizedActions: any;
+  currentThemeClass = localStorage.getItem('theme')!;
 
   constructor(
     public dialog: MatDialog,
     private themeService: ThemesService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private mainService: MainService
   ) {}
 
   ngOnInit(): void {
+    this.authorizedActions = JSON.parse(localStorage.getItem('authorizedPageActions')!);
     this.route.data.subscribe((res:any) => {
       this.tableData = res.themesResolver.dataTable;
       this.tableHeaders = res.themesResolver.headers;
+      setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 
     this.themeService.emitDataTable
@@ -95,6 +102,17 @@ export class ThemesComponent implements OnInit {
         }
       });
     })
+  }
+
+  setTheme(theme: any) {    
+    let currentTheme =  localStorage.getItem('theme')!;
+    if (currentTheme.includes('dark')) {
+      currentTheme = 'dark-' + theme.theme_class
+    } else {
+      currentTheme = 'light-' + theme.theme_class
+    }
+    localStorage.setItem('theme', currentTheme);
+    this.mainService.setTheme();
   }
 
   openSnackBar(message: string, action: string, duration: number, className: string) {

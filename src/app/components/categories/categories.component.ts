@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { CategoriesService } from 'src/app/services/categories/categories.service';
+import { MainService } from 'src/app/services/main/main.service';
 import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { CategoriesFormComponent } from './categories-form/categories-form.component';
 
@@ -14,20 +15,23 @@ import { CategoriesFormComponent } from './categories-form/categories-form.compo
 export class CategoriesComponent implements OnInit {
 
   tableHeaders: string[] = [];
-
   tableData: any[] = [];
+  authorizedActions: any;
 
   constructor(
     public dialog: MatDialog,
     private categoriesService: CategoriesService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private mainService: MainService
   ) { }
 
   ngOnInit(): void {
+    this.authorizedActions = JSON.parse(localStorage.getItem('authorizedPageActions')!);
     this.route.data.subscribe((res:any) => {
       this.tableData = res.categoriesResolver.dataTable;
       this.tableHeaders = res.categoriesResolver.headers;
+      setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 
     this.categoriesService.emitDataTable
@@ -83,7 +87,7 @@ export class CategoriesComponent implements OnInit {
   onDelete(row: any) {
     let dialogConfig = new MatDialogConfig;
     dialogConfig.data = row;
-    dialogConfig.data.title = 'Eliminar temporada';
+    dialogConfig.data.title = 'Eliminar Categoría';
     dialogConfig.disableClose = false;  
     dialogConfig.autoFocus = true;
     dialogConfig.width = "40%";

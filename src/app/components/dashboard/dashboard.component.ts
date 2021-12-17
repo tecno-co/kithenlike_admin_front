@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
+import { MainService } from 'src/app/services/main/main.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -29,5 +30,10 @@ export class DashboardComponent {
     })
   );
 
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    private mainService: MainService
+    ) {
+    setTimeout(() => {this.mainService.hideLoading()}, 0);
+  }
 }

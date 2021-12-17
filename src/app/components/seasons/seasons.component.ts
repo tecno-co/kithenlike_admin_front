@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { MainService } from 'src/app/services/main/main.service';
 import { SeasonsService } from 'src/app/services/seasons/seasons.service';
 import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { SeasonsFormComponent } from './seasons-form/seasons-form.component';
@@ -14,20 +15,23 @@ import { SeasonsFormComponent } from './seasons-form/seasons-form.component';
 export class SeasonsComponent implements OnInit {
 
   tableHeaders: string[] = [];
-
   tableData: any[] = [];
+  authorizedActions: any;
 
   constructor(
     public dialog: MatDialog,
     private seasonsService: SeasonsService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private mainService: MainService
   ) { }
 
   ngOnInit(): void {
+    this.authorizedActions = JSON.parse(localStorage.getItem('authorizedPageActions')!);
     this.route.data.subscribe((res:any) => {
       this.tableData = res.seasonsResolver.dataTable;
       this.tableHeaders = res.seasonsResolver.headers;
+      setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 
     this.seasonsService.emitDataTable

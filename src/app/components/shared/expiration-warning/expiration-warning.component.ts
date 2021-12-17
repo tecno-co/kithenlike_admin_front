@@ -9,27 +9,35 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 export class ExpirationWarningComponent implements OnInit {
 
   @Output() emitClose: EventEmitter<any> = new EventEmitter();
+  
   timeOut!: number;
-
+  interval: any;
+  
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   ngOnInit(): void {
-    this.timeOut = this.data.time
-    window.setInterval((func: any) => {
-      this.data.time--;
-    }, 1000);
+    
+    if (!this.interval) {
+      this.timeOut = this.data.time
+      this.interval = window.setInterval((func: any) => {
+        this.timeOut--;
+        if(this.timeOut <= 0) {
+          clearInterval(this.interval);
+          this.interval = null;
+          this.emitClose.emit(false);
+        }
+      }, 1000);
 
-    setTimeout(() => {
-      if(this.data.time == 0) {
-        this.emitClose.emit(false);
-      }
-    }, this.timeOut * 1000);
+    }
+
   }
 
   onClick() {
-    this.data.time = this.timeOut;
+    clearInterval(this.interval);
+    this.timeOut = this.timeOut;
+    this.interval = null;
     this.emitClose.emit(true);
   }
 }

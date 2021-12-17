@@ -1,9 +1,56 @@
-<div class="general-container">
-  <h1 class="mat-h1">Apariencia</h1>
+<tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
 
-  <div class="master-container">
+<div class="general-container" *ngIf="authorizedActions.status == undefined">
+
+  <mat-card class="mat-elevation-z7">
+    <mat-card-content>
+      <form class="form">
+
+        <mat-form-field class="field" appearance="fill">
+          <mat-label>Contraseña actual</mat-label>
+          <input type="text" matInput [formControl]="currentPasswordControl">
+          <mat-error *ngIf="passwordControl.hasError('required')">
+            La contraseña actual es <strong>requerida</strong>
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field class="field" appearance="fill">
+          <mat-label>Nueva contraseña</mat-label>
+          <input type="text" matInput [formControl]="passwordControl">
+
+          <mat-error *ngIf="passwordControl.hasError('required')">
+            La nueva contraseña es <strong>requerida</strong>
+          </mat-error>
+          <mat-error *ngIf="passwordControl.hasError('minlength')">
+            La contraseña debe contener minimo <strong>8 caracteres</strong>
+          </mat-error>
+          <mat-error *ngIf="passwordControl.hasError('pattern')">
+            La contraseña debe contener minimo una <strong>mayuscula, minuscula, numero y caracter especial</strong>
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field class="field" appearance="fill">
+          <mat-label>Confirmar contraseña</mat-label>
+          <input type="text" matInput [formControl]="confirmPasswordControl">
+          <mat-error *ngIf="confirmPasswordControl.hasError('required')">
+            La confirmación es <strong>requerida</strong>
+          </mat-error>
+          <mat-hint class="mat-error" *ngIf="confirmPasswordControl.value != passwordControl.value">
+            La nueva contraseña <strong>no coincide</strong>
+          </mat-hint>
+        </mat-form-field>
+
+        <button mat-raised-button type="button" color="accent" class="btn center mat-elevation-z2" [disabled]="!currentPasswordControl.valid || !confirmPasswordControl.valid || !passwordControl.valid || (confirmPasswordControl.value != passwordControl.value)"  (click)="onChangePassword()">Cambiar contraseña</button>
+      </form>
+    </mat-card-content>
+  </mat-card>
 
   
-    
-  </div>
+  <section class="center section">
+    <label class="margin">Seleccione el menú:</label>
+    <mat-radio-group>
+      <mat-radio-button class="margin" value="A" (click)="apply('A')">Menú A</mat-radio-button>
+      <mat-radio-button class="margin" value="B" (click)="apply('B')">Menú B</mat-radio-button>
+    </mat-radio-group>
+  </section>
 </div>

@@ -30,17 +30,15 @@
     <mat-form-field class="field">
       <mat-label>Correo usuario</mat-label>
       <input type="text" matInput name="Correo" placeholder="Ingrese el correo del usuario" formControlName="email" required>
-      <mat-error *ngIf="this.userForm.get('lastName')?.invalid">
+      <mat-error *ngIf="this.userForm.get('email')?.hasError('email')">
+        Correo no valido
+      </mat-error>
+      <mat-error *ngIf="this.userForm.get('email')?.hasError('required')">
         Campo requerido
       </mat-error>
     </mat-form-field>
 
-    <mat-form-field class="field">
-      <mat-label>Roles</mat-label>
-      <mat-select formControlName="roles">
-        <mat-option *ngFor="let role of roles" value="{{role?.name}}">{{role?.name}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+   
 
     <div class="field">
       <input  #imageInput
@@ -58,6 +56,13 @@
     </div>
     
     <mat-slide-toggle *ngIf="data.mode != 'edit'" formControlName="hasAccess" class="slide-toggle" (click)="changeAccess()">¿Tiene acceso?</mat-slide-toggle><br/>
+
+    <mat-form-field *ngIf="this.userForm.get('hasAccess')?.value || data.mode == 'edit'" class="field">
+      <mat-label>Roles</mat-label>
+      <mat-select formControlName="roles" multiple>
+        <mat-option *ngFor="let role of data.allRoles" [value]="role.name" (click)="addRole(role.name)">{{role.name}}</mat-option>
+      </mat-select>
+    </mat-form-field>
 
     <mat-form-field *ngIf="this.userForm.get('hasAccess')?.value && data.mode != 'edit'" class="field">
       <mat-label>Contraseña</mat-label>

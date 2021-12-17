@@ -1,10 +1,25 @@
-<div class="general-container">
+<tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
+
+<div class="animate__animated animate__fadeIn general-container" *ngIf="authorizedActions.status == undefined">
   <div class="master-container">
 
     <app-dynamic-table class="table-container"
     [data]=tableData
     [headers]=tableHeaders
-    (emitAdd)="onAdd()">
+    [permissions]=true
+
+    [actionIndex]="true"
+    [actionIndexNotEliminated]="true"
+    [actionShow]="authorizedActions?.action_create"
+    [actionCreate]="authorizedActions?.action_create"
+    [actionUpdate]="authorizedActions?.action_update"
+    [actionDestroy]="authorizedActions?.action_destroy"
+    [actionLogicalDelete]="authorizedActions?.action_logical_delete"
+    
+    (emitAdd)="onAdd()"
+    (emitEdit)="onEdit($event)"
+    (emitDelete)="onDelete($event)"
+    (emitShowPermissions)="onShowPermissions($event)">
   </app-dynamic-table>
     
   </div>

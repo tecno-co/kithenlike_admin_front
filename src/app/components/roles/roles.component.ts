@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { MainService } from 'src/app/services/main/main.service';
+import { PermissionsService } from 'src/app/services/permissions/permissions.service';
 import { RolesService } from 'src/app/services/roles/roles.service';
 import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { RolesFormComponent } from './roles-form/roles-form.component';
@@ -14,20 +16,25 @@ import { RolesFormComponent } from './roles-form/roles-form.component';
 export class RolesComponent implements OnInit {
 
   tableHeaders: string[] = [ 'No.', 'CÓDIGO', 'NOMBRE', 'ESTADO'];
-
   tableData: any[] = [];
+  authorizedActions: any;
 
   constructor(
     public dialog: MatDialog,
     private rolesService: RolesService,
+    private permissionsService: PermissionsService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private router: Router,
+    private mainService: MainService
   ) { }
 
   ngOnInit(): void {
+    this.authorizedActions = JSON.parse(localStorage.getItem('authorizedPageActions')!);
     this.route.data.subscribe((res:any) => {
       this.tableData = res.rolesResolver.dataTable;
       this.tableHeaders = res.rolesResolver.headers;
+      setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 
     this.rolesService.emitDataTable
@@ -59,6 +66,19 @@ export class RolesComponent implements OnInit {
     })
   }
 
+
+  onEdit(row: any) {
+    this.openSnackBar('Editar role ' + row.name+ ' en construcción', '', 2000, 'error-snack-bar');
+  }
+
+  onDelete(row: any) {
+    this.openSnackBar('Eliminar role ' + row.name+ ' en construcción', '', 2000, 'error-snack-bar');
+  }
+
+  onShowPermissions(role: any){
+    this.router.navigate(['/permissions'], {queryParams: { role_id: role.idForOptions}});
+  }
+
   openSnackBar(message: string, action: string, duration: number, className: string) {
     var panelClass = className;
     this._snackBar.open(message, action, {
@@ -66,5 +86,4 @@ export class RolesComponent implements OnInit {
       panelClass: panelClass
     });
   }
-
 }

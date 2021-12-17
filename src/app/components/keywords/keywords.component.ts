@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { KeywordsService } from 'src/app/services/keywords/keywords.service';
+import { MainService } from 'src/app/services/main/main.service';
 import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { KeywordsFormComponent } from './keywords-form/keywords-form.component';
 
@@ -13,21 +14,24 @@ import { KeywordsFormComponent } from './keywords-form/keywords-form.component';
 })
 export class KeywordsComponent implements OnInit {
 
-  tableHeaders: string[] = [ 'No.', 'CÓDIGO', 'NOMBRE', 'ESTADO'];
-
+  tableHeaders: string[] = [];
   tableData: any[] = [];
+  authorizedActions: any;
 
   constructor(
     public dialog: MatDialog,
     private keywordsService: KeywordsService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private mainService: MainService
   ) { }
 
   ngOnInit(): void {
+    this.authorizedActions = JSON.parse(localStorage.getItem('authorizedPageActions')!);
     this.route.data.subscribe((res:any) => {
       this.tableData = res.keywordsResolver.dataTable;
       this.tableHeaders = res.keywordsResolver.headers;
+      setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 
     this.keywordsService.emitDataTable
