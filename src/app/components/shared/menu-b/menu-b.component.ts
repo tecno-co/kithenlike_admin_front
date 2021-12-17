@@ -27,15 +27,15 @@ export class MenuBComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this._iconsService.getIcons()
-    //   .subscribe(icons => this.icons = icons);
+    let userInfo = JSON.parse(localStorage.getItem('user')!);
     this.user = new User({
-      id: 1,
-      first_name: 'Kevin',
-      last_name: 'Garzón',
-      email: 'kevin.garzon@tecno.co'
+      id: userInfo.user.id,
+      full_name: userInfo.person.full_name,
+      email: userInfo.user.uid,
+      // avatar: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Circle-icons-profile.svg/1024px-Circle-icons-profile.svg.png',
+      avatar: userInfo.person.avatar,
+      initials_name: userInfo.person.initials_name      
     });
-
     this.getMenu();
   }
 

@@ -4,5 +4,8 @@
     'height.px': size,
     'font-size.px': size/3
   }">
-  <span>{{ user.getInitialsName!() }}</span>
+  <img class="profile-image" *ngIf="user.avatar; else elseBlock" src="{{user.avatar}}" alt="">
+  <ng-template #elseBlock>
+    <span>{{ user.initials_name! }}</span>
+  </ng-template>
 </div>

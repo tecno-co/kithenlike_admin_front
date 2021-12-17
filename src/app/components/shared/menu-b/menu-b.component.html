@@ -1,15 +1,15 @@
 <div class="profile-container">
   <!-- AVATAR -->
-  <app-profile-circle [user]="user" [size]="110" class="avatar"></app-profile-circle>
+  <app-profile-circle [user]="user" [size]="100" class="center"></app-profile-circle>
 
   <!-- MENU PERFIL NOMBRE -->
-  <div class="btn-profile" [matMenuTriggerFor]="afterMenu">
-    {{ user.getPartialName!() }}
+  <div class="btn-profile" >
+    {{ user.full_name! }}
   </div>
-  <mat-menu #afterMenu="matMenu" xPosition="before">
+  <!-- <mat-menu #afterMenu="matMenu" xPosition="before">
     <button mat-menu-item>Item 1</button>
     <button mat-menu-item>Item 2</button>
-  </mat-menu>
+  </mat-menu> -->
 </div>
 
 <div class="menu-container">
@@ -19,7 +19,7 @@
     <mat-expansion-panel *ngFor="let m of menu; let i = index" [expanded]="i === moduleSelected"
       (opened)="onOpenOption(i)"
       (closed)="onCloseOption(i)"
-      [class.bg-selected-module]="panelOpenState[i]">
+      [class.bg-menu-options]="panelOpenState[i]">
       <mat-expansion-panel-header
         [class.pt-10]="!panelOpenState[i]"
         [class.pb-5]="!panelOpenState[i]">
@@ -32,7 +32,7 @@
       </mat-expansion-panel-header>
 
       <!-- LINKS DE LAS PAGINAS -->
-      <mat-selection-list [multiple]="false">
+      <mat-selection-list [multiple]="false" style="margin: 0 10px;">
         <mat-list-option *ngFor="let page of m.pages"
           [routerLink]="[page.route]"
           routerLinkActive
