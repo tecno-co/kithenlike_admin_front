@@ -1,29 +1,30 @@
 <tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
 
 <div *ngIf="authorizedActions.status == undefined">
-  <div class="animate__animated animate__fadeIn grid-container">
-    <h1 class="mat-h1">Temas</h1>
+  <div class="animate__animated animate__fadeIn general-container">
+    <!-- <h1 class="mat-h1">Temas</h1> -->
     <mat-grid-list cols="4" rowHeight="350px">
       <mat-grid-tile *ngFor="let theme of tableData" [colspan]="1" [rowspan]="1">
         <mat-card class="theme-card" [ngClass]="'light-' + theme.theme_class">
           <div class="top-bar bg-primary-color">
-          <mat-card-header style="padding: 30px; margin: 0; align-items: center;">
+          <mat-card-header class="theme-card-header">
             <mat-card-title style="margin: 0;">
               {{theme.name}}
-              <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button *ngIf="authorizedActions?.action_update" mat-menu-item (click)="onEdit(theme)">
-                  <mat-icon>edit</mat-icon>
-                  <span>Editar</span>
-                </button>
-                <button *ngIf="authorizedActions?.action_logical_delete" mat-menu-item (click)="onDelete(theme)">
-                  <mat-icon>delete_forever</mat-icon>
-                  <span>Eliminar</span>
-                </button>
-              </mat-menu>
             </mat-card-title>
+            <span class="spacer"></span>
+            <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button *ngIf="authorizedActions?.action_update" mat-menu-item (click)="onEdit(theme)">
+                <mat-icon>edit</mat-icon>
+                <span>Editar</span>
+              </button>
+              <button *ngIf="authorizedActions?.action_logical_delete" mat-menu-item (click)="onDelete(theme)">
+                <mat-icon>delete_forever</mat-icon>
+                <span>Eliminar</span>
+              </button>
+            </mat-menu>
           </mat-card-header>
         </div>
           <mat-card-content class="theme-card-content">

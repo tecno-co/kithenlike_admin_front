@@ -3,8 +3,6 @@
 <div class="animate__animated animate__fadeIn general-container" *ngIf="authorizedActions.status == undefined">
   <h1 class="mat-h1">Palabras Clave</h1>
 
-  <div class="master-container">
-
     <app-dynamic-table class="table-container"
     [data]=tableData
     [headers]=tableHeaders
@@ -22,6 +20,5 @@
     (emitDelete)="onDelete($event)"
     (emitStatusChange)="onStatusChange($event)">
   </app-dynamic-table>
-    
-  </div>
+
 </div>

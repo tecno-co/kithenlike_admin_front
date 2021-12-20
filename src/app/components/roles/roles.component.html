@@ -1,7 +1,6 @@
 <tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
 
 <div class="animate__animated animate__fadeIn general-container" *ngIf="authorizedActions.status == undefined">
-  <div class="master-container">
 
     <app-dynamic-table class="table-container"
     [data]=tableData
@@ -21,6 +20,5 @@
     (emitDelete)="onDelete($event)"
     (emitShowPermissions)="onShowPermissions($event)">
   </app-dynamic-table>
-    
-  </div>
+ 
 </div>

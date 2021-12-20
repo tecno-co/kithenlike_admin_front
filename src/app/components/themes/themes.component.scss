@@ -5,24 +5,9 @@
   right: 50px !important;
 }
 
-.general-container {
-  margin: 20px;
-}
-
-.master-container {
-  padding: 16px;
-  display:inline-table;
-  display: flex;
-  margin: 0px;
-}
-
 .table-container {
   width: 100%;
   margin: 0px;
-}
-
-.grid-container {
-  margin: 20px;
 }
 
 .theme-card {
@@ -32,12 +17,12 @@
   left: 15px;
   right: 15px;
   bottom: 15px;
+  max-height: 200px;
+  min-width: 150px;
 }
 
 .more-button {
-  position: absolute;
-  right: 30px;
-  top: 25px;
+  margin-right: 10px;
 }
 
 .theme-card-content {
@@ -50,4 +35,10 @@
   width: 100%;
   height: auto;
   border-radius: 30px 30px 0 0;
+}
+
+.theme-card-header {
+  padding: 20px 10px;
+  margin: 0;
+  align-items: center;
 }

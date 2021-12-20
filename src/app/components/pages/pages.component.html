@@ -1,7 +1,4 @@
-<div class="general-container">
-  <h1 class="mat-h1">Menu</h1>
-
-  <div class="master-container">
+<div class="master-container">
 
     <div class="modules-container">
 
@@ -36,7 +33,6 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <!-- FORMULARIO PARA PAGINAS -->
           <div class="row pt-20">
             <div class="col col-12">
               <mat-card-content>
@@ -56,18 +52,26 @@
 
     <div class="pages-container">
 
-      <div>
+
+      <mat-toolbar color="primary" class="mat-elevation-z4">
+        <span>Páginas</span>
+        <span class="spacer"></span>
         <button mat-button (click)="addPage= !addPage">
           <mat-icon>add</mat-icon>
         </button>
-        <tecno-pages-form
-          [addMode]="true"
-          *ngIf="addPage"
-          (emitAddPage)="onAddPage($event)"
-          (emitEditPage)="onEditPage($event)"
-          (emitDeletePage)="onDeletePage($event)">
-        </tecno-pages-form>
-      </div>
+      </mat-toolbar>
+
+      <mat-card *ngIf="addPage">
+        <mat-card-content>
+          <tecno-pages-form
+            [addMode]="true"
+            *ngIf="addPage"
+            (emitAddPage)="onAddPage($event)"
+            (emitEditPage)="onEditPage($event)"
+            (emitDeletePage)="onDeletePage($event)">
+          </tecno-pages-form>
+        </mat-card-content>
+      </mat-card>
 
       <mat-accordion class="example-headers-align">
         <mat-expansion-panel *ngFor="let page of menuPages" (click)="setPage(page)">
@@ -81,7 +85,6 @@
             </mat-panel-description>
           </mat-expansion-panel-header>
 
-          <!-- FORMULARIO PARA PAGINAS -->
           <div class="row pt-20">
             <div class="col col-12">
               <mat-card-content>
@@ -99,5 +102,4 @@
       </mat-accordion>
     </div>
     
-  </div>
 </div>

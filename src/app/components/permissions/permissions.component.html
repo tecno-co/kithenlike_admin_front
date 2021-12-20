@@ -20,28 +20,28 @@
       <mat-spinner *ngIf="loadingTab" color="accent" class="center-spinner"></mat-spinner>
 
       <div *ngIf="!loadingTab" class="general-container">
-        <div class="master-container">
-          <app-dynamic-table class="table-container"
-            [data]=tableData
-            [headers]=tableHeaders
-            [actionCreate]=false
-            
-            [permissions]="true"
-            [actionIndex]="true"
-            [actionIndexNotEliminated]="true"
-            [actionShow]="true"
-            [actionCreate]="true"
-            [actionUpdate]="true"
-            [actionDestroy]="true"
-            [actionLogicalDelete]="true"
+        
+        <app-dynamic-table class="table-container"
+          [data]=tableData
+          [headers]=tableHeaders
+          [actionCreate]=false
+          
+          [permissions]="true"
+          [actionIndex]="true"
+          [actionIndexNotEliminated]="true"
+          [actionShow]="true"
+          [actionCreate]="true"
+          [actionUpdate]="true"
+          [actionDestroy]="true"
+          [actionLogicalDelete]="true"
 
-            (emitAdd)="onAdd()"
-            (emitEdit)="onEdit($event)"
-            (emitDelete)="onDelete($event)"
-            (emitChangeActionStatus)="onChangeActionStatus($event)"
-            (emitChangeAllActionStatus)="onChangeAllActionStatus($event)">
-          </app-dynamic-table>
-        </div>
+          (emitAdd)="onAdd()"
+          (emitEdit)="onEdit($event)"
+          (emitDelete)="onDelete($event)"
+          (emitChangeActionStatus)="onChangeActionStatus($event)"
+          (emitChangeAllActionStatus)="onChangeAllActionStatus($event)">
+        </app-dynamic-table>
+        
       </div>
       
     </mat-tab>

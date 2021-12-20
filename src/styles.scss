@@ -34,6 +34,10 @@ html, body {
   margin: 0;
 }
 
+.general-container {
+  // padding: 20px;
+}
+
 .table-container {
   width: 100%;
   margin: 0px;
@@ -123,4 +127,17 @@ html, body {
       color: #a61e5e !important;
     }
   }
+}
+
+.h-100 {
+  height: 100%;
+}
+
+.general-form-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
 }

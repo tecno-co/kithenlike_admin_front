@@ -22,10 +22,11 @@ export class ModuleFormComponent implements OnInit {
   ) {
     
     this.moduleForm = this.fb.group({
-      name: [''],
-      icon_id: [''],
-      ordering:[''],
-      menu_id:[''],
+      name: [],
+      icon_id: [],
+      ordering:[],
+      menu_id:[],
+      module_id: []
     })    
   }
 
@@ -37,9 +38,9 @@ export class ModuleFormComponent implements OnInit {
     this.moduleForm.patchValue({
       name: this.module?.name,
       icon_id: this.module?.iconv2.id,
-      route: this.module?.route,
       ordering: this.module?.ordering,
-      menu_id: this.module?.menu,
+      menu_id: 1,
+      module_id: this.module?.id, 
     })
   }
 

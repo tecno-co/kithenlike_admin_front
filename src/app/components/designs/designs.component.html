@@ -2,8 +2,6 @@
 
 <div class="animate__animated animate__fadeIn general-container" *ngIf="authorizedActions.status == undefined">
   <h1 class="mat-h1">Diseños</h1>
-  
-  <div class="master-container">
 
     <app-dynamic-table class="table-container"
       [categories]="allCategories"
@@ -31,5 +29,4 @@
       <img class="image" *ngIf="path != ''" [src]="path" />
     </div>
     
-  </div>
 </div>

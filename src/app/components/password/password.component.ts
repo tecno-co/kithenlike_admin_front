@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MainService } from 'src/app/services/main/main.service';
 
 @Component({
   selector: 'tecno-password',
@@ -24,9 +25,11 @@ export class PasswordComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
+    private mainService: MainService,
   ) { }
 
   ngOnInit(): void {
+    setTimeout(() => {this.mainService.hideLoading()}, 0);
   }
 
   onAdd () {

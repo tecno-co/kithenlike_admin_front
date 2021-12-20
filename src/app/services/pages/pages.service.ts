@@ -29,7 +29,8 @@ export class PagesService {
 
   updateModule(module: any) {
     let httpOptions = this.authService.reqOptions();
-    return this.http.put<any>(`${this.API}/menu_modules/${module.menu_module.id}`, module, httpOptions)
+    console.log(module)
+    return this.http.put<any>(`${this.API}/menu_modules/${module.menu_module.module_id}`, module, httpOptions)
     .pipe(
       tap((data: any) => 
         this.emitMenu.emit(data),

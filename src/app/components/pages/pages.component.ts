@@ -46,6 +46,7 @@ export class PagesComponent implements OnInit {
         route: page.route,
         ordering: page.ordering
       }));
+
       setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 

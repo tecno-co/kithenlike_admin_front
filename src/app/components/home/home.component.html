@@ -1,4 +1,4 @@
-<div>
+<div class="home-container">
   <mat-toolbar color="primary" class="toolbar mat-elevation-z5">
 
     <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
@@ -19,22 +19,22 @@
 
   </mat-toolbar>
 
-  <mat-drawer-container class="sidenav-container" autosize>
+  <mat-sidenav-container class="sidenav-container" autosize>
 
-    <mat-drawer #drawer opened mode="side">
-      <app-menu-a></app-menu-a>
-      <!-- <app-menu-b></app-menu-b> -->
-    </mat-drawer>
+    <mat-sidenav #drawer opened mode="side">
+      <!-- <app-menu-a></app-menu-a> -->
+      <app-menu-b></app-menu-b>
+    </mat-sidenav>
 
     <div class="main-container">
         <!-- <app-banner></app-banner> -->
-        <div class="loading-container center" *ngIf="loading">
+        <div class="bg-menu-options loading-container center" *ngIf="loading">
           <mat-spinner color="accent"></mat-spinner>
         </div>
         <router-outlet></router-outlet>
     </div>
 
-  </mat-drawer-container>
+  </mat-sidenav-container>
 
 </div>
 
