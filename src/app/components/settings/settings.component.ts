@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { AuthService } from 'src/app/services/auth/auth.service';
 import { MainService } from 'src/app/services/main/main.service';
 
 @Component({
@@ -12,18 +10,20 @@ export class SettingsComponent implements OnInit {
 
   authorizedActions: any;
 
-  currentPasswordControl = new FormControl('', [Validators.required]);
-  passwordControl = new FormControl('', [
-    Validators.required,
-    Validators.minLength(8),
-    Validators.pattern('(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[=#@$!%*?&]).{1,}')
-  ])
-  confirmPasswordControl = new FormControl('', [Validators.required]);
-  responseMessages: string[] = [];
-  
+  selectedOption: number = 1;
+
+  settings = [
+    {id: 1, title: 'General'},
+    {id: 2 , title:'Restricciones Contraseña'},
+  ]
+
+  menus = [
+    {id: 1, name: 'Menú pequeño'},
+    {id: 2, name: 'Menú grande'},
+  ]
+
   constructor(
-    private mainService: MainService,
-    private authService: AuthService,
+    private mainService: MainService,    
   ) { }
 
   ngOnInit(): void {
@@ -31,24 +31,8 @@ export class SettingsComponent implements OnInit {
     setTimeout(() => {this.mainService.hideLoading()}, 0);
   }
 
-  apply(menu: string){
-    console.log('Seleccíonó el Menú ' + menu);
+  changeOption(option: any) {
+    console.log(option);
+    this.selectedOption = option.id;
   }
-
-  onChangePassword(){
-
-    let params = {
-      current_password: this.currentPasswordControl.value,
-      password: this.passwordControl.value,
-      password_confirmation: this.confirmPasswordControl.value,
-    };
-    
-    this.authService.changePassword(params).subscribe((res: any) => {
-      console.log('Bien');
-      console.log(res);
-    }, error => {
-      console.log(error);
-    })
-  }
-
 }

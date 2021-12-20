@@ -15,6 +15,11 @@ import { BannerComponent } from './banner/banner.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ExpirationWarningComponent } from './expiration-warning/expiration-warning.component';
 import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { AccordionExpansionListComponent } from './accordion-expansion-list/accordion-expansion-list.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ThemesComponent } from "../themes/themes.component";
+import { ThemesFormComponent } from "../themes/themes-form/themes-form.component";
+import { PasswordComponent } from "../password/password.component";
 
 const COMPONENTS = [
   MenuAComponent,
@@ -24,7 +29,12 @@ const COMPONENTS = [
   BannerComponent,
   ExpirationWarningComponent,
   UnauthorizedComponent,
-  AlertDialogComponent
+  AlertDialogComponent,
+  AccordionExpansionListComponent,
+  ChangePasswordComponent,
+  ThemesComponent,
+  ThemesFormComponent,
+  PasswordComponent
 ];
 
 @NgModule({

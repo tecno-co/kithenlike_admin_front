@@ -66,7 +66,8 @@ const routes: Routes = [
   {
     path: 'settings',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./components/settings/settings.module').then(m => m.SettingsModule)
+    loadChildren: () => import('./components/settings/settings.module').then(m => m.SettingsModule),
+    resolve: {themesResolver: ThemesResolver}
   },
   {
     path: 'seasons',
@@ -74,12 +75,12 @@ const routes: Routes = [
     loadChildren: () => import('./components/seasons/seasons.module').then(m => m.SeasonsModule),
     resolve: {seasonsResolver: SeasonsResolver}
   },
-  { 
-    path: 'themes',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule),
-    resolve: {themesResolver: ThemesResolver}
-  },
+  // { 
+  //   path: 'themes',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule),
+  //   resolve: {themesResolver: ThemesResolver}
+  // },
   { path: 'keywords',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/keywords/keywords.module').then(m => m.KeywordsModule),
@@ -122,7 +123,10 @@ const routes: Routes = [
       pagePermissionsResolver: PagePermissionsResolver,
     }
   },
-  { path: 'password', loadChildren: () => import('./components/password/password.module').then(m => m.PasswordModule) },
+  // { path: 'password',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./components/password/password.module').then(m => m.PasswordModule)
+  // },
 ] 
 
 @NgModule({

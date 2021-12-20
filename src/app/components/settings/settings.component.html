@@ -2,55 +2,56 @@
 
 <div class="general-container" *ngIf="authorizedActions.status == undefined">
 
-  <mat-card class="mat-elevation-z7">
-    <mat-card-content>
-      <form class="form">
+  <div class="settings-container mat-elevation-z2">
+    
+    <!-- <mat-card class="mat-elevation-z5"> -->
+    <div class="settings-options" style="background-color: #f7f8fb">
+      <mat-selection-list [multiple]="false" style="margin: 0 10px;">
+        <mat-list-option
+          *ngFor="let option of settings"
+          (click)="changeOption(option)">
+          <span>{{ option.title }}</span>
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
 
-        <mat-form-field class="field" appearance="fill">
-          <mat-label>Contraseña actual</mat-label>
-          <input type="text" matInput [formControl]="currentPasswordControl">
-          <mat-error *ngIf="passwordControl.hasError('required')">
-            La contraseña actual es <strong>requerida</strong>
-          </mat-error>
-        </mat-form-field>
+    <div class="option-content" [ngSwitch]="selectedOption">
+      <mat-card>        
+        <div *ngSwitchCase="1">
+          <mat-card-title>Aplicativo</mat-card-title>
 
-        <mat-form-field class="field" appearance="fill">
-          <mat-label>Nueva contraseña</mat-label>
-          <input type="text" matInput [formControl]="passwordControl">
+          <div class="divider">
+            <mat-divider></mat-divider>
+          </div>
+          <h3>Menú</h3>
+          <p>Seleccione el menú que quiere usar en el aplicativo</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Menú</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let menu of menus" [value]="menu.id">
+                {{menu.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
 
-          <mat-error *ngIf="passwordControl.hasError('required')">
-            La nueva contraseña es <strong>requerida</strong>
-          </mat-error>
-          <mat-error *ngIf="passwordControl.hasError('minlength')">
-            La contraseña debe contener minimo <strong>8 caracteres</strong>
-          </mat-error>
-          <mat-error *ngIf="passwordControl.hasError('pattern')">
-            La contraseña debe contener minimo una <strong>mayuscula, minuscula, numero y caracter especial</strong>
-          </mat-error>
-        </mat-form-field>
+          <div class="divider">
+            <mat-divider></mat-divider>
+          </div>
+          <h3>Tema</h3>
+          <p>Seleccione el tema que quiere usar en el aplicativo</p>
+          <app-themes></app-themes>        
+        </div>
         
-        <mat-form-field class="field" appearance="fill">
-          <mat-label>Confirmar contraseña</mat-label>
-          <input type="text" matInput [formControl]="confirmPasswordControl">
-          <mat-error *ngIf="confirmPasswordControl.hasError('required')">
-            La confirmación es <strong>requerida</strong>
-          </mat-error>
-          <mat-hint class="mat-error" *ngIf="confirmPasswordControl.value != passwordControl.value">
-            La nueva contraseña <strong>no coincide</strong>
-          </mat-hint>
-        </mat-form-field>
+        <div *ngSwitchCase="2">
+          <mat-card-title>Restricciones contraseña</mat-card-title>
+          <div class="divider">
+            <mat-divider></mat-divider>
+          </div>
+          <tecno-password></tecno-password>
+        </div>
+      </mat-card>
+    </div>
 
-        <button mat-raised-button type="button" color="accent" class="btn center mat-elevation-z2" [disabled]="!currentPasswordControl.valid || !confirmPasswordControl.valid || !passwordControl.valid || (confirmPasswordControl.value != passwordControl.value)"  (click)="onChangePassword()">Cambiar contraseña</button>
-      </form>
-    </mat-card-content>
-  </mat-card>
-
-  
-  <section class="center section">
-    <label class="margin">Seleccione el menú:</label>
-    <mat-radio-group>
-      <mat-radio-button class="margin" value="A" (click)="apply('A')">Menú A</mat-radio-button>
-      <mat-radio-button class="margin" value="B" (click)="apply('B')">Menú B</mat-radio-button>
-    </mat-radio-group>
-  </section>
+  </div>
+  <!-- </mat-card> -->
 </div>
