@@ -79,7 +79,7 @@ $light-theme-tecno: mat.define-light-theme((
 
 @include create-theme(mat.define-palette(tecno.$deep-purple-palette), mat.define-palette(tecno.$amber-palette), 'theme-deeppurple-amber');
 @include create-theme(mat.define-palette(tecno.$indigo-palette), mat.define-palette(tecno.$pink-palette), 'theme-indigo-pink');
-@include create-theme(mat.define-palette(tecno.$cyan-palette), mat.define-palette(tecno.$orange-palette), 'theme-cyan-orange');
+@include create-theme(mat.define-palette(tecno.$cyan-palette), mat.define-palette(tecno.$red-palette), 'theme-cyan-red');
 @include create-theme(mat.define-palette(tecno.$tecno-primary-palette), mat.define-palette(tecno.$tecno-accent-palette),'theme-tecno');
     
     
