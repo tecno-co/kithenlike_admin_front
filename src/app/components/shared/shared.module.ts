@@ -14,20 +14,32 @@ import { MenuBComponent } from "./menu-b/menu-b.component";
 import { BannerComponent } from './banner/banner.component';
 import { AlertDialogComponent } from './alert-dialog/alert-dialog.component';
 import { ExpirationWarningComponent } from './expiration-warning/expiration-warning.component';
+import { UnauthorizedComponent } from './unauthorized/unauthorized.component';
+import { AccordionExpansionListComponent } from './accordion-expansion-list/accordion-expansion-list.component';
+import { ChangePasswordComponent } from './change-password/change-password.component';
+import { ThemesComponent } from "../themes/themes.component";
+import { ThemesFormComponent } from "../themes/themes-form/themes-form.component";
+import { PasswordComponent } from "../password/password.component";
 
 const COMPONENTS = [
   MenuAComponent,
   MenuBComponent,
   DynamicTableComponent,
   ProfileCircleComponent,
-  BannerComponent
+  BannerComponent,
+  ExpirationWarningComponent,
+  UnauthorizedComponent,
+  AlertDialogComponent,
+  AccordionExpansionListComponent,
+  ChangePasswordComponent,
+  ThemesComponent,
+  ThemesFormComponent,
+  PasswordComponent
 ];
 
 @NgModule({
     declarations: [
       COMPONENTS,
-      AlertDialogComponent,
-      ExpirationWarningComponent,
     ],
     imports: [
       CommonModule,

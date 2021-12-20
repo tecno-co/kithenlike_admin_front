@@ -1,38 +1,45 @@
-<div class="grid-container">
-  <mat-grid-list cols="4" rowHeight="350px">
-    <mat-grid-tile *ngFor="let theme of tableData" [colspan]="1" [rowspan]="1">
-      <mat-card class="theme-card" [ngClass]="'light-' + theme.theme_class">
-        <div class="top-bar bg-primary-color">
-        <mat-card-header style="padding: 30px; margin: 0; align-items: center;">
-          <mat-card-title style="margin: 0;">
-            {{theme.name}}
+<tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
+
+<div *ngIf="authorizedActions.status == undefined">
+  <div class="animate__animated animate__fadeIn general-container">
+    <!-- <h1 class="mat-h1">Temas</h1> -->
+    <mat-grid-list cols="4" rowHeight="350px">
+      <mat-grid-tile *ngFor="let theme of tableData" [colspan]="1" [rowspan]="1">
+        <mat-card class="theme-card" [ngClass]="'light-' + theme.theme_class">
+          <div class="top-bar bg-primary-color">
+          <mat-card-header class="theme-card-header">
+            <mat-card-title style="margin: 0;">
+              {{theme.name}}
+            </mat-card-title>
+            <span class="spacer"></span>
             <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
               <mat-icon>more_vert</mat-icon>
             </button>
             <mat-menu #menu="matMenu">
-              <button mat-menu-item (click)="onEdit(theme)">
+              <button *ngIf="authorizedActions?.action_update" mat-menu-item (click)="onEdit(theme)">
                 <mat-icon>edit</mat-icon>
                 <span>Editar</span>
               </button>
-              <button mat-menu-item (click)="onDelete(theme)">
+              <button *ngIf="authorizedActions?.action_logical_delete" mat-menu-item (click)="onDelete(theme)">
                 <mat-icon>delete_forever</mat-icon>
                 <span>Eliminar</span>
               </button>
             </mat-menu>
-          </mat-card-title>
-        </mat-card-header>
-      </div>
-        <mat-card-content class="theme-card-content">
-          <!-- <div>Card Content Here</div> -->
-          <button mat-mini-fab color="accent" class="btn-new mat-elevation-z2" style="position: absolute; bottom: 20px; right: 20px;">
-            <mat-icon >add</mat-icon>
-          </button>
-        </mat-card-content>
-      </mat-card>
-    </mat-grid-tile>
-  </mat-grid-list>
-</div>
+          </mat-card-header>
+        </div>
+          <mat-card-content class="theme-card-content">
+            <!-- <div>Card Content Here</div> -->
+            <button mat-mini-fab color="accent" style="position: absolute; bottom: 20px; right: 20px;">
+              <mat-icon (click)="setTheme(theme)">add</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </mat-grid-tile>
+    </mat-grid-list>
+  </div>
 
-<button mat-fab color="accent" class="btn-new mat-elevation-z2 add" (click)="onAdd()">
-  <mat-icon >add</mat-icon>
-</button>
+  <button *ngIf="authorizedActions?.action_create" mat-fab color="accent" class="btn-new mat-elevation-z2 add" (click)="onAdd()">
+    <mat-icon >add</mat-icon>
+  </button>
+
+</div>

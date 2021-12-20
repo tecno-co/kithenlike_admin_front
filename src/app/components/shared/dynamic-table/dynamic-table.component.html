@@ -1,4 +1,4 @@
-<div *ngIf="render" class="container">
+<div *ngIf="actionIndexNotEliminated" class="container">
 
   <div *ngIf="filter" class="filters-row">
     <div class="field-container">
@@ -67,6 +67,13 @@
               <span> {{ item[col] }} </span>
             </td>
           </div>
+
+          <div *ngSwitchCase="'actions'">
+            <td mat-cell *matCellDef="let item">
+            <mat-slide-toggle class="actions-slide-toggle" [checked]="checkedAllActions(item[col])" (click)="$event.preventDefault(); onChangeAllActionStatus(item)" [disabled]="!item[col][0].authorized">Todas</mat-slide-toggle>
+            <mat-slide-toggle class="actions-slide-toggle" *ngFor="let action of item[col]" [checked]="action.authorized" (click)="$event.preventDefault(); onChangeActionStatus({item, action})" [disabled]="!item[col][0].authorized && action.action != 'index_not_eliminated'">{{action.name_action_header}}</mat-slide-toggle>
+            </td>
+          </div>
           
           <div *ngSwitchCase="'code'">
             <td mat-cell *matCellDef="let item">
@@ -107,13 +114,17 @@
               </button>
 
               <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="onEdit(item)">
+                <button *ngIf="actionUpdate" mat-menu-item (click)="onEdit(item)">
                   <mat-icon>edit</mat-icon>
                   <span>Editar</span>
                 </button>
-                <button mat-menu-item (click)="onDelete(item)">
+                <button *ngIf="actionLogicalDelete" mat-menu-item (click)="onDelete(item)">
                   <mat-icon>delete_forever</mat-icon>
                   <span>Eliminar</span>
+                </button>
+                <button *ngIf="permissionsButton" mat-menu-item (click)="onShowPermissions(item)">
+                  <mat-icon>manage_accounts</mat-icon>
+                  <span>Permisos</span>
                 </button>
               </mat-menu>
               
@@ -134,9 +145,16 @@
 
     <tr mat-header-row *matHeaderRowDef="tableCols; sticky: true" style="margin: 0 auto;"></tr>
     <tr mat-row *matRowDef="let row; columns: tableCols"></tr>
+
+    <tr class="mat-row" *matNoDataRow>
+      <td class="empty-data">
+        No se encontraron datos
+      </td>
+    </tr>
+
   </table>
   <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]" showFirstLastButtons [pageSize]="50"> </mat-paginator>
 </div>
-<button mat-fab *ngIf='addButton' color="accent" class="btn-new mat-elevation-z2 add" (click)="onAdd()">
+<button mat-fab *ngIf='actionCreate' color="accent" class="btn-new mat-elevation-z2 add" (click)="onAdd()">
   <mat-icon>add</mat-icon>
 </button>

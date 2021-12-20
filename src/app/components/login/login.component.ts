@@ -51,7 +51,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   }
 
   showErrors(errors: string[]){
-    for (let i=0; i<=errors.length-1; i++) {
+    for (let i=0; i<=errors?.length-1; i++) {
       setTimeout(() => {this.openSnackBar(errors[i], '', 2000)}, 2000 * i);
     }
   }

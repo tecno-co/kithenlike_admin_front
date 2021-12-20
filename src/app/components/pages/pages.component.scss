@@ -1,14 +1,3 @@
-.general-container {
-  margin: 20px;
-}
-
-.master-container {
-  padding: 16px;
-  display:inline-table;
-  display: flex;
-  margin: 0px;
-}
-
 .example-action-buttons {
   padding-bottom: 20px;
 }
@@ -39,4 +28,15 @@
 .pages-container {
   width: 50%;
   margin-left: 20px;
+}
+
+.options {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.add-button {
+ display: flex;
+ align-items: flex-end;
 }

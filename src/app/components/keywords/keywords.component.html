@@ -1,14 +1,24 @@
-<div class="general-container">
-  <div class="master-container">
+<tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
+
+<div class="animate__animated animate__fadeIn general-container" *ngIf="authorizedActions.status == undefined">
+  <h1 class="mat-h1">Palabras Clave</h1>
 
     <app-dynamic-table class="table-container"
     [data]=tableData
     [headers]=tableHeaders
+
+    [actionIndex]="true"
+    [actionIndexNotEliminated]="true"
+    [actionShow]="authorizedActions?.action_create"
+    [actionCreate]="authorizedActions?.action_create"
+    [actionUpdate]="authorizedActions?.action_update"
+    [actionDestroy]="authorizedActions?.action_destroy"
+    [actionLogicalDelete]="authorizedActions?.action_logical_delete"
+
     (emitAdd)="onAdd()"
     (emitEdit)="onEdit($event)"
     (emitDelete)="onDelete($event)"
     (emitStatusChange)="onStatusChange($event)">
   </app-dynamic-table>
-    
-  </div>
+
 </div>

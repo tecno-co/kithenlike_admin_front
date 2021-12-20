@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
+import { MainService } from 'src/app/services/main/main.service';
 import { UsersService } from 'src/app/services/users/users.service';
 import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { UsersFormComponent } from './users-form/users-form.component';
@@ -15,20 +16,24 @@ export class UsersComponent implements OnInit {
 
   tableHeaders: string[] = [];
   tableData: any[] = [];
-  roles = []
+  roles = [];
+  authorizedActions: any;
 
   constructor(
     public dialog: MatDialog,
     private usersService: UsersService,
     private _snackBar: MatSnackBar,
     private route: ActivatedRoute,
+    private mainService: MainService
   ) { }
 
   ngOnInit(): void {
+    this.authorizedActions = JSON.parse(localStorage.getItem('authorizedPageActions')!);
     this.route.data.subscribe((res:any) => {
       this.tableData = res.usersResolver.dataTable;
       this.tableHeaders = res.usersResolver.headers;
       this.roles = res.rolesListResolver.dataTable;
+      setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 
     this.usersService.emitDataTable
@@ -66,6 +71,7 @@ export class UsersComponent implements OnInit {
   onEdit(row: any) {
     let dialogConfig = new MatDialogConfig;
     dialogConfig.data = row;
+    dialogConfig.data.allRoles = this.roles;
     dialogConfig.disableClose = false;
     dialogConfig.autoFocus = true;
     dialogConfig.width = "50%";
@@ -110,9 +116,11 @@ export class UsersComponent implements OnInit {
   }
 
   onStatusChange(row: any) {
+    // row.roles = row.roles.map((role: any)=>({name: role}))
     let dialogConfig = new MatDialogConfig;
-    dialogConfig.data = row;
+    dialogConfig.data = JSON.parse(JSON.stringify(row));
     dialogConfig.data.title = 'Cambiar estado';
+    dialogConfig.data.roles = row.roles.join(',');
     dialogConfig.disableClose = false;  
     dialogConfig.autoFocus = true;
     dialogConfig.width = "40%";

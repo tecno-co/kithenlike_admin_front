@@ -1,9 +1,10 @@
-<div style="height: 100%;" [class.dark-theme-cyan-orange]="theme" [class.light-theme-cyan-orange]="!theme">
+<div class="h-100">
     <!-- LOGIN -->
-    <!-- <app-login *ngIf="!(isAuthenticated$ | async)"></app-login> -->
-    <router-outlet *ngIf="!(isAuthenticated$ | async)"></router-outlet>
+    <app-home *ngIf="isAuthenticated$ | async; else elseBlock" (themeEmmiter)="setTheme()" ></app-home>
     <!-- HOME -->
-    <app-home *ngIf="isAuthenticated$ | async" (theme)="toggleTheme($event)" ></app-home>
+    <ng-template #elseBlock>
+        <router-outlet></router-outlet>
+    </ng-template>
 </div>
 <mat-chip-list>
     <mat-chip style="background-color: red; color: white; width: 200px; font-weight: bold; position: absolute; bottom: 0px; left: calc(50% - 100px); z-index: 100;">En pruebas :)</mat-chip>

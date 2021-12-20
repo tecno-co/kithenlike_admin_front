@@ -1,181 +1,85 @@
-@use 'sass:map';
 @use '~@angular/material' as mat;
 @use './assets/scss/tecno-palette' as tecno;
 
 @include mat.core();
 
+@mixin create-theme ($primary, $accent, $theme-name) {
+  
+  $light-theme: mat.define-light-theme((
+    color: (
+     primary: $primary,
+     accent: $accent,
+    )
+  ));
+  $dark-theme: mat.define-dark-theme((
+    color: (
+      primary: $primary,
+      accent: $accent,
+    )
+  ));
+
+  .light-#{$theme-name} {
+    @include mat.all-component-colors($light-theme);
+    .bg-menu-options {
+      background-color: $bg-color-light;
+    }
+    
+    .selected-module {
+      background-color: $bg-color-light;
+    }
+    
+    .left-line-selected {
+      background-color: map-get($primary, 500);
+    }
+    
+    .menu-label-text-color {
+      color: map-get($primary, 500);
+    }
+    
+    .bg-primary-color {
+      background-color: map-get($primary, 500);
+    }
+  }
+
+  .dark-#{$theme-name} {
+    @include mat.all-component-colors($dark-theme);
+    .bg-menu-options {
+      background-color: $bg-color-dark;
+    }
+  
+    .selected-module {
+      background-color: $bg-color-dark;
+    }
+  
+    .left-line-selected {
+      background-color: map-get($primary, 500);
+    }
+  
+    .menu-label-text-color {
+      color: map-get($primary, 500);
+    }
+  
+    .bg-primary-color {
+      background-color: map-get($primary, 500);
+    }
+  }
+}
+
 $bg-color-light: mat.get-color-from-palette(tecno.$grey-palette, 100);
 $bg-color-dark: mat.get-color-from-palette(tecno.$tecno-dark-theme-background-palette, 'background');
 
-// Define cyan-orange theme
-$light-primary-cyan-orange: mat.define-palette(tecno.$cyan-palette);
-$light-accent-cyan-orange: mat.define-palette(tecno.$red-palette);
-$light-theme-cyan-orange: mat.define-light-theme((
- color: (
-   primary: $light-primary-cyan-orange,
-   accent: $light-accent-cyan-orange,
- )
-));
-
-.light-theme-cyan-orange {
-  @include mat.all-component-colors($light-theme-cyan-orange);
-
-  .bg-menu-options {
-    background-color: $bg-color-light;
-  }
-  
-  .selected-module {
-    background-color: $bg-color-light;
-  }
-  
-  .left-line-selected {
-    background-color: map-get($light-primary-cyan-orange, 500);
-  }
-  
-  .menu-label-text-color {
-    color: map-get($light-primary-cyan-orange, 500);
-  }
-  
-  .bg-primary-color {
-    background-color: map-get($light-primary-cyan-orange, 500) !important;
-  }
-}
-
-$dark-primary-cyan-orange: mat.define-palette(tecno.$cyan-palette);
-$dark-accent-cyan-orange: mat.define-palette(tecno.$red-palette);
-$dark-theme-cyan-orange: mat.define-dark-theme((
- color: (
-   primary: $dark-primary-cyan-orange,
-   accent: $dark-accent-cyan-orange,
- )
-));
-
-.dark-theme-cyan-orange {
-  @include mat.all-component-colors($dark-theme-cyan-orange);
-
-  .bg-menu-options {
-    background-color: $bg-color-dark;
-  }
-
-  .selected-module {
-    background-color: $bg-color-dark;
-  }
-
-  .left-line-selected {
-    background-color: map-get($dark-primary-cyan-orange, 500);
-  }
-
-  .menu-label-text-color {
-    color: map-get($dark-primary-cyan-orange, 500);
-  }
-
-  .bg-primary-color {
-    background-color: map-get($dark-primary-cyan-orange, 500) !important;
-  }
-  
-}
-
-
-// Define indigo-pink theme
-$light-primary-indigo-pink: mat.define-palette(tecno.$indigo-palette);
-$light-accent-indigo-pink: mat.define-palette(tecno.$pink-palette);
-$light-theme-indigo-pink: mat.define-light-theme((
- color: (
-   primary: $light-primary-indigo-pink,
-   accent: $light-accent-indigo-pink,
- )
-));
-
-.light-theme-indigo-pink {
-  @include mat.all-component-colors($light-theme-indigo-pink);
-
-  .bg-primary-color {
-    background-color: map-get($light-primary-indigo-pink, 500) !important;
-  }
-}
-
-// Define deeppurple-amber theme
-$light-primary-deeppurple-amber: mat.define-palette(tecno.$deep-purple-palette);
-$light-accent-deeppurple-amber: mat.define-palette(tecno.$amber-palette);
-$light-theme-deeppurple-amber: mat.define-light-theme((
- color: (
-   primary: $light-primary-deeppurple-amber,
-   accent: $light-accent-deeppurple-amber,
- )
-));
-
-.light-theme-deeppurple-amber {
-  @include mat.all-component-colors($light-theme-deeppurple-amber);
-
-  .bg-primary-color {
-    background-color: map-get($light-primary-deeppurple-amber, 500) !important;
-  }
-}
-
-
-
-// Define a light theme tecno
-$light-primary-tecno: mat.define-palette(tecno.$tecno-primary-palette);
-$light-accent-tecno: mat.define-palette(tecno.$tecno-accent-palette);
 $light-theme-tecno: mat.define-light-theme((
- color: (
-   primary: $light-primary-tecno,
-   accent: $light-accent-tecno,
- )
+  color: (
+    primary:  mat.define-palette(tecno.$tecno-primary-palette),
+    accent: mat.define-palette(tecno.$tecno-accent-palette),
+  )
 ));
 
-.light-theme-tecno {
-  @include mat.all-component-colors($light-theme-tecno);
+@include mat.all-component-themes($light-theme-tecno);
 
-  .bg-menu-options {
-    background-color: $bg-color-light;
-  }
-  
-  .selected-module {
-    background-color: $bg-color-light;
-  }
-  
-  .left-line-selected {
-    background-color: map-get($light-primary-tecno, 500);
-  }
-  
-  .menu-label-text-color {
-    color: map-get($light-primary-tecno, 500);
-  }
-  
-  .bg-primary-color {
-    background-color: map-get($light-primary-tecno, 500) !important;
-  }
-}
-
-// Define tecno theme
-$dark-primary-tecno: mat.define-palette(tecno.$tecno-primary-palette);
-$dark-accent-tecno: mat.define-palette(tecno.$blue-grey-palette);
-$dark-theme-tecno: mat.define-dark-theme((
- color: (
-   primary: $dark-primary-tecno,
-   accent: $dark-accent-tecno,
- )
-));
-
-.dark-theme-tecno {
-  @include mat.all-component-colors($dark-theme-tecno);
-
-  .bg-menu-options {
-    background-color: $bg-color-dark;
-  }
-
-  .selected-module {
-    background-color: $bg-color-dark;
-  }
-
-  .left-line-selected {
-    background-color: map-get($dark-primary-tecno, 500);
-  }
-
-  .bg-primary-color {
-    background-color: map-get($dark-primary-tecno, 500) !important;
-  }
-}
-
-@include mat.all-component-themes($light-theme-cyan-orange);
+@include create-theme(mat.define-palette(tecno.$deep-purple-palette), mat.define-palette(tecno.$amber-palette), 'theme-deeppurple-amber');
+@include create-theme(mat.define-palette(tecno.$indigo-palette), mat.define-palette(tecno.$pink-palette), 'theme-indigo-pink');
+@include create-theme(mat.define-palette(tecno.$cyan-palette), mat.define-palette(tecno.$orange-palette), 'theme-cyan-orange');
+@include create-theme(mat.define-palette(tecno.$tecno-primary-palette), mat.define-palette(tecno.$tecno-accent-palette),'theme-tecno');
+    
+    

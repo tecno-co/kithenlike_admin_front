@@ -1,0 +1,49 @@
+<tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
+
+<div class="animate__animated animate__fadeIn" *ngIf="authorizedActions.status == undefined">
+  <div class="options-menu">
+      <button class="buttons-options" mat-button [routerLink]="['/roles']">
+          <mat-icon>people</mat-icon>
+          <span>Roles</span>
+      </button>
+      <button class="buttons-options" mat-button [routerLink]="['/users']">
+        <mat-icon>person</mat-icon>
+        <span>Usuarios</span>
+    </button>
+
+  </div>
+
+  <mat-tab-group *ngIf="roleId != 0" mat-align-tabs="center" animationDuration="0ms" [selectedIndex]="selectedTab" (selectedIndexChange)="onChangeTab($event)">
+    <mat-tab *ngFor="let menuModule of menuModules" label="{{menuModule.name}}">
+      <!-- <ng-template mat-tab-label>{{tab.label}}</ng-template> -->
+
+      <mat-spinner *ngIf="loadingTab" color="accent" class="center-spinner"></mat-spinner>
+
+      <div *ngIf="!loadingTab" class="general-container">
+        
+        <app-dynamic-table class="table-container"
+          [data]=tableData
+          [headers]=tableHeaders
+          [actionCreate]=false
+          
+          [permissions]="true"
+          [actionIndex]="true"
+          [actionIndexNotEliminated]="true"
+          [actionShow]="true"
+          [actionCreate]="true"
+          [actionUpdate]="true"
+          [actionDestroy]="true"
+          [actionLogicalDelete]="true"
+
+          (emitAdd)="onAdd()"
+          (emitEdit)="onEdit($event)"
+          (emitDelete)="onDelete($event)"
+          (emitChangeActionStatus)="onChangeActionStatus($event)"
+          (emitChangeAllActionStatus)="onChangeAllActionStatus($event)">
+        </app-dynamic-table>
+        
+      </div>
+      
+    </mat-tab>
+  </mat-tab-group>
+</div>

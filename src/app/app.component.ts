@@ -6,6 +6,7 @@ import { Idle, DEFAULT_INTERRUPTSOURCES } from '@ng-idle/core';
 import { Keepalive } from '@ng-idle/keepalive';
 import { MatDialog } from '@angular/material/dialog';
 import { ExpirationWarningComponent } from './components/shared/expiration-warning/expiration-warning.component';
+import { MainService } from './services/main/main.service';
 
 @Component({
     selector: 'app-root',
@@ -23,16 +24,23 @@ export class AppComponent {
   timeExpiration = 900;
   timeWarning = 300;
 
-  public theme: boolean;
-
   constructor(
     public router:Router,
     private authService: AuthService,
     private idle: Idle,
     private keepalive: Keepalive,
     public dialog: MatDialog,
-    ) {      
-      this.theme = localStorage.getItem('theme') == 'true';
+    private mainService: MainService
+    ) {
+      if (!localStorage.getItem('theme')) {
+        localStorage.setItem('theme', 'light-theme-cyan-orange');        
+      }
+      this.setTheme();
+
+      this.mainService.themeEmmiter.subscribe((res: any) =>
+        this.setTheme()
+      )
+
       this.isAuthenticated$ = this.authService.isAuthenticated();      
 
       this.idle.setIdle(this.timeExpiration);
@@ -48,6 +56,7 @@ export class AppComponent {
         this.idleState = 'Timed out!';
         this.timedOut = true;
         this.authService.signOut().subscribe();
+        this.dialog.closeAll();
       });
       
       this.idle.onIdleStart.subscribe(() => {
@@ -64,12 +73,14 @@ export class AppComponent {
             }
           });
           dialogRef.componentInstance.emitClose.subscribe(res => {
-            dialogRef.close();
             if (!res) {
-              setTimeout(() => {
-                this.authService.signOut().subscribe();
-              }, 1000);
+              this.isAuthenticated$.subscribe(isAuth => {
+                if (isAuth) {
+                  this.authService.signOut().subscribe();
+                }
+              }).unsubscribe();
             }
+            this.dialog.closeAll();
           });
         }  
       });
@@ -94,7 +105,16 @@ export class AppComponent {
     this.timedOut = false;
   }
 
-  toggleTheme(t: boolean) {
-    this.theme = localStorage.getItem('theme') == 'true';
+  
+  setTheme() {
+    let currentTheme = localStorage.getItem('theme')!;
+    let bodyClasses = document.getElementById('body')?.classList!
+    
+    bodyClasses.forEach(element => {
+      if (element.includes('light-theme') || element.includes('dark-theme')) {
+        bodyClasses.remove(element);
+      }
+    })
+    bodyClasses.add(currentTheme);
   }
 }

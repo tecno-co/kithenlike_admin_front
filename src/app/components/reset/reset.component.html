@@ -1,11 +1,70 @@
-<div class="general-container bg-menu-options">
+<div class="general-form-container bg-menu-options">
   <mat-card class="card-container mat-elevation-z7">
     <mat-card-title class="title center">
-      Oops!
+      Recuperar contraseña
     </mat-card-title>
     <mat-card-content>
-      <h1>Esta página está en construcción</h1>
-      <button mat-raised-button color="accent" class="btn center mat-elevation-z2" [routerLink]="['/login']">Ir al inicio</button>
+      <form *ngIf="!canChangePassword && !successEmail">
+        <div class="message">
+          <p>Por favor ingrese el correo asociado a su cuenta para recuperar su contraseña. Enviaremos un correo electrónico con las instrucciones.</p>
+        </div>
+        <mat-form-field class="field" appearance="fill">
+          <mat-label>Correo</mat-label>
+          <input type="email" matInput [formControl]="emailControl">
+          <mat-error *ngIf="emailControl.hasError('email') && !emailControl.hasError('required')">
+            Por favor ingrese un correo válido
+          </mat-error>
+          <mat-error *ngIf="emailControl.hasError('required')">
+            El correo es <strong>requerido</strong>
+          </mat-error>
+        </mat-form-field>
+        <div *ngIf="!successEmail">
+          <h1 *ngFor="let message of responseMessages">{{message}}</h1>
+        </div>
+        <button mat-raised-button color="accent" class="btn center mat-elevation-z2" [disabled]="!emailControl.valid" (click)="onContinue()">Continuar</button>
+        <div class="link">
+          <a class="link-text" [routerLink]="['/login']">Volver al inicio de sesión</a><br>
+        </div>
+      </form>
+
+      <div *ngIf="successEmail">
+        <h1 class="message" *ngFor="let message of responseMessages">{{message}}</h1>
+      </div>
+
+      <form *ngIf="canChangePassword">
+        
+        <mat-form-field class="field" appearance="fill">
+          <mat-label>Contraseña</mat-label>
+          <input type="password" matInput [formControl]="passwordControl">
+
+          <mat-error *ngIf="passwordControl.hasError('required')">
+            La contraseña es <strong>requerida</strong>
+          </mat-error>
+          <mat-error *ngIf="passwordControl.hasError('minlength')">
+            La contraseña debe contener minimo <strong>8 caracteres</strong>
+          </mat-error>
+          <mat-error *ngIf="passwordControl.hasError('pattern')">
+            La contraseña debe contener minimo una <strong>mayuscula, minuscula, numero y caracter especial</strong>
+          </mat-error>
+        </mat-form-field>
+        
+        <mat-form-field class="field" appearance="fill">
+          <mat-label>Confirmar contraseña</mat-label>
+          <input type="password" matInput [formControl]="confirmPasswordControl">
+          <mat-error *ngIf="confirmPasswordControl.hasError('required')">
+            La confirmación es <strong>requerida</strong>
+          </mat-error>
+          <mat-hint class="mat-error" *ngIf="confirmPasswordControl.value != passwordControl.value">
+            La confirmación <strong>no coincide</strong>
+          </mat-hint>
+        </mat-form-field>
+
+        <h1 class="message" *ngFor="let message of responseMessages">{{message}}</h1>
+        <button mat-raised-button color="accent" class="btn center mat-elevation-z2" [disabled]="!confirmPasswordControl.valid || !passwordControl.valid || (confirmPasswordControl.value != passwordControl.value)"  (click)="onChangePassword()">Cambiar contraseña</button>
+        <div class="link">
+          <a class="link-text" [routerLink]="['/login']">Volver al inicio de sesión</a><br>
+        </div>
+      </form>
     </mat-card-content>
   </mat-card>
 </div>

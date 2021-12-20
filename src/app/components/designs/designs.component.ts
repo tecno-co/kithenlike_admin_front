@@ -4,6 +4,8 @@ import { MatDialog, MatDialogConfig, MatDialogRef, MAT_DIALOG_DATA } from "@angu
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ActivatedRoute } from '@angular/router';
 import { DesignsService } from 'src/app/services/designs/designs.service';
+import { MainService } from 'src/app/services/main/main.service';
+import { PermissionsService } from 'src/app/services/permissions/permissions.service';
 import { AlertDialogComponent } from '../shared/alert-dialog/alert-dialog.component';
 import { DynamicTableComponent } from '../shared/dynamic-table/dynamic-table.component';
 import { DesignsFormComponent } from './designs-form/designs-form.component'; 
@@ -20,31 +22,40 @@ export class DesignsComponent implements OnInit {
 
   tableHeaders: string[] = [];
   path: string = "";
-
   tableData: any[] = [];
 
   allCategories: any[] = [];
   allKeywords: string[] = [];
 
+  authorizedActions: any;
+
   constructor(
     public dialog: MatDialog,
     private designsService: DesignsService,
+    private permissionsService: PermissionsService,
     private route: ActivatedRoute,
     private _snackBar: MatSnackBar,
+    private mainService: MainService
   ) {}
 
   ngOnInit(): void {
+    this.authorizedActions = JSON.parse(localStorage.getItem('authorizedPageActions')!);
     this.route.data.subscribe((res:any) => {
       this.tableData = res.designsResolver.dataTable;
       this.tableHeaders = res.designsResolver.headers;
       res.keywordsListResolver.dataTable.map((data: any) => this.allKeywords.push(data.name));
       res.categoriesListResolver.dataTable.map((data: any) => this.allCategories.push({name: data.name, id: data.idForOptions}));
+      setTimeout(() => {this.mainService.hideLoading()}, 0);
     })
 
     this.designsService.emitDataTable
       .subscribe((res: any) => {
         this.tableData = res.data.dataTable;
         this.tableHeaders = res.data.headers;
+    })
+
+    this.permissionsService.emitPageAuthorized.subscribe((res: any) => {
+      this.authorizedActions = res;
     })
 
   }

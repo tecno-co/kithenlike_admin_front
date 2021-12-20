@@ -5,7 +5,7 @@
     <app-profile-circle [user]="user" [size]="size" class="center" [ngStyle]="{'height': extendedMenu ? '80%' : '100%'}"></app-profile-circle>
 
     <!-- MENU PERFIL NOMBRE -->
-    <div class="btn-profile" *ngIf="extendedMenu">{{ user.getPartialName!() }}</div>
+    <div class="btn-profile" *ngIf="extendedMenu">{{ user.full_name! }}</div>
     <!-- <mat-menu #afterMenu="matMenu" xPosition="before" >
       <button mat-menu-item>Item 1</button>
       <button mat-menu-item>Item 2</button>
@@ -45,7 +45,7 @@
       <footer class="footer">
         
         <div class="footer-copyright text-center p-0">
-          <span>© 2021 Copyright:</span>
+          <span>{{copyright}}</span>
           <a href="http://tecno.co" target="_blank">  tecno.co</a>
         </div>
       </footer>

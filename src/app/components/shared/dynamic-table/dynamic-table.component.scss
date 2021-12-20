@@ -82,4 +82,13 @@ table {
 .copy-button {
   display: inline-block;
   vertical-align: middle;
+
+.empty-data{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.actions-slide-toggle{
+  margin-right: 30px;
 }

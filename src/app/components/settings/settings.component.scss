@@ -1,2 +1,30 @@
+.section {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  height: 60px;
+}
 
+.settings-options {
+  display: inline-block;
+  width: 20%;
+}
 
+.option-content {
+  // padding-top: 8px;
+  display: inline-block;
+  vertical-align: top;
+  width: 80%;
+}
+
+.general-container {
+  padding: 20px;
+}
+
+.divider {
+  margin-bottom: 20px;
+}
+
+.settings-container {
+  border-radius: 5px;
+}

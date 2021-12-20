@@ -1,10 +1,10 @@
 export class User {
   id: number;
-  first_name: string;
-  last_name: string;
+  first_name?: string;
+  last_name?: string;
   email: string;
   password?: string;
-  password_confirmation?: string;
+  password_confirmation?: string;  
   // semanal_hours!: number;
   // position?: Position;
   // profile_id!: number;
@@ -17,6 +17,8 @@ export class User {
   user_updates?: string;
   authentication_token?: string;
   full_name?: string;
+  avatar?: string;
+  initials_name?: string;
 
   constructor(user: User) {
     this.id = 0 || user.id;
@@ -31,19 +33,8 @@ export class User {
     this.authentication_token = "" || user.authentication_token;
     this.is_active = true;
     this.is_delete = false;
-  }
-
-  getPartialName?(): string {
-    if (this.last_name){
-      return this.first_name?.split(' ')[0] + " " + this.last_name?.split(' ')[0];
-    }
-    return this.first_name?.split(' ')[0];
-  }
-
-  getInitialsName?(): string {
-    if (this.last_name){
-      return this.first_name![0].toUpperCase() + this.last_name![0].toUpperCase();
-    }
-    return this.first_name![0].toUpperCase();
+    this.initials_name = user.initials_name;
+    this.full_name = user.full_name;
+    this.avatar=user.avatar;
   }
 }

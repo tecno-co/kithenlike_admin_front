@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { User } from 'src/app/models/user/user';
 
 @Component({
   selector: 'app-profile-circle',
@@ -8,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class ProfileCircleComponent implements OnInit {
   
 
-  @Input() user!: any;
+  @Input() user!: User;
   @Input() size: any = 110;
 
   constructor(
@@ -18,7 +19,5 @@ export class ProfileCircleComponent implements OnInit {
     if (this.size == null){
       this.size = 35;
     }
-
   }
-
 }

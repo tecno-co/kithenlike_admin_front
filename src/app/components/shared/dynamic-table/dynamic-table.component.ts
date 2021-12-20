@@ -27,17 +27,27 @@ export class DynamicTableComponent implements OnInit {
 
   @Input("categories") allCategories: any[] = [];
   @Input("keywords") allKeywords: string[] = [];
-
   @Input("headers") tableHeaders: string[] = [];
   @Input("data") tableData!: any[];
   @Input("filter") filter: boolean = false;
-  @Input("add") addButton: boolean = true;
+
+  @Input("permissions") permissionsButton: boolean = false;
+  @Input("actionIndex") actionIndex: boolean = false;
+  @Input("actionIndexNotEliminated") actionIndexNotEliminated: boolean = false;
+  @Input("actionShow") actionShow: boolean = false;
+  @Input("actionCreate") actionCreate: boolean = false;
+  @Input("actionUpdate") actionUpdate: boolean = false;
+  @Input("actionDestroy") actionDestroy: boolean = false;
+  @Input("actionLogicalDelete") actionLogicalDelete: boolean = false;
 
   @Output() image: EventEmitter<string> = new EventEmitter();
   @Output() emitAdd: EventEmitter<number> = new EventEmitter();
   @Output() emitEdit: EventEmitter<number> = new EventEmitter();
   @Output() emitStatusChange: EventEmitter<number> = new EventEmitter();
   @Output() emitDelete: EventEmitter<any> = new EventEmitter();
+  @Output() emitShowPermissions: EventEmitter<any> = new EventEmitter();
+  @Output() emitChangeActionStatus: EventEmitter<any> = new EventEmitter();
+  @Output() emitChangeAllActionStatus: EventEmitter<any> = new EventEmitter();
   
   dataSource =  new MatTableDataSource<any>();
   tableCols: any[] = [];
@@ -55,8 +65,7 @@ export class DynamicTableComponent implements OnInit {
 
   ngOnInit(): void {
     this.dataSource.data = this.tableData;
-    this.tableCols = (this.tableData && this.tableData.length > 0) ?  Object.keys(this.tableData[0]) : [];     
-    setTimeout(() => this.dataSource.paginator = this.paginator);
+    this.tableCols = (this.tableData && this.tableData.length > 0) ?  Object.keys(this.tableData[0]) : [];
 
     this.filteredKeywords = this.filterKeywords.valueChanges.pipe (
       startWith(null),
@@ -67,6 +76,8 @@ export class DynamicTableComponent implements OnInit {
       startWith(null),
       map((category: string | null) => category ? this.filtersCategories(category) : this.allCategories.slice())
     );
+    
+    setTimeout(() => this.dataSource.paginator = this.paginator);    
   }
 
   ngOnChanges(changes: SimpleChanges) {
@@ -112,6 +123,19 @@ export class DynamicTableComponent implements OnInit {
 
   onDelete(theme: any) {
     this.emitDelete.emit(theme);
+  }
+
+  onShowPermissions(row: any){
+    this.emitShowPermissions.emit(row);
+  }
+
+  onChangeActionStatus(row: any){
+    this.emitChangeActionStatus.emit(row);
+  }
+
+  onChangeAllActionStatus(row: any){
+    row.authorizedAll = this.checkedAllActions(row.actions);
+    this.emitChangeAllActionStatus.emit(row);
   }
 
   clipboardCopy(value: string) {   
@@ -183,4 +207,7 @@ export class DynamicTableComponent implements OnInit {
     return this.allCategories.filter(category => category.name.toLowerCase().includes(filterValue))
   }
   
+  checkedAllActions(actions: any): boolean {
+    return !actions.some((action: any) => action.authorized == false);
+  }
 }

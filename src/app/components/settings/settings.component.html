@@ -1,6 +1,57 @@
-<div class="general-container">
-  <div class="master-container">
-  
+<tecno-unauthorized *ngIf="authorizedActions.status == 401"></tecno-unauthorized>
+
+<div class="general-container" *ngIf="authorizedActions.status == undefined">
+
+  <div class="settings-container mat-elevation-z2">
     
+    <!-- <mat-card class="mat-elevation-z5"> -->
+    <div class="settings-options" style="background-color: #f7f8fb">
+      <mat-selection-list [multiple]="false" style="margin: 0 10px;">
+        <mat-list-option
+          *ngFor="let option of settings"
+          (click)="changeOption(option)">
+          <span>{{ option.title }}</span>
+        </mat-list-option>
+      </mat-selection-list>
+    </div>
+
+    <div class="option-content" [ngSwitch]="selectedOption">
+      <mat-card>        
+        <div *ngSwitchCase="1">
+          <mat-card-title>Aplicativo</mat-card-title>
+
+          <div class="divider">
+            <mat-divider></mat-divider>
+          </div>
+          <h3>Menú</h3>
+          <p>Seleccione el menú que quiere usar en el aplicativo</p>
+          <mat-form-field appearance="fill">
+            <mat-label>Menú</mat-label>
+            <mat-select>
+              <mat-option *ngFor="let menu of menus" [value]="menu.id">
+                {{menu.name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <div class="divider">
+            <mat-divider></mat-divider>
+          </div>
+          <h3>Tema</h3>
+          <p>Seleccione el tema que quiere usar en el aplicativo</p>
+          <app-themes></app-themes>        
+        </div>
+        
+        <div *ngSwitchCase="2">
+          <mat-card-title>Restricciones contraseña</mat-card-title>
+          <div class="divider">
+            <mat-divider></mat-divider>
+          </div>
+          <tecno-password></tecno-password>
+        </div>
+      </mat-card>
+    </div>
+
   </div>
+  <!-- </mat-card> -->
 </div>

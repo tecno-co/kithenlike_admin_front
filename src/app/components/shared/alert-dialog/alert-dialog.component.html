@@ -10,7 +10,9 @@
 
   <mat-dialog-content>
     <p>¿Está seguro de {{data.title.toLowerCase()}}?</p>
-    <p>Se modificará la siguiente información: <strong>{{data.name}}</strong></p>
+    <p>Se modificará la siguiente información:
+      <strong>{{data.name}}</strong>
+      <strong *ngIf="!data.name">{{data?.first_name + ' ' + data?.last_name}}</strong></p>
  </mat-dialog-content>
 
   <mat-dialog-actions align="end">

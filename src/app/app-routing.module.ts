@@ -17,12 +17,15 @@ import { CategoriesResolver } from './components/categories/guards/categories.re
 import { RolesResolver } from './components/roles/guards/roles.resolver';
 import { RolesListResolver } from './components/users/guards/roles-list.resolver';
 import { CategoriesListResolver } from './components/designs/guards/categories-list.resolver';
+import { PermissionsMenuModulesResolver } from './components/permissions/guards/permissions-menu-modules.resolver';
+import { PagePermissionsResolver } from './components/permissions/guards/page-permissions.resolver';
+import { AllMenuPagesResolver } from './components/pages/guards/all-menu-pages.resolver';
 
 const routes: Routes = [
   { 
     path: '',
     pathMatch: 'full',
-    redirectTo: 'login'
+    redirectTo: 'login',
   },
   { 
     path: 'login',
@@ -36,6 +39,10 @@ const routes: Routes = [
     path: 'reset',
     component: ResetComponent
   },
+  { 
+    path: 'reset-password',
+    component: ResetComponent
+  },  
   { 
     path: 'home',
     canActivate: [AuthGuard],
@@ -59,7 +66,8 @@ const routes: Routes = [
   {
     path: 'settings',
     canActivate: [AuthGuard],
-    loadChildren: () => import('./components/settings/settings.module').then(m => m.SettingsModule)
+    loadChildren: () => import('./components/settings/settings.module').then(m => m.SettingsModule),
+    resolve: {themesResolver: ThemesResolver}
   },
   {
     path: 'seasons',
@@ -67,12 +75,12 @@ const routes: Routes = [
     loadChildren: () => import('./components/seasons/seasons.module').then(m => m.SeasonsModule),
     resolve: {seasonsResolver: SeasonsResolver}
   },
-  { 
-    path: 'themes',
-    canActivate: [AuthGuard],
-    loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule),
-    resolve: {themesResolver: ThemesResolver}
-  },
+  // { 
+  //   path: 'themes',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./components/themes/themes.module').then(m => m.ThemesModule),
+  //   resolve: {themesResolver: ThemesResolver}
+  // },
   { path: 'keywords',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/keywords/keywords.module').then(m => m.KeywordsModule),
@@ -81,7 +89,10 @@ const routes: Routes = [
   { path: 'pages',
     canActivate: [AuthGuard],
     loadChildren: () => import('./components/pages/pages.module').then(m => m.PagesModule),
-    resolve: {menuResolver: MenuResolver}
+    resolve: {
+      menuResolver: MenuResolver,
+      allMenuPagesResolver: AllMenuPagesResolver,
+    }
   },
   {
     path: 'users',
@@ -104,6 +115,18 @@ const routes: Routes = [
     loadChildren: () => import('./components/roles/roles.module').then(m => m.RolesModule),
     resolve: {rolesResolver: RolesResolver}
   },
+  { path: 'permissions',
+    canActivate: [AuthGuard],
+    loadChildren: () => import('./components/permissions/permissions.module').then(m => m.PermissionsModule),
+    resolve: {
+      permissionsMenuModulesResolver: PermissionsMenuModulesResolver,
+      pagePermissionsResolver: PagePermissionsResolver,
+    }
+  },
+  // { path: 'password',
+  //   canActivate: [AuthGuard],
+  //   loadChildren: () => import('./components/password/password.module').then(m => m.PasswordModule)
+  // },
 ] 
 
 @NgModule({

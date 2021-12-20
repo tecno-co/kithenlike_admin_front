@@ -12,6 +12,7 @@ import { MenuService } from 'src/app/services/menu/menu.service';
 })
 export class MenuAComponent implements OnInit {
 
+  copyright = '© ' + new Date().getFullYear() + ' Copyright:'
   overOption: string = "";
   overButton: boolean = false;
   extendedMenu: boolean = false;
@@ -27,13 +28,14 @@ export class MenuAComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    let uid = this.authService.getAuthData()?.uid;
-    let fullname = uid?.split('@')[0]?.split('.');
+    let userInfo = JSON.parse(localStorage.getItem('user')!);
     this.user = new User({
-      id: 1,
-      first_name: fullname[0]?.charAt(0)?.toUpperCase() + fullname[0]?.slice(1),
-      last_name: fullname[1]?.charAt(0)?.toUpperCase() + fullname[1]?.slice(1),
-      email: uid,
+      id: userInfo.user.id,
+      full_name: userInfo.person.full_name,
+      email: userInfo.user.uid,
+      //avatar: 'http://localhost:3000/rails/active_storage/disk/eyJfcmFpbHMiOnsibWVzc2FnZSI6IkJBaDdDVG9JYTJWNVNTSWhlbTltZEhjek9HTjVZbkJ2ZEdzMmFHbHVZbUV6WW5kdmRHOTNlZ1k2QmtWVU9oQmthWE53YjNOcGRHbHZia2tpUDJsdWJHbHVaVHNnWm1sc1pXNWhiV1U5SW1GMllYUmhjaTV3Ym1jaU95Qm1hV3hsYm1GdFpTbzlWVlJHTFRnbkoyRjJZWFJoY2k1d2JtY0dPd1pVT2hGamIyNTBaVzUwWDNSNWNHVkpJZzVwYldGblpTOXdibWNHT3daVU9oRnpaWEoyYVdObFgyNWhiV1U2Q214dlkyRnMiLCJleHAiOiIyMDIxLTEyLTAzVDEyOjA3OjU5LjYzN1oiLCJwdXIiOiJibG9iX2tleSJ9fQ==--8dee770de17d5a3c838a728c14f19e4498b2adc5/avatar.png',
+      avatar: userInfo.person.avatar,
+      initials_name: userInfo.person.initials_name      
     });
     this.getMenu();
   }

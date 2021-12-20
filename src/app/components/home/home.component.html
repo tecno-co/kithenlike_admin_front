@@ -1,4 +1,4 @@
-<div>
+<div class="home-container">
   <mat-toolbar color="primary" class="toolbar mat-elevation-z5">
 
     <button mat-icon-button (click)="drawer.toggle()"><mat-icon>menu</mat-icon></button>
@@ -14,23 +14,27 @@
     <span class="spacer"></span>
 
     <!-- <mat-icon class="icon" routerLink="/home">home</mat-icon> -->
-    <mat-icon class="icon" (click)="toggleTheme()">brightness_medium</mat-icon>
+    <mat-icon class="icon" (click)="setTheme()">brightness_medium</mat-icon>
     <mat-icon class="icon" (click)="logout()">logout</mat-icon>
 
   </mat-toolbar>
 
-  <mat-drawer-container class="sidenav-container" autosize>
+  <mat-sidenav-container class="sidenav-container" autosize>
 
-    <mat-drawer #drawer opened mode="side">
-      <app-menu-a></app-menu-a>
-    </mat-drawer>
+    <mat-sidenav #drawer opened mode="side">
+      <!-- <app-menu-a></app-menu-a> -->
+      <app-menu-b></app-menu-b>
+    </mat-sidenav>
 
     <div class="main-container">
         <app-banner></app-banner>
+        <div class="bg-menu-options loading-container center" *ngIf="loading">
+          <mat-spinner color="accent"></mat-spinner>
+        </div>
         <router-outlet></router-outlet>
     </div>
 
-  </mat-drawer-container>
+  </mat-sidenav-container>
 
 </div>
 
